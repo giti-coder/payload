@@ -1,8 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import { ReactEditor, useSlate } from 'slate-react';
 import { Transforms, Node, Editor } from 'slate';
 import { useModal } from '@faceless-ui/modal';
-import { Trans, useTranslation } from 'react-i18next';
 import { unwrapLink } from './utilities';
 import Popup from '../../../../../elements/Popup';
 import { EditModal } from './Modal';
@@ -31,7 +30,6 @@ export const LinkElement = ({ attributes, children, element, editorRef, fieldPro
   const config = useConfig();
   const { user } = useAuth();
   const locale = useLocale();
-  const { t } = useTranslation('fields');
   const { openModal, toggleModal } = useModal();
   const [renderModal, setRenderModal] = useState(false);
   const [renderPopup, setRenderPopup] = useState(false);
@@ -79,12 +77,12 @@ export const LinkElement = ({ attributes, children, element, editorRef, fieldPro
         fields: deepCopyObject(element.fields),
       };
 
-      const state = await buildStateFromSchema({ fieldSchema, data, user, operation: 'update', locale, t });
+      const state = await buildStateFromSchema({ fieldSchema, data, user, operation: 'update', locale });
       setInitialState(state);
     };
 
     awaitInitialState();
-  }, [renderModal, element, fieldSchema, user, locale, t]);
+  }, [renderModal, element, fieldSchema, user, locale]);
 
   return (
     <span
@@ -148,20 +146,17 @@ export const LinkElement = ({ attributes, children, element, editorRef, fieldPro
           render={() => (
             <div className={`${baseClass}__popup`}>
               {element.linkType === 'internal' && element.doc?.relationTo && element.doc?.value && (
-                <Trans
-                  i18nKey="linkedTo"
-                  values={{ label: config.collections.find(({ slug }) => slug === element.doc.relationTo)?.labels?.singular }}
-                >
-                  linkedTo
+                <Fragment>
+                  Linked to&nbsp;
                   <a
                     className={`${baseClass}__link-label`}
                     href={`${config.routes.admin}/collections/${element.doc.relationTo}/${element.doc.value}`}
                     target="_blank"
                     rel="noreferrer"
                   >
-                    label
+                    {config.collections.find(({ slug }) => slug === element.doc.relationTo)?.labels?.singular}
                   </a>
-                </Trans>
+                </Fragment>
               )}
               {(element.linkType === 'custom' || !element.linkType) && (
                 <a
@@ -184,7 +179,7 @@ export const LinkElement = ({ attributes, children, element, editorRef, fieldPro
                   openModal(modalSlug);
                   setRenderModal(true);
                 }}
-                tooltip={t('general:edit')}
+                tooltip="Edit"
               />
               <Button
                 className={`${baseClass}__link-close`}
@@ -195,7 +190,7 @@ export const LinkElement = ({ attributes, children, element, editorRef, fieldPro
                   e.preventDefault();
                   unwrapLink(editor);
                 }}
-                tooltip={t('general:remove')}
+                tooltip="Remove"
               />
             </div>
           )}

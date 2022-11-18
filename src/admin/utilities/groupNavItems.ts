@@ -1,12 +1,10 @@
-import { i18n as Ii18n } from 'i18next';
 import { Permissions } from '../../auth';
 import { SanitizedCollectionConfig } from '../../collections/config/types';
 import { SanitizedGlobalConfig } from '../../globals/config/types';
-import { getTranslation } from '../../utilities/getTranslation';
 
 export enum EntityType {
-  collection = 'collections',
-  global = 'globals'
+  collection = 'Collections',
+  global = 'Globals'
 }
 
 export type EntityToGroup = {
@@ -22,21 +20,20 @@ export type Group = {
   entities: EntityToGroup[]
 }
 
-export function groupNavItems(entities: EntityToGroup[], permissions: Permissions, i18n: Ii18n): Group[] {
+export function groupNavItems(entities: EntityToGroup[], permissions: Permissions): Group[] {
   const result = entities.reduce((groups, entityToGroup) => {
     if (permissions?.[entityToGroup.type.toLowerCase()]?.[entityToGroup.entity.slug]?.read.permission) {
-      const translatedGroup = getTranslation(entityToGroup.entity.admin.group, i18n);
       if (entityToGroup.entity.admin.group) {
-        const existingGroup = groups.find((group) => getTranslation(group.label, i18n) === translatedGroup) as Group;
+        const existingGroup = groups.find((group) => group.label === entityToGroup.entity.admin.group);
         let matchedGroup: Group = existingGroup;
         if (!existingGroup) {
-          matchedGroup = { label: translatedGroup, entities: [] };
+          matchedGroup = { label: entityToGroup.entity.admin.group, entities: [] };
           groups.push(matchedGroup);
         }
 
         matchedGroup.entities.push(entityToGroup);
       } else {
-        const defaultGroup = groups.find((group) => getTranslation(group.label, i18n) === i18n.t(`general:${entityToGroup.type}`)) as Group;
+        const defaultGroup = groups.find((group) => group.label === entityToGroup.type);
         defaultGroup.entities.push(entityToGroup);
       }
     }
@@ -44,11 +41,11 @@ export function groupNavItems(entities: EntityToGroup[], permissions: Permission
     return groups;
   }, [
     {
-      label: i18n.t('general:collections') as string,
+      label: 'Collections',
       entities: [],
     },
     {
-      label: i18n.t('general:globals') as string,
+      label: 'Globals',
       entities: [],
     },
   ]);

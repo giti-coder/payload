@@ -1,7 +1,7 @@
+import { formatDistance } from 'date-fns';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useConfig } from '../../utilities/Config';
 import { useFormModified, useAllFormFields } from '../../forms/Form/context';
 import { useLocale } from '../../utilities/Locale';
@@ -21,7 +21,6 @@ const Autosave: React.FC<Props> = ({ collection, global, id, publishedDocUpdated
   const modified = useFormModified();
   const locale = useLocale();
   const { replace } = useHistory();
-  const { t, i18n } = useTranslation('version');
 
   let interval = 800;
   if (collection?.versions.drafts && collection.versions?.drafts?.autosave) interval = collection.versions.drafts.autosave.interval;
@@ -43,7 +42,6 @@ const Autosave: React.FC<Props> = ({ collection, global, id, publishedDocUpdated
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
-        'Accept-Language': i18n.language,
       },
       body: JSON.stringify({}),
     });
@@ -56,9 +54,9 @@ const Autosave: React.FC<Props> = ({ collection, global, id, publishedDocUpdated
         },
       });
     } else {
-      toast.error(t('error:autosaving'));
+      toast.error('There was a problem while autosaving this document.');
     }
-  }, [i18n, serverURL, api, collection, locale, replace, admin, t]);
+  }, [collection, serverURL, api, admin, locale, replace]);
 
   useEffect(() => {
     // If no ID, but this is used for a collection doc,
@@ -100,7 +98,6 @@ const Autosave: React.FC<Props> = ({ collection, global, id, publishedDocUpdated
               credentials: 'include',
               headers: {
                 'Content-Type': 'application/json',
-                'Accept-Language': i18n.language,
               },
               body: JSON.stringify(body),
             });
@@ -117,7 +114,7 @@ const Autosave: React.FC<Props> = ({ collection, global, id, publishedDocUpdated
     };
 
     autosave();
-  }, [i18n, debouncedFields, modified, serverURL, api, collection, global, id, getVersions, locale]);
+  }, [debouncedFields, modified, serverURL, api, collection, global, id, getVersions, locale]);
 
   useEffect(() => {
     if (versions?.docs?.[0]) {
@@ -129,12 +126,12 @@ const Autosave: React.FC<Props> = ({ collection, global, id, publishedDocUpdated
 
   return (
     <div className={baseClass}>
-      {saving && t('saving')}
+      {saving && 'Saving...'}
       {(!saving && lastSaved) && (
         <React.Fragment>
-          {t('lastSavedAgo', {
-            distance: Math.round((Number(new Date(lastSaved)) - Number(new Date())) / 1000 / 60),
-          })}
+          Last saved&nbsp;
+          {formatDistance(new Date(), new Date(lastSaved))}
+          &nbsp;ago
         </React.Fragment>
       )}
     </div>

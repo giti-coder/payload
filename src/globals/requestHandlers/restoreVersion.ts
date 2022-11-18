@@ -18,7 +18,7 @@ export default function restoreVersionHandler(globalConfig: SanitizedGlobalConfi
     try {
       const doc = await restoreVersion(options);
       return res.status(httpStatus.OK).json({
-        ...formatSuccessResponse(req.t('version:restoredSuccessfully'), 'message'),
+        ...formatSuccessResponse('Restored successfully.', 'message'),
         doc,
       });
     } catch (error) {

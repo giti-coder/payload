@@ -5,6 +5,7 @@ import PopupButton from './PopupButton';
 import useIntersect from '../../../hooks/useIntersect';
 
 import './index.scss';
+import useThrottledEffect from '../../../hooks/useThrottledEffect';
 
 const baseClass = 'popup';
 

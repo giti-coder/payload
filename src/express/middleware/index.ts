@@ -13,7 +13,6 @@ import { Payload } from '../..';
 import { PayloadRequest } from '../types';
 import corsHeaders from './corsHeaders';
 import convertPayload from './convertPayload';
-import { i18nMiddleware } from './i18n';
 
 const middleware = (payload: Payload): any => {
   const rateLimitOptions: {
@@ -35,7 +34,6 @@ const middleware = (payload: Payload): any => {
     ...(payload.config.express.preMiddleware || []),
     rateLimit(rateLimitOptions),
     passport.initialize(),
-    i18nMiddleware(payload.config.i18n),
     identifyAPI('REST'),
     methodOverride('X-HTTP-Method-Override'),
     qsMiddleware({ depth: 10, arrayLimit: 1000 }),

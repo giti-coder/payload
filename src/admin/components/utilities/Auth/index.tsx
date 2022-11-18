@@ -4,7 +4,6 @@ import React, {
 import jwtDecode from 'jwt-decode';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useModal } from '@faceless-ui/modal';
-import { useTranslation } from 'react-i18next';
 import { User, Permissions } from '../../../../auth/types';
 import { useConfig } from '../Config';
 import { requests } from '../../../api';
@@ -39,7 +38,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const [permissions, setPermissions] = useState<Permissions>();
 
-  const { i18n } = useTranslation();
+
   const { openModal, closeAllModals } = useModal();
   const [lastLocationChange, setLastLocationChange] = useState(0);
   const debouncedLocationChange = useDebounce(lastLocationChange, 10000);
@@ -52,11 +51,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     if (exp && remainingTime < 120) {
       setTimeout(async () => {
-        const request = await requests.post(`${serverURL}${api}/${userSlug}/refresh-token`, {
-          headers: {
-            'Accept-Language': i18n.language,
-          },
-        });
+        const request = await requests.post(`${serverURL}${api}/${userSlug}/refresh-token`);
 
         if (request.status === 200) {
           const json = await request.json();
@@ -67,7 +62,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
       }, 1000);
     }
-  }, [exp, serverURL, api, userSlug, push, admin, logoutInactivityRoute, i18n]);
+  }, [setUser, push, exp, admin, api, serverURL, userSlug]);
 
   const setToken = useCallback((token: string) => {
     const decoded = jwtDecode<User>(token);
@@ -84,11 +79,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // On mount, get user and set
   useEffect(() => {
     const fetchMe = async () => {
-      const request = await requests.get(`${serverURL}${api}/${userSlug}/me`, {
-        headers: {
-          'Accept-Language': i18n.language,
-        },
-      });
+      const request = await requests.get(`${serverURL}${api}/${userSlug}/me`);
 
       if (request.status === 200) {
         const json = await request.json();
@@ -102,7 +93,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     fetchMe();
-  }, [i18n, setToken, api, serverURL, userSlug]);
+  }, [setToken, api, serverURL, userSlug]);
 
   // When location changes, refresh cookie
   useEffect(() => {
@@ -118,11 +109,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // When user changes, get new access
   useEffect(() => {
     async function getPermissions() {
-      const request = await requests.get(`${serverURL}${api}/access`, {
-        headers: {
-          'Accept-Language': i18n.language,
-        },
-      });
+      const request = await requests.get(`${serverURL}${api}/access`);
 
       if (request.status === 200) {
         const json: Permissions = await request.json();
@@ -133,7 +120,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (id) {
       getPermissions();
     }
-  }, [i18n, id, api, serverURL]);
+  }, [id, api, serverURL]);
 
   useEffect(() => {
     let reminder: ReturnType<typeof setTimeout>;
@@ -167,7 +154,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return () => {
       if (forceLogOut) clearTimeout(forceLogOut);
     };
-  }, [exp, push, closeAllModals, admin, i18n, logoutInactivityRoute]);
+  }, [exp, push, closeAllModals, admin]);
 
   return (
     <Context.Provider value={{

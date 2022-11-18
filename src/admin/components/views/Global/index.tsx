@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { useConfig } from '../../utilities/Config';
 import { useAuth } from '../../utilities/Auth';
 import { useStepNav } from '../../elements/StepNav';
@@ -24,7 +23,6 @@ const GlobalView: React.FC<IndexProps> = (props) => {
   const [initialState, setInitialState] = useState<Fields>();
   const { getVersions, preferencesKey } = useDocumentInfo();
   const { getPreference } = usePreferences();
-  const { t } = useTranslation();
 
   const {
     serverURL,
@@ -50,9 +48,9 @@ const GlobalView: React.FC<IndexProps> = (props) => {
 
   const onSave = useCallback(async (json) => {
     getVersions();
-    const state = await buildStateFromSchema({ fieldSchema: fields, data: json.result, operation: 'update', user, locale, t });
+    const state = await buildStateFromSchema({ fieldSchema: fields, data: json.result, operation: 'update', user, locale });
     setInitialState(state);
-  }, [getVersions, fields, user, locale, t]);
+  }, [getVersions, fields, user, locale]);
 
   const [{ data }] = usePayloadAPI(
     `${serverURL}${api}/globals/${slug}`,
@@ -71,13 +69,13 @@ const GlobalView: React.FC<IndexProps> = (props) => {
 
   useEffect(() => {
     const awaitInitialState = async () => {
-      const state = await buildStateFromSchema({ fieldSchema: fields, data: dataToRender, user, operation: 'update', locale, t });
+      const state = await buildStateFromSchema({ fieldSchema: fields, data: dataToRender, user, operation: 'update', locale });
       await getPreference(preferencesKey);
       setInitialState(state);
     };
 
     awaitInitialState();
-  }, [dataToRender, fields, user, locale, getPreference, preferencesKey, t]);
+  }, [dataToRender, fields, user, locale, getPreference, preferencesKey]);
 
   const globalPermissions = permissions?.globals?.[slug];
 

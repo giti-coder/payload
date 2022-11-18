@@ -23,7 +23,6 @@ async function restoreVersion<T extends TypeWithVersion<T> = any>(args: Argument
     globalConfig,
     req,
     req: {
-      t,
       payload,
       payload: {
         globals: {
@@ -54,7 +53,7 @@ async function restoreVersion<T extends TypeWithVersion<T> = any>(args: Argument
   });
 
   if (!rawVersion) {
-    throw new NotFound(t);
+    throw new NotFound();
   }
 
   rawVersion = rawVersion.toJSON({ virtuals: true });

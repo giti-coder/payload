@@ -1,4 +1,3 @@
-import i18n from 'i18next';
 import { SanitizedCollectionConfig } from '../../../../../collections/config/types';
 import { RelationshipField } from '../../../../../fields/config/types';
 
@@ -24,7 +23,6 @@ type ADD = {
   collection: SanitizedCollectionConfig
   sort?: boolean
   ids?: unknown[]
-  i18n: typeof i18n
 }
 
 export type Action = CLEAR | ADD

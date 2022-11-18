@@ -10,14 +10,8 @@ const strategyBaseSchema = joi.object().keys({
 const collectionSchema = joi.object().keys({
   slug: joi.string().required(),
   labels: joi.object({
-    singular: joi.alternatives().try(
-      joi.string(),
-      joi.object().pattern(joi.string(), [joi.string()]),
-    ),
-    plural: joi.alternatives().try(
-      joi.string(),
-      joi.object().pattern(joi.string(), [joi.string()]),
-    ),
+    singular: joi.string(),
+    plural: joi.string(),
   }),
   access: joi.object({
     create: joi.func(),
@@ -28,22 +22,12 @@ const collectionSchema = joi.object().keys({
     unlock: joi.func(),
     admin: joi.func(),
   }),
-  graphQL: joi.object().keys({
-    singularName: joi.string(),
-    pluralName: joi.string(),
-  }),
-  typescript: joi.object().keys({
-    interface: joi.string(),
-  }),
   timestamps: joi.boolean(),
   admin: joi.object({
     useAsTitle: joi.string(),
     defaultColumns: joi.array().items(joi.string()),
     listSearchableFields: joi.array().items(joi.string()),
-    group: joi.alternatives().try(
-      joi.string(),
-      joi.object().pattern(joi.string(), [joi.string()]),
-    ),
+    group: joi.string(),
     description: joi.alternatives().try(
       joi.string(),
       componentSchema,

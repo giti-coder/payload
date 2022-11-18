@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../utilities/Auth';
 import Button from '../Button';
 import { Props } from './types';
@@ -19,7 +18,6 @@ const PreviewButton: React.FC<Props> = (props) => {
 
   const locale = useLocale();
   const { token } = useAuth();
-  const { t } = useTranslation('version');
 
   useEffect(() => {
     if (generatePreviewURL && typeof generatePreviewURL === 'function') {
@@ -46,7 +44,7 @@ const PreviewButton: React.FC<Props> = (props) => {
         url={url}
         newTab
       >
-        {t('preview')}
+        Preview
       </Button>
     );
   }

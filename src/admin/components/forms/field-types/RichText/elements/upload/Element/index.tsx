@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useModal } from '@faceless-ui/modal';
 import { Transforms } from 'slate';
 import { ReactEditor, useSlateStatic, useFocused, useSelected } from 'slate-react';
-import { useTranslation } from 'react-i18next';
 import { useConfig } from '../../../../../../utilities/Config';
 import usePayloadAPI from '../../../../../../../hooks/usePayloadAPI';
 import FileGraphic from '../../../../../../graphics/File';
@@ -11,7 +10,6 @@ import Button from '../../../../../../elements/Button';
 import { SanitizedCollectionConfig } from '../../../../../../../../collections/config/types';
 import { SwapUploadModal } from './SwapUploadModal';
 import { EditModal } from './EditModal';
-import { getTranslation } from '../../../../../../../../utilities/getTranslation';
 
 import './index.scss';
 
@@ -27,7 +25,6 @@ const Element = ({ attributes, children, element, path, fieldProps }) => {
   const { collections, serverURL, routes: { api } } = useConfig();
   const [modalToRender, setModalToRender] = useState(undefined);
   const [relatedCollection, setRelatedCollection] = useState<SanitizedCollectionConfig>(() => collections.find((coll) => coll.slug === relationTo));
-  const { t, i18n } = useTranslation('fields');
 
   const editor = useSlateStatic();
   const selected = useSelected();
@@ -88,7 +85,7 @@ const Element = ({ attributes, children, element, path, fieldProps }) => {
           </div>
           <div className={`${baseClass}__topRowRightPanel`}>
             <div className={`${baseClass}__collectionLabel`}>
-              {getTranslation(relatedCollection.labels.singular, i18n)}
+              {relatedCollection.labels.singular}
             </div>
             <div className={`${baseClass}__actions`}>
               {fieldSchema && (
@@ -101,7 +98,7 @@ const Element = ({ attributes, children, element, path, fieldProps }) => {
                     e.preventDefault();
                     setModalToRender('edit');
                   }}
-                  tooltip={t('general:edit')}
+                  tooltip="Edit"
                 />
               )}
               <Button
@@ -113,7 +110,7 @@ const Element = ({ attributes, children, element, path, fieldProps }) => {
                   e.preventDefault();
                   setModalToRender('swap');
                 }}
-                tooltip={t('swapUpload')}
+                tooltip="Swap Upload"
               />
               <Button
                 icon="x"
@@ -124,7 +121,7 @@ const Element = ({ attributes, children, element, path, fieldProps }) => {
                   e.preventDefault();
                   removeUpload();
                 }}
-                tooltip={t('removeUpload')}
+                tooltip="Remove Upload"
               />
             </div>
           </div>

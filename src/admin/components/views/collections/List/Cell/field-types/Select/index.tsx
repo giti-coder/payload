@@ -1,19 +1,11 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { OptionObject, optionsAreObjects, SelectField } from '../../../../../../../../fields/config/types';
-import { getTranslation } from '../../../../../../../../utilities/getTranslation';
 
-type Props = {
-  data: any
-  field: SelectField
-}
-
-const SelectCell:React.FC<Props> = ({ data, field }: Props) => {
-  const { i18n } = useTranslation();
+const SelectCell = ({ data, field }: { data: any, field: SelectField }) => {
   const findLabel = (items: string[]) => items.map((i) => {
     const found = (field.options as OptionObject[])
       .filter((f: OptionObject) => f.value === i)?.[0]?.label;
-    return getTranslation(found, i18n);
+    return found;
   }).join(', ');
 
   let content = '';
@@ -26,7 +18,6 @@ const SelectCell:React.FC<Props> = ({ data, field }: Props) => {
       ? data.join(', ') // hasMany
       : data;
   }
-
   return (
     <span>
       {content}

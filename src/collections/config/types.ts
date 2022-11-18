@@ -173,7 +173,7 @@ export type CollectionAdminOptions = {
   /**
    * Place collections into a navigational group
    * */
-  group?: Record<string, string> | string;
+  group?: string;
   /**
    * Custom description for collection
    */
@@ -209,25 +209,9 @@ export type CollectionConfig = {
    * Label configuration
    */
   labels?: {
-    singular?: Record<string, string> | string;
-    plural?: Record<string, string> | string;
+    singular?: string;
+    plural?: string;
   };
-  /**
-   * GraphQL configuration
-   */
-  graphQL?: {
-    singularName?: string
-    pluralName?: string
-  }
-  /**
-   * Options used in typescript generation
-   */
-  typescript?: {
-    /**
-     * Typescript generation name given to the interface type
-     */
-    interface?: string
-  }
   fields: Field[];
   /**
    * Collection admin options

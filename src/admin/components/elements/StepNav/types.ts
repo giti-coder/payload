@@ -1,5 +1,5 @@
 export type StepNavItem = {
-  label: Record<string, string> | string
+  label: string
   url?: string
 }
 

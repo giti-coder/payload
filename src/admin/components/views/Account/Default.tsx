@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import format from 'date-fns/format';
-import { useTranslation } from 'react-i18next';
 import { useConfig } from '../../utilities/Config';
 import Eyebrow from '../../elements/Eyebrow';
 import Form from '../../forms/Form';
@@ -19,9 +18,6 @@ import { Props } from './types';
 import { OperationContext } from '../../utilities/OperationProvider';
 import { ToggleTheme } from './ToggleTheme';
 import { Gutter } from '../../elements/Gutter';
-import ReactSelect from '../../elements/ReactSelect';
-import Label from '../../forms/Label';
-import type { Translation } from '../../../../translations/type';
 
 import './index.scss';
 
@@ -51,11 +47,6 @@ const DefaultAccount: React.FC<Props> = (props) => {
   } = collection;
 
   const { admin: { dateFormat }, routes: { admin } } = useConfig();
-  const { t, i18n } = useTranslation('authentication');
-
-  const languageOptions = Object.entries(i18n.options.resources).map(([language, resource]) => (
-    { label: (resource as Translation).general.thisLanguage, value: language }
-  ));
 
   const classes = [
     baseClass,
@@ -77,9 +68,9 @@ const DefaultAccount: React.FC<Props> = (props) => {
           >
             <div className={`${baseClass}__main`}>
               <Meta
-                title={t('account')}
-                description={t('accountOfCurrentUser')}
-                keywords={t('account')}
+                title="Account"
+                description="Account of current user"
+                keywords="Account, Dashboard, Payload, CMS"
               />
               <Eyebrow />
               {!(collection.versions?.drafts && collection.versions?.drafts?.autosave) && (
@@ -88,7 +79,7 @@ const DefaultAccount: React.FC<Props> = (props) => {
               <div className={`${baseClass}__edit`}>
                 <Gutter className={`${baseClass}__header`}>
                   <h1>
-                    <RenderTitle {...{ data, useAsTitle, fallback: `[${t('general:untitled')}]` }} />
+                    <RenderTitle {...{ data, useAsTitle, fallback: '[Untitled]' }} />
                   </h1>
                   <Auth
                     useAPIKey={auth.useAPIKey}
@@ -107,17 +98,7 @@ const DefaultAccount: React.FC<Props> = (props) => {
                 <Gutter
                   className={`${baseClass}__payload-settings`}
                 >
-                  <h3>{t('general:payloadSettings')}</h3>
-                  <div className={`${baseClass}__language`}>
-                    <Label
-                      label={t('general:language')}
-                    />
-                    <ReactSelect
-                      value={languageOptions.find((language) => (language.value === i18n.language))}
-                      options={languageOptions}
-                      onChange={({ value }) => (i18n.changeLanguage(value))}
-                    />
-                  </div>
+                  <h3>Payload Settings</h3>
                   <ToggleTheme />
                 </Gutter>
               </div>
@@ -128,7 +109,7 @@ const DefaultAccount: React.FC<Props> = (props) => {
                   <ul className={`${baseClass}__collection-actions`}>
                     {(permissions?.create?.permission) && (
                     <React.Fragment>
-                      <li><Link to={`${admin}/collections/${slug}/create`}>{t('general:createNew')}</Link></li>
+                      <li><Link to={`${admin}/collections/${slug}/create`}>Create New</Link></li>
                     </React.Fragment>
                     )}
                   </ul>
@@ -138,7 +119,7 @@ const DefaultAccount: React.FC<Props> = (props) => {
                       data={data}
                     />
                     {hasSavePermission && (
-                    <FormSubmit>{t('general:save')}</FormSubmit>
+                    <FormSubmit>Save</FormSubmit>
                     )}
                   </div>
                   <div className={`${baseClass}__sidebar-fields`}>
@@ -173,13 +154,13 @@ const DefaultAccount: React.FC<Props> = (props) => {
                     <React.Fragment>
                       {data.updatedAt && (
                       <li>
-                        <div className={`${baseClass}__label`}>{t('general:lastModified')}</div>
+                        <div className={`${baseClass}__label`}>Last Modified</div>
                         <div>{format(new Date(data.updatedAt), dateFormat)}</div>
                       </li>
                       )}
                       {data.createdAt && (
                       <li>
-                        <div className={`${baseClass}__label`}>{t('general:created')}</div>
+                        <div className={`${baseClass}__label`}>Created</div>
                         <div>{format(new Date(data.createdAt), dateFormat)}</div>
                       </li>
                       )}

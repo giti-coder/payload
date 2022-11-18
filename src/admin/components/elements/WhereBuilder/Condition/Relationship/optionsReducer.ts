@@ -1,5 +1,4 @@
 import { Option, Action } from './types';
-import { getTranslation } from '../../../../../../utilities/getTranslation';
 
 const reduceToIDs = (options) => options.reduce((ids, option) => {
   if (option.options) {
@@ -18,11 +17,11 @@ const reduceToIDs = (options) => options.reduce((ids, option) => {
 const optionsReducer = (state: Option[], action: Action): Option[] => {
   switch (action.type) {
     case 'CLEAR': {
-      return action.required ? [] : [{ value: 'null', label: action.i18n.t('general:none') }];
+      return action.required ? [] : [{ value: 'null', label: 'None' }];
     }
 
     case 'ADD': {
-      const { hasMultipleRelations, collection, relation, data, i18n } = action;
+      const { hasMultipleRelations, collection, relation, data } = action;
 
       const labelKey = collection.admin.useAsTitle || 'id';
 
@@ -48,7 +47,7 @@ const optionsReducer = (state: Option[], action: Action): Option[] => {
       }
 
       const newOptions = [...state];
-      const optionsToAddTo = newOptions.find((optionGroup) => optionGroup.label === getTranslation(collection.labels.plural, i18n));
+      const optionsToAddTo = newOptions.find((optionGroup) => optionGroup.label === collection.labels.plural);
 
       const newSubOptions = data.docs.reduce((docs, doc) => {
         if (loadedIDs.indexOf(doc.id) === -1) {
@@ -74,7 +73,7 @@ const optionsReducer = (state: Option[], action: Action): Option[] => {
         ];
       } else {
         newOptions.push({
-          label: getTranslation(collection.labels.plural, i18n),
+          label: collection.labels.plural,
           options: newSubOptions,
           value: undefined,
         });

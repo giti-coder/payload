@@ -1,5 +1,4 @@
 import { Option, Action } from './types';
-import { getTranslation } from '../../../../../utilities/getTranslation';
 
 const reduceToIDs = (options) => options.reduce((ids, option) => {
   if (option.options) {
@@ -30,7 +29,7 @@ const optionsReducer = (state: Option[], action: Action): Option[] => {
     }
 
     case 'ADD': {
-      const { hasMultipleRelations, collection, docs, sort, ids = [], i18n } = action;
+      const { hasMultipleRelations, collection, docs, sort, ids = [] } = action;
       const relation = collection.slug;
 
       const labelKey = collection.admin.useAsTitle || 'id';
@@ -46,7 +45,7 @@ const optionsReducer = (state: Option[], action: Action): Option[] => {
               return [
                 ...docOptions,
                 {
-                  label: doc[labelKey] || `${i18n.t('general:untitled')} - ID: ${doc.id}`,
+                  label: doc[labelKey] || `Untitled - ID: ${doc.id}`,
                   value: doc.id,
                 },
               ];
@@ -58,7 +57,7 @@ const optionsReducer = (state: Option[], action: Action): Option[] => {
         ids.forEach((id) => {
           if (!loadedIDs.includes(id)) {
             options.push({
-              label: labelKey === 'id' ? id : `${i18n.t('general:untitled')} - ID: ${id}`,
+              label: labelKey === 'id' ? id : `Untitled - ID: ${id}`,
               value: id,
             });
           }
@@ -77,7 +76,7 @@ const optionsReducer = (state: Option[], action: Action): Option[] => {
           return [
             ...docSubOptions,
             {
-              label: doc[labelKey] || `${i18n.t('general:untitled')} - ID: ${doc.id}`,
+              label: doc[labelKey] || `Untitled - ID: ${doc.id}`,
               relationTo: relation,
               value: doc.id,
             },
@@ -90,7 +89,7 @@ const optionsReducer = (state: Option[], action: Action): Option[] => {
       ids.forEach((id) => {
         if (!loadedIDs.includes(id)) {
           newSubOptions.push({
-            label: labelKey === 'id' ? id : `${i18n.t('general:untitled')} - ID: ${id}`,
+            label: labelKey === 'id' ? id : `Untitled - ID: ${id}`,
             value: id,
           });
         }
@@ -105,7 +104,7 @@ const optionsReducer = (state: Option[], action: Action): Option[] => {
         optionsToAddTo.options = sort ? sortOptions(subOptions) : subOptions;
       } else {
         newOptions.push({
-          label: getTranslation(collection.labels.plural, i18n),
+          label: collection.labels.plural,
           options: sort ? sortOptions(newSubOptions) : newSubOptions,
           value: undefined,
         });

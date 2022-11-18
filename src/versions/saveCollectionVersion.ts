@@ -86,7 +86,7 @@ export const saveCollectionVersion = async ({
       id,
       payload,
       Model: VersionModel,
-      slug: config.slug,
+      entityLabel: config.labels.plural,
       entityType: 'collection',
       max: config.versions.maxPerDoc,
     });

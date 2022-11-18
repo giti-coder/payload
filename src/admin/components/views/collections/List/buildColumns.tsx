@@ -1,5 +1,4 @@
 import React from 'react';
-import type { TFunction } from 'react-i18next';
 import Cell from './Cell';
 import SortColumn from '../../../elements/SortColumn';
 import { SanitizedCollectionConfig } from '../../../../../collections/config/types';
@@ -7,7 +6,7 @@ import { Column } from '../../../elements/Table/types';
 import { fieldIsPresentationalOnly } from '../../../../../fields/config/types';
 import flattenFields from '../../../../../utilities/flattenTopLevelFields';
 
-const buildColumns = (collection: SanitizedCollectionConfig, columns: string[], t: TFunction): Column[] => {
+const buildColumns = (collection: SanitizedCollectionConfig, columns: string[]): Column[] => {
   const flattenedFields = flattenFields([
     ...collection.fields,
     {
@@ -18,12 +17,12 @@ const buildColumns = (collection: SanitizedCollectionConfig, columns: string[], 
     {
       name: 'updatedAt',
       type: 'date',
-      label: t('updatedAt'),
+      label: 'Updated At',
     },
     {
       name: 'createdAt',
       type: 'date',
-      label: t('createdAt'),
+      label: 'Created At',
     },
   ], true);
 

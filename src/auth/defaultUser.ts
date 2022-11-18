@@ -1,13 +1,10 @@
 import { CollectionConfig } from '../collections/config/types';
-import { extractTranslations } from '../translations/extractTranslations';
-
-const labels = extractTranslations(['general:user', 'general:users']);
 
 const defaultUser: CollectionConfig = {
   slug: 'users',
   labels: {
-    singular: labels['general:user'],
-    plural: labels['general:users'],
+    singular: 'User',
+    plural: 'Users',
   },
   admin: {
     useAsTitle: 'email',

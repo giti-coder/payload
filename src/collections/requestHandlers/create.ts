@@ -4,7 +4,6 @@ import { PayloadRequest } from '../../express/types';
 import formatSuccessResponse from '../../express/responses/formatSuccess';
 import { Document } from '../../types';
 import create from '../operations/create';
-import { getTranslation } from '../../utilities/getTranslation';
 
 export type CreateResult = {
   message: string
@@ -22,7 +21,7 @@ export default async function createHandler(req: PayloadRequest, res: Response, 
     });
 
     return res.status(httpStatus.CREATED).json({
-      ...formatSuccessResponse(req.t('general:successfullyCreated', { label: getTranslation(req.collection.config.labels.singular, req.i18n) }), 'message'),
+      ...formatSuccessResponse(`${req.collection.config.labels.singular} successfully created.`, 'message'),
       doc,
     });
   } catch (error) {

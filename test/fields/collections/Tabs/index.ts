@@ -147,7 +147,7 @@ const TabsFields: CollectionConfig = {
         },
         {
           name: 'localizedTab',
-          label: { en: 'Localized Tab en', es: 'Localized Tab es' },
+          label: 'Localized Tab',
           localized: true,
           description: 'This tab is localized and requires a name',
           fields: [

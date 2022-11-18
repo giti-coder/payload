@@ -1,5 +1,4 @@
 import React, { useReducer, useState, useCallback, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useConfig } from '../../../../utilities/Config';
 import { Props, Option, ValueWithRelation, GetResults } from './types';
 import optionsReducer from './optionsReducer';
@@ -33,12 +32,11 @@ const RelationshipField: React.FC<Props> = (props) => {
   const [errorLoading, setErrorLoading] = useState('');
   const [hasLoadedFirstOptions, setHasLoadedFirstOptions] = useState(false);
   const debouncedSearch = useDebounce(search, 300);
-  const { t, i18n } = useTranslation('general');
 
   const addOptions = useCallback((data, relation) => {
     const collection = collections.find((coll) => coll.slug === relation);
-    dispatchOptions({ type: 'ADD', data, relation, hasMultipleRelations, collection, i18n });
-  }, [collections, hasMultipleRelations, i18n]);
+    dispatchOptions({ type: 'ADD', data, relation, hasMultipleRelations, collection });
+  }, [collections, hasMultipleRelations]);
 
   const getResults = useCallback<GetResults>(async ({
     lastFullyLoadedRelation: lastFullyLoadedRelationArg,
@@ -62,15 +60,10 @@ const RelationshipField: React.FC<Props> = (props) => {
           const fieldToSearch = collection?.admin?.useAsTitle || 'id';
           const searchParam = searchArg ? `&where[${fieldToSearch}][like]=${searchArg}` : '';
 
-          const response = await fetch(`${serverURL}${api}/${relation}?limit=${maxResultsPerRequest}&page=${lastLoadedPageToUse}&depth=0${searchParam}`, {
-            credentials: 'include',
-            headers: {
-              'Accept-Language': i18n.language,
-            },
-          });
+          const response = await fetch(`${serverURL}${api}/${relation}?limit=${maxResultsPerRequest}&page=${lastLoadedPageToUse}&depth=0${searchParam}`, { credentials: 'include' });
 
           if (response.ok) {
-            const data: PaginatedDocs = await response.json();
+            const data: PaginatedDocs<any> = await response.json();
             if (data.docs.length > 0) {
               resultsFetched += data.docs.length;
               addOptions(data, relation);
@@ -87,12 +80,12 @@ const RelationshipField: React.FC<Props> = (props) => {
               }
             }
           } else {
-            setErrorLoading(t('errors:unspecific'));
+            setErrorLoading('An error has occurred.');
           }
         }
       }, Promise.resolve());
     }
-  }, [i18n, relationTo, errorLoading, collections, serverURL, api, addOptions, t]);
+  }, [addOptions, api, collections, serverURL, errorLoading, relationTo]);
 
   const findOptionsByValue = useCallback((): Option | Option[] => {
     if (value) {
@@ -159,21 +152,16 @@ const RelationshipField: React.FC<Props> = (props) => {
 
   const addOptionByID = useCallback(async (id, relation) => {
     if (!errorLoading && id !== 'null') {
-      const response = await fetch(`${serverURL}${api}/${relation}/${id}?depth=0`, {
-        credentials: 'include',
-        headers: {
-          'Accept-Language': i18n.language,
-        },
-      });
+      const response = await fetch(`${serverURL}${api}/${relation}/${id}?depth=0`, { credentials: 'include' });
 
       if (response.ok) {
         const data = await response.json();
         addOptions({ docs: [data] }, relation);
       } else {
-        console.error(t('error:loadingDocument', { id }));
+        console.error(`There was a problem loading the document with ID of ${id}.`);
       }
     }
-  }, [i18n, addOptions, api, errorLoading, serverURL, t]);
+  }, [addOptions, api, errorLoading, serverURL]);
 
   // ///////////////////////////
   // Get results when search input changes
@@ -183,14 +171,13 @@ const RelationshipField: React.FC<Props> = (props) => {
     dispatchOptions({
       type: 'CLEAR',
       required: true,
-      i18n,
     });
 
     setHasLoadedFirstOptions(true);
     setLastLoadedPage(1);
     setLastFullyLoadedRelation(-1);
     getResults({ search: debouncedSearch });
-  }, [getResults, debouncedSearch, relationTo, i18n]);
+  }, [getResults, debouncedSearch, relationTo]);
 
   // ///////////////////////////
   // Format options once first options have been retrieved
@@ -237,7 +224,7 @@ const RelationshipField: React.FC<Props> = (props) => {
     <div className={classes}>
       {!errorLoading && (
         <ReactSelect
-          placeholder={t('selectValue')}
+          placeholder="Select a value"
           onInputChange={handleInputChange}
           onChange={(selected) => {
             if (hasMany) {

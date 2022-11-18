@@ -1,8 +1,5 @@
 import crypto from 'crypto';
 import { Field, FieldHook } from '../../fields/config/types';
-import { extractTranslations } from '../../translations/extractTranslations';
-
-const labels = extractTranslations(['authentication:enableAPIKey', 'authentication:apiKey']);
 
 const encryptKey: FieldHook = ({ req, value }) => (value ? req.payload.encrypt(value as string) : undefined);
 const decryptKey: FieldHook = ({ req, value }) => (value ? req.payload.decrypt(value as string) : undefined);
@@ -10,7 +7,7 @@ const decryptKey: FieldHook = ({ req, value }) => (value ? req.payload.decrypt(v
 export default [
   {
     name: 'enableAPIKey',
-    label: labels['authentication:enableAPIKey'],
+    label: 'Enable API Key',
     type: 'checkbox',
     defaultValue: false,
     admin: {
@@ -21,7 +18,7 @@ export default [
   },
   {
     name: 'apiKey',
-    label: labels['authentication:apiKey'],
+    label: 'API Key',
     type: 'text',
     admin: {
       components: {

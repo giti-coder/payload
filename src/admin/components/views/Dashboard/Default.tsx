@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { useConfig } from '../../utilities/Config';
 
 import Eyebrow from '../../elements/Eyebrow';
@@ -9,7 +8,6 @@ import Button from '../../elements/Button';
 import { Props } from './types';
 import { Gutter } from '../../elements/Gutter';
 import { groupNavItems, Group, EntityToGroup, EntityType } from '../../../utilities/groupNavItems';
-import { getTranslation } from '../../../../utilities/getTranslation';
 
 import './index.scss';
 
@@ -23,7 +21,6 @@ const Dashboard: React.FC<Props> = (props) => {
   } = props;
 
   const { push } = useHistory();
-  const { i18n } = useTranslation('general');
 
   const {
     routes: {
@@ -57,8 +54,8 @@ const Dashboard: React.FC<Props> = (props) => {
 
         return entityToGroup;
       }),
-    ], permissions, i18n));
-  }, [collections, globals, i18n, permissions]);
+    ], permissions));
+  }, [collections, globals, permissions]);
 
   return (
     <div className={baseClass}>
@@ -77,14 +74,14 @@ const Dashboard: React.FC<Props> = (props) => {
                   let hasCreatePermission: boolean;
 
                   if (type === EntityType.collection) {
-                    title = getTranslation(entity.labels.plural, i18n);
+                    title = entity.labels.plural;
                     onClick = () => push({ pathname: `${admin}/collections/${entity.slug}` });
                     createHREF = `${admin}/collections/${entity.slug}/create`;
                     hasCreatePermission = permissions?.collections?.[entity.slug]?.create?.permission;
                   }
 
                   if (type === EntityType.global) {
-                    title = getTranslation(entity.label, i18n);
+                    title = entity.label;
                     onClick = () => push({ pathname: `${admin}/globals/${entity.slug}` });
                   }
 

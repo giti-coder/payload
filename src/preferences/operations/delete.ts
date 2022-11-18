@@ -20,7 +20,7 @@ async function deleteOperation(args: PreferenceRequest): Promise<Document> {
   } = args;
 
   if (!user) {
-    throw new UnauthorizedError(req.t);
+    throw new UnauthorizedError();
   }
 
   if (!overrideAccess) {

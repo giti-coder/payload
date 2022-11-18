@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import queryString from 'qs';
-import { useTranslation } from 'react-i18next';
 import { useConfig } from '../../../utilities/Config';
 import { useAuth } from '../../../utilities/Auth';
 import usePayloadAPI from '../../../../hooks/usePayloadAPI';
@@ -47,13 +46,12 @@ const ListView: React.FC<ListIndexProps> = (props) => {
   const { getPreference, setPreference } = usePreferences();
   const { page, sort, limit, where } = useSearchParams();
   const history = useHistory();
-  const { t } = useTranslation('general');
 
   const [fetchURL, setFetchURL] = useState<string>('');
-  const [fields] = useState<Field[]>(() => formatFields(collection, t));
+  const [fields] = useState<Field[]>(() => formatFields(collection));
   const [tableColumns, setTableColumns] = useState<Column[]>(() => {
     const initialColumns = getInitialColumns(fields, useAsTitle, defaultColumns);
-    return buildColumns(collection, initialColumns, t);
+    return buildColumns(collection, initialColumns);
   });
 
   const collectionPermissions = permissions?.collections?.[slug];
@@ -106,7 +104,7 @@ const ListView: React.FC<ListIndexProps> = (props) => {
     (async () => {
       const currentPreferences = await getPreference<ListPreferences>(preferenceKey);
       if (currentPreferences?.columns) {
-        setTableColumns(buildColumns(collection, currentPreferences?.columns, t));
+        setTableColumns(buildColumns(collection, currentPreferences?.columns));
       }
 
       const params = queryString.parse(history.location.search, { ignoreQueryPrefix: true, depth: 0 });
@@ -125,7 +123,7 @@ const ListView: React.FC<ListIndexProps> = (props) => {
         });
       }
     })();
-  }, [collection, getPreference, preferenceKey, history, t]);
+  }, [collection, getPreference, preferenceKey, history]);
 
   // /////////////////////////////////////
   // When any preference-enabled values are updated,
@@ -143,8 +141,8 @@ const ListView: React.FC<ListIndexProps> = (props) => {
   }, [sort, limit, stringifiedActiveColumns, preferenceKey, setPreference]);
 
   const setActiveColumns = useCallback((columns: string[]) => {
-    setTableColumns(buildColumns(collection, columns, t));
-  }, [collection, t]);
+    setTableColumns(buildColumns(collection, columns));
+  }, [collection]);
 
   return (
     <RenderCustomComponent

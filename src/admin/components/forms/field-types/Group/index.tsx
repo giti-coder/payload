@@ -1,16 +1,14 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import RenderFields from '../../RenderFields';
 import withCondition from '../../withCondition';
 import FieldDescription from '../../FieldDescription';
 import { Props } from './types';
 import { fieldAffectsData } from '../../../../../fields/config/types';
 import { useCollapsible } from '../../../elements/Collapsible/provider';
-import { GroupProvider, useGroup } from './provider';
-import { useTabs } from '../Tabs/provider';
-import { getTranslation } from '../../../../../utilities/getTranslation';
 
 import './index.scss';
+import { GroupProvider, useGroup } from './provider';
+import { useTabs } from '../Tabs/provider';
 
 const baseClass = 'group-field';
 
@@ -36,7 +34,6 @@ const Group: React.FC<Props> = (props) => {
   const isWithinCollapsible = useCollapsible();
   const isWithinGroup = useGroup();
   const isWithinTab = useTabs();
-  const { i18n } = useTranslation();
 
   const path = pathFromProps || name;
 
@@ -62,10 +59,9 @@ const Group: React.FC<Props> = (props) => {
           {(label || description) && (
           <header className={`${baseClass}__header`}>
             {label && (
-              <h3 className={`${baseClass}__title`}>{getTranslation(label, i18n)}</h3>
+              <h3 className={`${baseClass}__title`}>{label}</h3>
             )}
             <FieldDescription
-              className={`field-description-${path.replace(/\./gi, '__')}`}
               value={null}
               description={description}
             />

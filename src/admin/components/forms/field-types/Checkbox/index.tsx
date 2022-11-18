@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
 import useField from '../../useField';
 import withCondition from '../../withCondition';
 import Error from '../../Error';
@@ -7,7 +6,6 @@ import { checkbox } from '../../../../../fields/validations';
 import Check from '../../../icons/Check';
 import FieldDescription from '../../FieldDescription';
 import { Props } from './types';
-import { getTranslation } from '../../../../../utilities/getTranslation';
 
 import './index.scss';
 
@@ -31,8 +29,6 @@ const Checkbox: React.FC<Props> = (props) => {
       condition,
     } = {},
   } = props;
-
-  const { i18n } = useTranslation();
 
   const path = pathFromProps || name;
 
@@ -91,7 +87,7 @@ const Checkbox: React.FC<Props> = (props) => {
           <Check />
         </span>
         <span className={`${baseClass}__label`}>
-          {getTranslation(label || name, i18n)}
+          {label}
         </span>
       </button>
       <FieldDescription

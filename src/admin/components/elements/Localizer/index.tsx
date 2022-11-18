@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import qs from 'qs';
-import { useTranslation } from 'react-i18next';
 import { useConfig } from '../../utilities/Config';
 import { useLocale } from '../../utilities/Locale';
 import { useSearchParams } from '../../utilities/SearchParams';
@@ -16,7 +15,6 @@ const Localizer: React.FC<Props> = () => {
   const { localization } = useConfig();
   const locale = useLocale();
   const searchParams = useSearchParams();
-  const { t } = useTranslation('general');
 
   if (localization) {
     const { locales } = localization;
@@ -28,7 +26,7 @@ const Localizer: React.FC<Props> = () => {
           button={locale}
           render={({ close }) => (
             <div>
-              <span>{t('locales')}</span>
+              <span>Locales</span>
               <ul>
                 {locales.map((localeOption) => {
                   const baseLocaleClass = `${baseClass}__locale`;

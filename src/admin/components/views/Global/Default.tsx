@@ -1,6 +1,5 @@
 import React from 'react';
 import format from 'date-fns/format';
-import { useTranslation } from 'react-i18next';
 import { useConfig } from '../../utilities/Config';
 import Eyebrow from '../../elements/Eyebrow';
 import Form from '../../forms/Form';
@@ -22,7 +21,6 @@ import Status from '../../elements/Status';
 import Autosave from '../../elements/Autosave';
 import { OperationContext } from '../../utilities/OperationProvider';
 import { Gutter } from '../../elements/Gutter';
-import { getTranslation } from '../../../../utilities/getTranslation';
 
 import './index.scss';
 
@@ -31,7 +29,6 @@ const baseClass = 'global-edit';
 const DefaultGlobalView: React.FC<Props> = (props) => {
   const { admin: { dateFormat } } = useConfig();
   const { publishedDoc } = useDocumentInfo();
-  const { t, i18n } = useTranslation('general');
 
   const {
     global, data, onSave, permissions, action, apiURL, initialState, isLoading,
@@ -67,9 +64,9 @@ const DefaultGlobalView: React.FC<Props> = (props) => {
           >
             <div className={`${baseClass}__main`}>
               <Meta
-                title={getTranslation(label, i18n)}
-                description={getTranslation(label, i18n)}
-                keywords={`${getTranslation(label, i18n)}, Payload, CMS`}
+                title={label}
+                description={label}
+                keywords={`${label}, Payload, CMS`}
               />
               <Eyebrow />
               {!(global.versions?.drafts && global.versions?.drafts?.autosave) && (
@@ -78,7 +75,9 @@ const DefaultGlobalView: React.FC<Props> = (props) => {
               <Gutter className={`${baseClass}__edit`}>
                 <header className={`${baseClass}__header`}>
                   <h1>
-                    {t('editLabel', { label: getTranslation(label, i18n) })}
+                    Edit
+                    {' '}
+                    {label}
                   </h1>
                   {description && (
                     <div className={`${baseClass}__sub-header`}>
@@ -116,7 +115,7 @@ const DefaultGlobalView: React.FC<Props> = (props) => {
                           </React.Fragment>
                         )}
                         {!global.versions?.drafts && (
-                          <FormSubmit buttonId="action-save">{t('save')}</FormSubmit>
+                          <FormSubmit buttonId="action-save">Save</FormSubmit>
                         )}
                       </React.Fragment>
                     )}
@@ -150,7 +149,7 @@ const DefaultGlobalView: React.FC<Props> = (props) => {
                   <ul className={`${baseClass}__meta`}>
                     {versions && (
                       <li>
-                        <div className={`${baseClass}__label`}>{t('version:versions')}</div>
+                        <div className={`${baseClass}__label`}>Versions</div>
                         <VersionsCount global={global} />
                       </li>
                     )}
@@ -172,7 +171,7 @@ const DefaultGlobalView: React.FC<Props> = (props) => {
                     )}
                     {data.updatedAt && (
                       <li>
-                        <div className={`${baseClass}__label`}>{t('lastModified')}</div>
+                        <div className={`${baseClass}__label`}>Last Modified</div>
                         <div>{format(new Date(data.updatedAt as string), dateFormat)}</div>
                       </li>
                     )}

@@ -32,14 +32,6 @@ export interface ArrayField {
     text?: string;
     id?: string;
   }[];
-  rowLabelAsFunction: {
-    title?: string;
-    id?: string;
-  }[];
-  rowLabelAsComponent: {
-    title?: string;
-    id?: string;
-  }[];
   createdAt: string;
   updatedAt: string;
 }
@@ -178,12 +170,6 @@ export interface BlockField {
         blockType: 'tabs';
       }
   )[];
-  i18nBlocks: {
-    text?: string;
-    id?: string;
-    blockName?: string;
-    blockType: 'i18n-text';
-  }[];
   createdAt: string;
   updatedAt: string;
 }
@@ -215,13 +201,6 @@ export interface CollapsibleField {
     };
   };
   someText?: string;
-  functionTitleField?: string;
-  componentTitleField?: string;
-  nestedTitle?: string;
-  arrayWithCollapsibles: {
-    innerCollapsible?: string;
-    id?: string;
-  }[];
   createdAt: string;
   updatedAt: string;
 }
@@ -234,30 +213,6 @@ export interface ConditionalLogic {
   text: string;
   toggleField?: boolean;
   fieldToToggle: string;
-  createdAt: string;
-  updatedAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "date-fields".
- */
-export interface DateField {
-  id: string;
-  default: string;
-  timeOnly?: string;
-  dayOnly?: string;
-  dayAndTime?: string;
-  monthOnly?: string;
-  createdAt: string;
-  updatedAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "radio-fields".
- */
-export interface RadioField {
-  id: string;
-  radio?: 'one' | 'two' | 'three';
   createdAt: string;
   updatedAt: string;
 }
@@ -282,49 +237,6 @@ export interface GroupField {
   potentiallyEmptyGroup: {
     text?: string;
   };
-  createdAt: string;
-  updatedAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "indexed-fields".
- */
-export interface IndexedField {
-  id: string;
-  text: string;
-  uniqueText?: string;
-  /**
-   * @minItems 2
-   * @maxItems 2
-   */
-  point?: [number, number];
-  group: {
-    localizedUnique?: string;
-    /**
-     * @minItems 2
-     * @maxItems 2
-     */
-    point?: [number, number];
-  };
-  collapsibleLocalizedUnique?: string;
-  collapsibleTextUnique?: string;
-  createdAt: string;
-  updatedAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "number-fields".
- */
-export interface NumberField {
-  id: string;
-  number?: number;
-  min?: number;
-  max?: number;
-  positiveNumber?: number;
-  negativeNumber?: number;
-  decimalMin?: number;
-  decimalMax?: number;
-  defaultNumber?: number;
   createdAt: string;
   updatedAt: string;
 }
@@ -356,49 +268,12 @@ export interface PointField {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "relationship-fields".
- */
-export interface RelationshipField {
-  id: string;
-  relationship:
-    | {
-        value: string | TextField;
-        relationTo: 'text-fields';
-      }
-    | {
-        value: string | ArrayField;
-        relationTo: 'array-fields';
-      };
-  relationToSelf?: string | RelationshipField;
-  createdAt: string;
-  updatedAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "text-fields".
- */
-export interface TextField {
-  id: string;
-  text: string;
-  localizedText?: string;
-  i18nText?: string;
-  defaultFunction?: string;
-  defaultAsync?: string;
-  overrideLength?: string;
-  createdAt: string;
-  updatedAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "rich-text-fields".
  */
 export interface RichTextField {
   id: string;
   selectHasMany?: ('one' | 'two' | 'three' | 'four' | 'five' | 'six')[];
   richText: {
-    [k: string]: unknown;
-  }[];
-  richTextReadOnly?: {
     [k: string]: unknown;
   }[];
   createdAt: string;
@@ -411,7 +286,6 @@ export interface RichTextField {
 export interface SelectField {
   id: string;
   select?: 'one' | 'two' | 'three';
-  selectReadOnly?: 'one' | 'two' | 'three';
   selectHasMany?: ('one' | 'two' | 'three' | 'four' | 'five' | 'six')[];
   createdAt: string;
   updatedAt: string;
@@ -507,18 +381,87 @@ export interface TabsField {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "text-fields".
+ */
+export interface TextField {
+  id: string;
+  text: string;
+  localizedText?: string;
+  defaultFunction?: string;
+  defaultAsync?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "number-fields".
+ */
+export interface NumberField {
+  id: string;
+  number?: number;
+  min?: number;
+  max?: number;
+  positiveNumber?: number;
+  negativeNumber?: number;
+  decimalMin?: number;
+  decimalMax?: number;
+  defaultNumber?: number;
+  createdAt: string;
+  updatedAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "uploads".
  */
 export interface Upload {
   id: string;
   text?: string;
-  media?: string | Upload;
   url?: string;
   filename?: string;
   mimeType?: string;
   filesize?: number;
   width?: number;
   height?: number;
+  createdAt: string;
+  updatedAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "indexed-fields".
+ */
+export interface IndexedField {
+  id: string;
+  text: string;
+  uniqueText?: string;
+  /**
+   * @minItems 2
+   * @maxItems 2
+   */
+  point?: [number, number];
+  group: {
+    localizedUnique?: string;
+    /**
+     * @minItems 2
+     * @maxItems 2
+     */
+    point?: [number, number];
+  };
+  collapsibleLocalizedUnique?: string;
+  collapsibleTextUnique?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "date-fields".
+ */
+export interface DateField {
+  id: string;
+  default: string;
+  timeOnly?: string;
+  dayOnly?: string;
+  dayAndTime?: string;
+  monthOnly?: string;
   createdAt: string;
   updatedAt: string;
 }

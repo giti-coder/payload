@@ -10,7 +10,6 @@ export const baseAdminComponentFields = joi.object().keys({
 export const baseAdminFields = joi.object().keys({
   description: joi.alternatives().try(
     joi.string(),
-    joi.object().pattern(joi.string(), [joi.string()]),
     componentSchema,
   ),
   position: joi.string().valid('sidebar'),
@@ -27,7 +26,6 @@ export const baseAdminFields = joi.object().keys({
 
 export const baseField = joi.object().keys({
   label: joi.alternatives().try(
-    joi.object().pattern(joi.string(), [joi.string()]),
     joi.string(),
     joi.valid(false),
   ),
@@ -70,10 +68,7 @@ export const text = baseField.keys({
   minLength: joi.number(),
   maxLength: joi.number(),
   admin: baseAdminFields.keys({
-    placeholder: joi.alternatives().try(
-      joi.object().pattern(joi.string(), [joi.string()]),
-      joi.string(),
-    ),
+    placeholder: joi.string(),
     autoComplete: joi.string(),
   }),
 });
@@ -144,10 +139,7 @@ export const select = baseField.keys({
       joi.string(),
       joi.object({
         value: joi.string().required().allow(''),
-        label: joi.alternatives().try(
-          joi.string(),
-          joi.object().pattern(joi.string(), [joi.string()]),
-        ),
+        label: joi.string().required(),
       }),
     ),
   ).required(),
@@ -171,10 +163,7 @@ export const radio = baseField.keys({
       joi.string(),
       joi.object({
         value: joi.string().required().allow(''),
-        label: joi.alternatives().try(
-          joi.string(),
-          joi.object().pattern(joi.string(), [joi.string()]),
-        ).required(),
+        label: joi.string().required(),
       }),
     ),
   ).required(),
@@ -206,10 +195,7 @@ export const collapsible = baseField.keys({
 const tab = baseField.keys({
   name: joi.string().when('localized', { is: joi.exist(), then: joi.required() }),
   localized: joi.boolean(),
-  label: joi.alternatives().try(
-    joi.string(),
-    joi.object().pattern(joi.string(), [joi.string()]),
-  ).required(),
+  label: joi.string().required(),
   fields: joi.array().items(joi.link('#field')).required(),
   description: joi.alternatives().try(
     joi.string(),
@@ -248,14 +234,8 @@ export const array = baseField.keys({
   maxRows: joi.number(),
   fields: joi.array().items(joi.link('#field')).required(),
   labels: joi.object({
-    singular: joi.alternatives().try(
-      joi.string(),
-      joi.object().pattern(joi.string(), [joi.string()]),
-    ),
-    plural: joi.alternatives().try(
-      joi.string(),
-      joi.object().pattern(joi.string(), [joi.string()]),
-    ),
+    singular: joi.string(),
+    plural: joi.string(),
   }),
   defaultValue: joi.alternatives().try(
     joi.array().items(joi.object()),
@@ -324,32 +304,17 @@ export const blocks = baseField.keys({
   maxRows: joi.number(),
   name: joi.string().required(),
   labels: joi.object({
-    singular: joi.alternatives().try(
-      joi.string(),
-      joi.object().pattern(joi.string(), [joi.string()]),
-    ),
-    plural: joi.alternatives().try(
-      joi.string(),
-      joi.object().pattern(joi.string(), [joi.string()]),
-    ),
+    singular: joi.string(),
+    plural: joi.string(),
   }),
   blocks: joi.array().items(
     joi.object({
       slug: joi.string().required(),
       imageURL: joi.string(),
       imageAltText: joi.string(),
-      graphQL: joi.object().keys({
-        singularName: joi.string(),
-      }),
       labels: joi.object({
-        singular: joi.alternatives().try(
-          joi.string(),
-          joi.object().pattern(joi.string(), [joi.string()]),
-        ),
-        plural: joi.alternatives().try(
-          joi.string(),
-          joi.object().pattern(joi.string(), [joi.string()]),
-        ),
+        singular: joi.string(),
+        plural: joi.string(),
       }),
       fields: joi.array().items(joi.link('#field')),
     }),

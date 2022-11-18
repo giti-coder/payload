@@ -141,9 +141,9 @@ function buildObjectType({
       },
     }),
     upload: (objectTypeConfig: ObjectTypeConfig, field: UploadField) => {
-      const { relationTo } = field;
+      const { relationTo, label } = field;
 
-      const uploadName = combineParentName(parentName, toWords(field.name, true));
+      const uploadName = combineParentName(parentName, label === false ? toWords(field.name, true) : label);
 
       // If the relationshipType is undefined at this point,
       // it can be assumed that this blockType can have a relationship
@@ -244,10 +244,10 @@ function buildObjectType({
       };
     },
     relationship: (objectTypeConfig: ObjectTypeConfig, field: RelationshipField) => {
-      const { relationTo } = field;
+      const { relationTo, label } = field;
       const isRelatedToManyCollections = Array.isArray(relationTo);
       const hasManyValues = field.hasMany;
-      const relationshipName = combineParentName(parentName, toWords(field.name, true));
+      const relationshipName = combineParentName(parentName, label === false ? toWords(field.name, true) : label);
 
       let type;
       let relationToType = null;
@@ -417,7 +417,7 @@ function buildObjectType({
       };
     },
     array: (objectTypeConfig: ObjectTypeConfig, field: ArrayField) => {
-      const fullName = combineParentName(parentName, toWords(field.name, true));
+      const fullName = combineParentName(parentName, field.label === false ? toWords(field.name, true) : field.label);
 
       const type = buildObjectType({
         payload,
@@ -435,7 +435,7 @@ function buildObjectType({
       };
     },
     group: (objectTypeConfig: ObjectTypeConfig, field: GroupField) => {
-      const fullName = combineParentName(parentName, toWords(field.name, true));
+      const fullName = combineParentName(parentName, field.label === false ? toWords(field.name, true) : field.label);
       const type = buildObjectType({
         payload,
         name: fullName,
@@ -459,7 +459,7 @@ function buildObjectType({
         return payload.types.blockTypes[block.slug];
       });
 
-      const fullName = combineParentName(parentName, toWords(field.name, true));
+      const fullName = combineParentName(parentName, field.label === false ? toWords(field.name, true) : field.label);
 
       const type = new GraphQLList(new GraphQLNonNull(new GraphQLUnionType({
         name: fullName,

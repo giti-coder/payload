@@ -1,6 +1,5 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { useTranslation } from 'react-i18next';
 import useField from '../../../../forms/useField';
 import Label from '../../../../forms/Label';
 import CopyToClipboard from '../../../../elements/CopyToClipboard';
@@ -11,14 +10,13 @@ import GenerateConfirmation from '../../../../elements/GenerateConfirmation';
 
 const path = 'apiKey';
 const baseClass = 'api-key';
+const validate = (val) => text(val, { minLength: 24, maxLength: 48, data: {}, siblingData: {} });
 
 const APIKey: React.FC = () => {
   const [initialAPIKey, setInitialAPIKey] = useState(null);
   const [highlightedField, setHighlightedField] = useState(false);
-  const { t } = useTranslation();
 
   const apiKey = useFormFields(([fields]) => fields[path]);
-  const validate = (val) => text(val, { minLength: 24, maxLength: 48, data: {}, siblingData: {}, t });
 
   const apiKeyValue = apiKey?.value;
 

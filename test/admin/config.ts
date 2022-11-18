@@ -51,15 +51,6 @@ export default buildConfig({
       },
     },
   },
-  i18n: {
-    resources: {
-      en: {
-        general: {
-          dashboard: 'Home',
-        },
-      },
-    },
-  },
   collections: [
     {
       slug: 'users',
@@ -68,28 +59,13 @@ export default buildConfig({
     },
     {
       slug,
-      labels: {
-        singular: {
-          en: 'Post en',
-          es: 'Post es',
-        },
-        plural: {
-          en: 'Posts en',
-          es: 'Posts es',
-        },
-      },
       admin: {
-        description: { en: 'Description en', es: 'Description es' },
         listSearchableFields: ['title', 'description', 'number'],
-        group: { en: 'One', es: 'Una' },
+        group: 'One',
       },
       fields: [
         {
           name: 'title',
-          label: {
-            en: 'Title en',
-            es: 'Title es',
-          },
           type: 'text',
         },
         {
@@ -105,7 +81,7 @@ export default buildConfig({
     {
       slug: 'group-one-collection-ones',
       admin: {
-        group: { en: 'One', es: 'Una' },
+        group: 'One',
       },
       fields: [
         {
@@ -117,7 +93,7 @@ export default buildConfig({
     {
       slug: 'group-one-collection-twos',
       admin: {
-        group: { en: 'One', es: 'Una' },
+        group: 'One',
       },
       fields: [
         {
@@ -154,10 +130,6 @@ export default buildConfig({
   globals: [
     {
       slug: globalSlug,
-      label: {
-        en: 'Global en',
-        es: 'Global es',
-      },
       admin: {
         group: 'Group',
       },

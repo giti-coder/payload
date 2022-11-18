@@ -25,10 +25,10 @@ export default function updateHandler(globalConfig: SanitizedGlobalConfig): Upda
         autosave,
       });
 
-      let message = req.t('general:updatedSuccessfully');
+      let message = 'Saved successfully.';
 
-      if (draft) message = req.t('versions:draftSavedSuccessfully');
-      if (autosave) message = req.t('versions:autosavedSuccessfully');
+      if (draft) message = 'Draft saved successfully.';
+      if (autosave) message = 'Autosaved successfully.';
 
       return res.status(httpStatus.OK).json({ message, result });
     } catch (error) {

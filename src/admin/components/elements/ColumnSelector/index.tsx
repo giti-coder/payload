@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import flattenTopLevelFields from '../../../../utilities/flattenTopLevelFields';
 import Pill from '../Pill';
 import Plus from '../../icons/Plus';
 import X from '../../icons/X';
 import { Props } from './types';
-import { getTranslation } from '../../../../utilities/getTranslation';
 
 import './index.scss';
 
@@ -19,7 +17,6 @@ const ColumnSelector: React.FC<Props> = (props) => {
   } = props;
 
   const [fields] = useState(() => flattenTopLevelFields(collection.fields, true));
-  const { i18n } = useTranslation();
 
   return (
     <div className={baseClass}>
@@ -45,7 +42,7 @@ const ColumnSelector: React.FC<Props> = (props) => {
               isEnabled && `${baseClass}__column--active`,
             ].filter(Boolean).join(' ')}
           >
-            {getTranslation(field.label || field.name, i18n)}
+            {field.label || field.name}
           </Pill>
         );
       })}

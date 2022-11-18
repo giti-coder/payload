@@ -1,7 +1,6 @@
 /* eslint-disable no-use-before-define */
 import { CSSProperties } from 'react';
 import { Editor } from 'slate';
-import type { TFunction } from 'i18next';
 import { Operation, Where } from '../../types';
 import { TypeWithID } from '../../collections/config/types';
 import { PayloadRequest } from '../../express/types';
@@ -73,8 +72,8 @@ type Admin = {
 }
 
 export type Labels = {
-  singular: Record<string, string> | string;
-  plural: Record<string, string> | string;
+  singular: string;
+  plural: string;
 };
 
 export type ValidateOptions<T, S, F> = {
@@ -84,13 +83,12 @@ export type ValidateOptions<T, S, F> = {
   user?: Partial<User>
   operation?: Operation
   payload?: Payload
-  t: TFunction
 } & F;
 
 export type Validate<T = any, S = any, F = any> = (value?: T, options?: ValidateOptions<F, S, Partial<F>>) => string | true | Promise<string | true>;
 
 export type OptionObject = {
-  label: Record<string, string> | string
+  label: string
   value: string
 }
 
@@ -98,7 +96,7 @@ export type Option = OptionObject | string
 
 export interface FieldBase {
   name: string;
-  label?: Record<string, string> | string | false;
+  label?: string | false;
   required?: boolean;
   unique?: boolean;
   index?: boolean;
@@ -125,7 +123,7 @@ export type NumberField = FieldBase & {
   type: 'number';
   admin?: Admin & {
     autoComplete?: string
-    placeholder?: Record<string, string> | string
+    placeholder?: string
     step?: number
   }
   min?: number
@@ -137,7 +135,7 @@ export type TextField = FieldBase & {
   maxLength?: number
   minLength?: number
   admin?: Admin & {
-    placeholder?: Record<string, string> | string
+    placeholder?: string
     autoComplete?: string
   }
 }
@@ -145,7 +143,7 @@ export type TextField = FieldBase & {
 export type EmailField = FieldBase & {
   type: 'email';
   admin?: Admin & {
-    placeholder?: Record<string, string> | string
+    placeholder?: string
     autoComplete?: string
   }
 }
@@ -155,7 +153,7 @@ export type TextareaField = FieldBase & {
   maxLength?: number
   minLength?: number
   admin?: Admin & {
-    placeholder?: Record<string, string> | string
+    placeholder?: string
     rows?: number
   }
 }
@@ -167,7 +165,7 @@ export type CheckboxField = FieldBase & {
 export type DateField = FieldBase & {
   type: 'date';
   admin?: Admin & {
-    placeholder?: Record<string, string> | string
+    placeholder?: string
     date?: ConditionalDateProps
   }
 }
@@ -207,7 +205,7 @@ type TabBase = {
 export type NamedTab = TabBase & FieldBase
 
 export type UnnamedTab = TabBase & Omit<FieldBase, 'name'> & {
-  label: Record<string, string> | string
+  label: string
   localized?: never
 }
 
@@ -226,7 +224,7 @@ export type TabAsField = Tab & {
 
 export type UIField = {
   name: string
-  label?: Record<string, string> | string
+  label?: string
   admin: {
     position?: string
     width?: string
@@ -315,7 +313,7 @@ export type RichTextLeaf = 'bold' | 'italic' | 'underline' | 'strikethrough' | '
 export type RichTextField = FieldBase & {
   type: 'richText';
   admin?: Admin & {
-    placeholder?: Record<string, string> | string
+    placeholder?: string
     elements?: RichTextElement[];
     leaves?: RichTextLeaf[];
     hideGutter?: boolean
@@ -364,9 +362,6 @@ export type Block = {
   fields: Field[];
   imageURL?: string;
   imageAltText?: string;
-  graphQL?: {
-    singularName?: string
-  }
 }
 
 export type BlockField = FieldBase & {

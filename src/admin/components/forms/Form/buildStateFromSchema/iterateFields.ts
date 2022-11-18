@@ -1,4 +1,3 @@
-import type { TFunction } from 'i18next';
 import { User } from '../../../../../auth';
 import {
   Field as FieldSchema,
@@ -19,7 +18,6 @@ type Args = {
   fieldPromises: Promise<void>[]
   id: string | number
   operation: 'create' | 'update'
-  t: TFunction
 }
 
 export const iterateFields = ({
@@ -34,7 +32,6 @@ export const iterateFields = ({
   fieldPromises,
   id,
   state,
-  t,
 }: Args): void => {
   fields.forEach((field) => {
     const initialData = data;
@@ -54,7 +51,6 @@ export const iterateFields = ({
         field,
         passesCondition,
         data,
-        t,
       }));
     }
   });

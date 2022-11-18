@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
 import withCondition from '../../withCondition';
 import useField from '../../useField';
 import Label from '../../Label';
@@ -7,7 +6,6 @@ import Error from '../../Error';
 import FieldDescription from '../../FieldDescription';
 import { email } from '../../../../../fields/validations';
 import { Props } from './types';
-import { getTranslation } from '../../../../../utilities/getTranslation';
 
 import './index.scss';
 
@@ -29,8 +27,6 @@ const Email: React.FC<Props> = (props) => {
     } = {},
     label,
   } = props;
-
-  const { i18n } = useTranslation();
 
   const path = pathFromProps || name;
 
@@ -81,7 +77,7 @@ const Email: React.FC<Props> = (props) => {
         value={value as string || ''}
         onChange={setValue}
         disabled={Boolean(readOnly)}
-        placeholder={getTranslation(placeholder, i18n)}
+        placeholder={placeholder}
         type="email"
         name={path}
         autoComplete={autoComplete}

@@ -1,11 +1,9 @@
 import React, { useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
 import useField from '../../useField';
 import withCondition from '../../withCondition';
 import { textarea } from '../../../../../fields/validations';
 import { Props } from './types';
 import TextareaInput from './Input';
-import { getTranslation } from '../../../../../utilities/getTranslation';
 
 import './index.scss';
 
@@ -29,8 +27,6 @@ const Textarea: React.FC<Props> = (props) => {
     } = {},
     label,
   } = props;
-
-  const { i18n } = useTranslation();
 
   const path = pathFromProps || name;
 
@@ -61,7 +57,7 @@ const Textarea: React.FC<Props> = (props) => {
       required={required}
       label={label}
       value={value as string}
-      placeholder={getTranslation(placeholder, i18n)}
+      placeholder={placeholder}
       readOnly={readOnly}
       style={style}
       className={className}

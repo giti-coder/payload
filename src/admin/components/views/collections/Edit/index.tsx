@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Redirect, useRouteMatch, useHistory, useLocation } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { useConfig } from '../../../utilities/Config';
 import { useAuth } from '../../../utilities/Auth';
 import { useStepNav } from '../../../elements/StepNav';
@@ -17,7 +16,6 @@ import { useDocumentInfo } from '../../../utilities/DocumentInfo';
 import { Fields } from '../../../forms/Form/types';
 import { usePreferences } from '../../../utilities/Preferences';
 import { EditDepthContext } from '../../../utilities/EditDepth';
-import { getTranslation } from '../../../../../utilities/getTranslation';
 
 const EditView: React.FC<IndexProps> = (props) => {
   const { collection: incomingCollection, isEditing } = props;
@@ -51,17 +49,16 @@ const EditView: React.FC<IndexProps> = (props) => {
   const { permissions, user } = useAuth();
   const { getVersions, preferencesKey } = useDocumentInfo();
   const { getPreference } = usePreferences();
-  const { t, i18n } = useTranslation('general');
 
   const onSave = useCallback(async (json: any) => {
     getVersions();
     if (!isEditing) {
       setRedirect(`${admin}/collections/${collection.slug}/${json?.doc?.id}`);
     } else {
-      const state = await buildStateFromSchema({ fieldSchema: collection.fields, data: json.doc, user, id, operation: 'update', locale, t });
+      const state = await buildStateFromSchema({ fieldSchema: collection.fields, data: json.doc, user, id, operation: 'update', locale });
       setInitialState(state);
     }
-  }, [admin, collection, isEditing, getVersions, user, id, t, locale]);
+  }, [admin, collection, isEditing, getVersions, user, id, locale]);
 
   const [{ data, isLoading: isLoadingDocument, isError }] = usePayloadAPI(
     (isEditing ? `${serverURL}${api}/${slug}/${id}` : null),
@@ -73,7 +70,7 @@ const EditView: React.FC<IndexProps> = (props) => {
   useEffect(() => {
     const nav: StepNavItem[] = [{
       url: `${admin}/collections/${slug}`,
-      label: getTranslation(pluralLabel, i18n),
+      label: pluralLabel,
     }];
 
     if (isEditing) {
@@ -84,7 +81,7 @@ const EditView: React.FC<IndexProps> = (props) => {
           if (dataToRender[useAsTitle]) {
             label = dataToRender[useAsTitle];
           } else {
-            label = `[${t('untitled')}]`;
+            label = '[Untitled]';
           }
         } else {
           label = dataToRender.id;
@@ -96,25 +93,25 @@ const EditView: React.FC<IndexProps> = (props) => {
       });
     } else {
       nav.push({
-        label: t('createNew'),
+        label: 'Create New',
       });
     }
 
     setStepNav(nav);
-  }, [setStepNav, isEditing, pluralLabel, dataToRender, slug, useAsTitle, admin, t, i18n]);
+  }, [setStepNav, isEditing, pluralLabel, dataToRender, slug, useAsTitle, admin]);
 
   useEffect(() => {
     if (isLoadingDocument) {
       return;
     }
     const awaitInitialState = async () => {
-      const state = await buildStateFromSchema({ fieldSchema: fields, data: dataToRender, user, operation: isEditing ? 'update' : 'create', id, locale, t });
+      const state = await buildStateFromSchema({ fieldSchema: fields, data: dataToRender, user, operation: isEditing ? 'update' : 'create', id, locale });
       await getPreference(preferencesKey);
       setInitialState(state);
     };
 
     awaitInitialState();
-  }, [dataToRender, fields, isEditing, id, user, locale, isLoadingDocument, preferencesKey, getPreference, t]);
+  }, [dataToRender, fields, isEditing, id, user, locale, isLoadingDocument, preferencesKey, getPreference]);
 
   useEffect(() => {
     if (redirect) {

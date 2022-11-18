@@ -1,6 +1,5 @@
 import React from 'react';
 import NavigationPrompt from 'react-router-navigation-prompt';
-import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../utilities/Auth';
 import { useFormModified } from '../../forms/Form/context';
 import MinimalTemplate from '../../templates/Minimal';
@@ -13,25 +12,24 @@ const modalSlug = 'leave-without-saving';
 const LeaveWithoutSaving: React.FC = () => {
   const modified = useFormModified();
   const { user } = useAuth();
-  const { t } = useTranslation('general');
 
   return (
     <NavigationPrompt when={Boolean(modified && user)}>
       {({ onConfirm, onCancel }) => (
         <div className={modalSlug}>
           <MinimalTemplate className={`${modalSlug}__template`}>
-            <h1>{t('leaveWithoutSaving')}</h1>
-            <p>{t('changesNotSaved')}</p>
+            <h1>Leave without saving</h1>
+            <p>Your changes have not been saved. If you leave now, you will lose your changes.</p>
             <Button
               onClick={onCancel}
               buttonStyle="secondary"
             >
-              {t('stayOnThisPage')}
+              Stay on this page
             </Button>
             <Button
               onClick={onConfirm}
             >
-              {t('leaveAnyway')}
+              Leave anyway
             </Button>
           </MinimalTemplate>
         </div>

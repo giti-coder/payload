@@ -1,7 +1,6 @@
 import React from 'react';
 import qs from 'qs';
 import { useHistory } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { useSearchParams } from '../../utilities/SearchParams';
 import Popup from '../Popup';
 import Chevron from '../../icons/Chevron';
@@ -23,7 +22,6 @@ type Props = {
 const PerPage: React.FC<Props> = ({ limits = defaultLimits, limit, handleChange, modifySearchParams = true }) => {
   const params = useSearchParams();
   const history = useHistory();
-  const { t } = useTranslation('general');
 
   return (
     <div className={baseClass}>
@@ -31,7 +29,9 @@ const PerPage: React.FC<Props> = ({ limits = defaultLimits, limit, handleChange,
         horizontalAlign="right"
         button={(
           <strong>
-            {t('perPage', { limit })}
+            Per Page:
+            {' '}
+            {limit}
             <Chevron />
           </strong>
         )}

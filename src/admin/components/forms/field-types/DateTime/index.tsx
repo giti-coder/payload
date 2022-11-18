@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
 
-import { useTranslation } from 'react-i18next';
 import DatePicker from '../../../elements/DatePicker';
 import withCondition from '../../withCondition';
 import useField from '../../useField';
@@ -9,7 +8,6 @@ import Error from '../../Error';
 import FieldDescription from '../../FieldDescription';
 import { date as dateValidation } from '../../../../../fields/validations';
 import { Props } from './types';
-import { getTranslation } from '../../../../../utilities/getTranslation';
 
 import './index.scss';
 
@@ -33,8 +31,6 @@ const DateTime: React.FC<Props> = (props) => {
       condition,
     } = {},
   } = props;
-
-  const { i18n } = useTranslation();
 
   const path = pathFromProps || name;
 
@@ -86,7 +82,7 @@ const DateTime: React.FC<Props> = (props) => {
       >
         <DatePicker
           {...date}
-          placeholder={getTranslation(placeholder, i18n)}
+          placeholder={placeholder}
           readOnly={readOnly}
           onChange={readOnly ? undefined : setValue}
           value={value as Date}

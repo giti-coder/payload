@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { Trans, useTranslation } from 'react-i18next';
 import { useConfig } from '../../utilities/Config';
 import { useAuth } from '../../utilities/Auth';
 import Logo from '../../graphics/Logo';
@@ -18,7 +17,6 @@ const baseClass = 'login';
 
 const Login: React.FC = () => {
   const history = useHistory();
-  const { t } = useTranslation('authentication');
   const { user, setToken } = useAuth();
   const config = useConfig();
   const {
@@ -52,19 +50,18 @@ const Login: React.FC = () => {
     return (
       <MinimalTemplate className={baseClass}>
         <Meta
-          title={t('login')}
-          description={t('loginUser')}
-          keywords={t('login')}
+          title="Login"
+          description="Login user"
+          keywords="Login, Payload, CMS"
         />
         <div className={`${baseClass}__wrap`}>
-          <h1>{t('alreadyLoggedIn')}</h1>
+          <h1>Already logged in</h1>
           <p>
-            <Trans
-              i18nKey="loggedIn"
-              t={t}
-            >
-              <Link to={`${admin}${logoutRoute}`}>{t('logOut')}</Link>
-            </Trans>
+            To log in with another user, you should
+            {' '}
+            <Link to={`${admin}${logoutRoute}`}>log out</Link>
+            {' '}
+            first.
           </p>
           <br />
           <Button
@@ -72,7 +69,7 @@ const Login: React.FC = () => {
             buttonStyle="secondary"
             to={admin}
           >
-            {t('general:backToDashboard')}
+            Back to Dashboard
           </Button>
         </div>
       </MinimalTemplate>
@@ -82,9 +79,9 @@ const Login: React.FC = () => {
   return (
     <MinimalTemplate className={baseClass}>
       <Meta
-        title={t('login')}
-        description={t('loginUser')}
-        keywords={t('login')}
+        title="Login"
+        description="Login user"
+        keywords="Login, Payload, CMS"
       />
       <div className={`${baseClass}__brand`}>
         <Logo />
@@ -99,21 +96,21 @@ const Login: React.FC = () => {
           action={`${serverURL}${api}/${userSlug}/login`}
         >
           <Email
-            label={t('general:email')}
+            label="Email Address"
             name="email"
             admin={{ autoComplete: 'email' }}
             required
           />
           <Password
-            label={t('general:password')}
+            label="Password"
             name="password"
             autoComplete="off"
             required
           />
           <Link to={`${admin}/forgot`}>
-            {t('forgotPassword')}
+            Forgot password?
           </Link>
-          <FormSubmit>{t('login')}</FormSubmit>
+          <FormSubmit>Login</FormSubmit>
         </Form>
       )}
       {Array.isArray(afterLogin) && afterLogin.map((Component, i) => <Component key={i} />)}

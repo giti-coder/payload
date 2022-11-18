@@ -46,7 +46,7 @@ export const saveGlobalDraft = async ({
       });
     }
   } catch (err) {
-    payload.logger.error(`There was an error while saving a draft for the Global ${config.slug}.`);
+    payload.logger.error(`There was an error while saving a draft for the Global ${config.label}.`);
     payload.logger.error(err);
   }
 
@@ -54,7 +54,7 @@ export const saveGlobalDraft = async ({
     enforceMaxVersions({
       payload: this,
       Model: VersionsModel,
-      slug: config.slug,
+      entityLabel: config.label,
       entityType: 'global',
       max: config.versions.max,
     });

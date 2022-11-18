@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { BlockField, SelectField } from '../../../../../../fields/config/types';
+import { SelectField } from '../../../../../../fields/config/types';
 import BlocksCell from './field-types/Blocks';
 import DateCell from './field-types/Date';
 import Checkbox from './field-types/Checkbox';
@@ -11,13 +11,9 @@ jest.mock('../../../../utilities/Config', () => ({
   useConfig: () => ({ admin: { dateFormat: 'MMMM do yyyy, h:mm a' } }),
 }));
 
-jest.mock('react-i18next', () => ({
-  useTranslation: () => ({ t: (string) => string }),
-}));
-
 describe('Cell Types', () => {
   describe('Blocks', () => {
-    const field: BlockField = {
+    const field = {
       label: 'Blocks Content',
       name: 'blocks',
       labels: {
@@ -29,10 +25,8 @@ describe('Cell Types', () => {
         {
           slug: 'number',
           labels: {
-            plural: 'Numbers',
             singular: 'Number',
           },
-          fields: [],
         },
       ],
     };
@@ -75,7 +69,7 @@ describe('Cell Types', () => {
         field={field}
       />);
       const el = container.querySelector('span');
-      expect(el).toHaveTextContent('fields:itemsAndMore');
+      expect(el).toHaveTextContent('6 Blocks Content - Number, Number, Number, Number, Number and 1 more');
     });
   });
 

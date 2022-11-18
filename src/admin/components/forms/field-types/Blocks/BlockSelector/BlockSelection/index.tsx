@@ -1,6 +1,5 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { getTranslation } from '../../../../../../../utilities/getTranslation';
+
 import DefaultBlockImage from '../../../../../graphics/DefaultBlockImage';
 import { Props } from './types';
 
@@ -12,8 +11,6 @@ const BlockSelection: React.FC<Props> = (props) => {
   const {
     addRow, addRowIndex, block, close,
   } = props;
-
-  const { i18n } = useTranslation();
 
   const {
     labels, slug, imageURL, imageAltText,
@@ -41,7 +38,7 @@ const BlockSelection: React.FC<Props> = (props) => {
           )
           : <DefaultBlockImage />}
       </div>
-      <div className={`${baseClass}__label`}>{getTranslation(labels.singular, i18n)}</div>
+      <div className={`${baseClass}__label`}>{labels.singular}</div>
     </button>
   );
 };

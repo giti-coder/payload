@@ -46,7 +46,6 @@ async function forgotPassword(incomingArgs: Arguments): Promise<string | null> {
     disableEmail,
     expiration,
     req: {
-      t,
       payload: {
         config,
         sendEmail: email,
@@ -79,11 +78,12 @@ async function forgotPassword(incomingArgs: Arguments): Promise<string | null> {
   const userJSON = user.toJSON({ virtuals: true });
 
   if (!disableEmail) {
-    let html = `${t('authentication:youAreReceivingResetPassword')}
+    let html = `You are receiving this because you (or someone else) have requested the reset of the password for your account.
+    Please click on the following link, or paste this into your browser to complete the process:
     <a href="${config.serverURL}${config.routes.admin}/reset/${token}">
      ${config.serverURL}${config.routes.admin}/reset/${token}
     </a>
-    ${t('authentication:youDidNotRequestPassword')}`;
+    If you did not request this, please ignore this email and your password will remain unchanged.`;
 
     if (typeof collectionConfig.auth.forgotPassword.generateEmailHTML === 'function') {
       html = await collectionConfig.auth.forgotPassword.generateEmailHTML({
@@ -93,7 +93,7 @@ async function forgotPassword(incomingArgs: Arguments): Promise<string | null> {
       });
     }
 
-    let subject = t('authentication:resetYourPassword');
+    let subject = 'Reset your password';
 
     if (typeof collectionConfig.auth.forgotPassword.generateEmailSubject === 'function') {
       subject = await collectionConfig.auth.forgotPassword.generateEmailSubject({

@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import queryString from 'qs';
-import { useTranslation } from 'react-i18next';
 import { useLocale } from '../components/utilities/Locale';
 import { requests } from '../api';
 
@@ -28,7 +27,6 @@ const usePayloadAPI: UsePayloadAPI = (url, options = {}) => {
     initialData = {},
   } = options;
 
-  const { i18n } = useTranslation();
   const [data, setData] = useState(initialData);
   const [params, setParams] = useState(initialParams);
   const [isLoading, setIsLoading] = useState(true);
@@ -46,11 +44,7 @@ const usePayloadAPI: UsePayloadAPI = (url, options = {}) => {
       setIsLoading(true);
 
       try {
-        const response = await requests.get(`${url}?${search}`, {
-          headers: {
-            'Accept-Language': i18n.language,
-          },
-        });
+        const response = await requests.get(`${url}?${search}`);
 
         if (response.status > 201) {
           setIsError(true);
@@ -71,7 +65,7 @@ const usePayloadAPI: UsePayloadAPI = (url, options = {}) => {
       setIsError(false);
       setIsLoading(false);
     }
-  }, [url, locale, search, i18n.language]);
+  }, [url, locale, search]);
 
   return [{ data, isLoading, isError }, { setParams }];
 };

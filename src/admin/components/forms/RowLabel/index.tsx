@@ -1,8 +1,6 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { isComponent, Props } from './types';
 import { useWatchForm } from '../Form/context';
-import { getTranslation } from '../../../../utilities/getTranslation';
 
 const baseClass = 'row-label';
 
@@ -29,7 +27,6 @@ const RowLabelContent: React.FC<Omit<Props, 'className'>> = (props) => {
     rowNumber,
   } = props;
 
-  const { i18n } = useTranslation();
   const { getDataByPath, getSiblingData } = useWatchForm();
   const collapsibleData = getSiblingData(path);
   const arrayData = getDataByPath(path);
@@ -52,7 +49,7 @@ const RowLabelContent: React.FC<Omit<Props, 'className'>> = (props) => {
         data,
         path,
         index: rowNumber,
-      }) : getTranslation(label, i18n)}
+      }) : label}
     </React.Fragment>
   );
 };

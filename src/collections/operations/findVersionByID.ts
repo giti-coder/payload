@@ -30,7 +30,6 @@ async function findVersionByID<T extends TypeWithVersion<T> = any>(args: Argumen
     id,
     req,
     req: {
-      t,
       locale,
       payload,
     },
@@ -79,14 +78,14 @@ async function findVersionByID<T extends TypeWithVersion<T> = any>(args: Argumen
   // Find by ID
   // /////////////////////////////////////
 
-  if (!query.$and[0]._id) throw new NotFound(t);
+  if (!query.$and[0]._id) throw new NotFound();
 
   let result = await VersionsModel.findOne(query, {}).lean();
 
   if (!result) {
     if (!disableErrors) {
-      if (!hasWhereAccess) throw new NotFound(t);
-      if (hasWhereAccess) throw new Forbidden(t);
+      if (!hasWhereAccess) throw new NotFound();
+      if (hasWhereAccess) throw new Forbidden();
     }
 
     return null;

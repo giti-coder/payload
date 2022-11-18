@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Props } from './types';
 import Thumbnail from '../Thumbnail';
 
@@ -15,8 +14,6 @@ const UploadCard: React.FC<Props> = (props) => {
     doc,
     collection,
   } = props;
-
-  const { t } = useTranslation('general');
 
   const classes = [
     baseClass,
@@ -35,7 +32,7 @@ const UploadCard: React.FC<Props> = (props) => {
         collection={collection}
       />
       <div className={`${baseClass}__filename`}>
-        {typeof doc?.filename === 'string' ? doc?.filename : `[${t('untitled')}]`}
+        {typeof doc?.filename === 'string' ? doc?.filename : '[Untitled]'}
       </div>
     </div>
   );

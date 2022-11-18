@@ -33,44 +33,35 @@ import { Field, fieldAffectsData } from '../../fields/config/types';
 import buildObjectType, { ObjectTypeConfig } from '../../graphql/schema/buildObjectType';
 import buildWhereInputType from '../../graphql/schema/buildWhereInputType';
 import getDeleteResolver from './resolvers/delete';
-import { toWords, formatNames } from '../../utilities/formatLabels';
-import { Collection, SanitizedCollectionConfig } from '../config/types';
 
 function initCollectionsGraphQL(payload: Payload): void {
   Object.keys(payload.collections).forEach((slug) => {
-    const collection: Collection = payload.collections[slug];
+    const collection = payload.collections[slug];
     const {
       config: {
-        graphQL = {} as SanitizedCollectionConfig['graphQL'],
+        labels: {
+          singular,
+          plural,
+        },
         fields,
         timestamps,
         versions,
       },
     } = collection;
 
-    let singularName;
-    let pluralName;
-    const fromSlug = formatNames(collection.config.slug);
-    if (graphQL.singularName) {
-      singularName = toWords(graphQL.singularName, true);
-    } else {
-      singularName = fromSlug.singular;
-    }
-    if (graphQL.pluralName) {
-      pluralName = toWords(graphQL.pluralName, true);
-    } else {
-      pluralName = fromSlug.plural;
-    }
+    const singularLabel = formatName(singular);
+    let pluralLabel = formatName(plural);
 
     // For collections named 'Media' or similar,
     // there is a possibility that the singular name
     // will equal the plural name. Append `all` to the beginning
     // of potential conflicts
-    if (singularName === pluralName) {
-      pluralName = `all${singularName}`;
+
+    if (singularLabel === pluralLabel) {
+      pluralLabel = `all${singularLabel}`;
     }
 
-    collection.graphQL = {} as Collection['graphQL'];
+    collection.graphQL = {} as any;
 
     const idField = fields.find((field) => fieldAffectsData(field) && field.name === 'id');
     const idType = getCollectionIDType(collection.config);
@@ -115,17 +106,17 @@ function initCollectionsGraphQL(payload: Payload): void {
 
     collection.graphQL.type = buildObjectType({
       payload,
-      name: singularName,
-      parentName: singularName,
+      name: singularLabel,
+      parentName: singularLabel,
       fields,
       baseFields,
       forceNullable: forceNullableObjectType,
     });
 
     collection.graphQL.whereInputType = buildWhereInputType(
-      singularName,
+      singularLabel,
       whereInputFields,
-      singularName,
+      singularLabel,
     );
 
     if (collection.config.auth && !collection.config.auth.disableLocalStrategy) {
@@ -139,20 +130,20 @@ function initCollectionsGraphQL(payload: Payload): void {
 
     collection.graphQL.mutationInputType = new GraphQLNonNull(buildMutationInputType(
       payload,
-      singularName,
+      singularLabel,
       fields,
-      singularName,
+      singularLabel,
     ));
 
     collection.graphQL.updateMutationInputType = new GraphQLNonNull(buildMutationInputType(
       payload,
-      `${singularName}Update`,
+      `${singularLabel}Update`,
       fields.filter((field) => !(fieldAffectsData(field) && field.name === 'id')),
-      `${singularName}Update`,
+      `${singularLabel}Update`,
       true,
     ));
 
-    payload.Query.fields[singularName] = {
+    payload.Query.fields[singularLabel] = {
       type: collection.graphQL.type,
       args: {
         id: { type: new GraphQLNonNull(idType) },
@@ -165,8 +156,8 @@ function initCollectionsGraphQL(payload: Payload): void {
       resolve: findByIDResolver(collection),
     };
 
-    payload.Query.fields[pluralName] = {
-      type: buildPaginatedListType(pluralName, collection.graphQL.type),
+    payload.Query.fields[pluralLabel] = {
+      type: buildPaginatedListType(pluralLabel, collection.graphQL.type),
       args: {
         where: { type: collection.graphQL.whereInputType },
         draft: { type: GraphQLBoolean },
@@ -181,7 +172,7 @@ function initCollectionsGraphQL(payload: Payload): void {
       resolve: findResolver(collection),
     };
 
-    payload.Mutation.fields[`create${singularName}`] = {
+    payload.Mutation.fields[`create${singularLabel}`] = {
       type: collection.graphQL.type,
       args: {
         data: { type: collection.graphQL.mutationInputType },
@@ -193,7 +184,7 @@ function initCollectionsGraphQL(payload: Payload): void {
       resolve: createResolver(collection),
     };
 
-    payload.Mutation.fields[`update${singularName}`] = {
+    payload.Mutation.fields[`update${singularLabel}`] = {
       type: collection.graphQL.type,
       args: {
         id: { type: new GraphQLNonNull(idType) },
@@ -207,7 +198,7 @@ function initCollectionsGraphQL(payload: Payload): void {
       resolve: updateResolver(collection),
     };
 
-    payload.Mutation.fields[`delete${singularName}`] = {
+    payload.Mutation.fields[`delete${singularLabel}`] = {
       type: collection.graphQL.type,
       args: {
         id: { type: new GraphQLNonNull(idType) },
@@ -236,13 +227,13 @@ function initCollectionsGraphQL(payload: Payload): void {
 
       collection.graphQL.versionType = buildObjectType({
         payload,
-        name: `${singularName}Version`,
+        name: `${singularLabel}Version`,
         fields: versionCollectionFields,
-        parentName: `${singularName}Version`,
+        parentName: `${singularLabel}Version`,
         forceNullable: forceNullableObjectType,
       });
 
-      payload.Query.fields[`version${formatName(singularName)}`] = {
+      payload.Query.fields[`version${formatName(singularLabel)}`] = {
         type: collection.graphQL.versionType,
         args: {
           id: { type: GraphQLString },
@@ -253,14 +244,14 @@ function initCollectionsGraphQL(payload: Payload): void {
         },
         resolve: findVersionByIDResolver(collection),
       };
-      payload.Query.fields[`versions${pluralName}`] = {
-        type: buildPaginatedListType(`versions${formatName(pluralName)}`, collection.graphQL.versionType),
+      payload.Query.fields[`versions${pluralLabel}`] = {
+        type: buildPaginatedListType(`versions${formatName(pluralLabel)}`, collection.graphQL.versionType),
         args: {
           where: {
             type: buildWhereInputType(
-              `versions${singularName}`,
+              `versions${singularLabel}`,
               versionCollectionFields,
-              `versions${singularName}`,
+              `versions${singularLabel}`,
             ),
           },
           ...(payload.config.localization ? {
@@ -273,7 +264,7 @@ function initCollectionsGraphQL(payload: Payload): void {
         },
         resolve: findVersionsResolver(collection),
       };
-      payload.Mutation.fields[`restoreVersion${formatName(singularName)}`] = {
+      payload.Mutation.fields[`restoreVersion${formatName(singularLabel)}`] = {
         type: collection.graphQL.type,
         args: {
           id: { type: GraphQLString },
@@ -287,23 +278,23 @@ function initCollectionsGraphQL(payload: Payload): void {
         name: 'email',
         type: 'email',
         required: true,
-      }];
+      }]
       collection.graphQL.JWT = buildObjectType({
         payload,
         name: formatName(`${slug}JWT`),
         fields: [
-          ...collection.config.fields.filter((field) => fieldAffectsData(field) && field.saveToJWT),
+          ...collection.config.fields.filter((field) => fieldAffectsData(field) && field.saveToJWT), 
           ...authFields,
           {
             name: 'collection',
             type: 'text',
             required: true,
-          },
+          }
         ],
         parentName: formatName(`${slug}JWT`),
       });
 
-      payload.Query.fields[`me${singularName}`] = {
+      payload.Query.fields[`me${singularLabel}`] = {
         type: new GraphQLObjectType({
           name: formatName(`${slug}Me`),
           fields: {
@@ -324,14 +315,14 @@ function initCollectionsGraphQL(payload: Payload): void {
         resolve: me(collection),
       };
 
-      payload.Query.fields[`initialized${singularName}`] = {
+      payload.Query.fields[`initialized${singularLabel}`] = {
         type: GraphQLBoolean,
         resolve: init(collection),
       };
 
-      payload.Mutation.fields[`refreshToken${singularName}`] = {
+      payload.Mutation.fields[`refreshToken${singularLabel}`] = {
         type: new GraphQLObjectType({
-          name: formatName(`${slug}Refreshed${singularName}`),
+          name: formatName(`${slug}Refreshed${singularLabel}`),
           fields: {
             user: {
               type: collection.graphQL.JWT,
@@ -350,14 +341,14 @@ function initCollectionsGraphQL(payload: Payload): void {
         resolve: refresh(collection),
       };
 
-      payload.Mutation.fields[`logout${singularName}`] = {
+      payload.Mutation.fields[`logout${singularLabel}`] = {
         type: GraphQLString,
         resolve: logout(collection),
       };
 
       if (!collection.config.auth.disableLocalStrategy) {
         if (collection.config.auth.maxLoginAttempts > 0) {
-          payload.Mutation.fields[`unlock${singularName}`] = {
+          payload.Mutation.fields[`unlock${singularLabel}`] = {
             type: new GraphQLNonNull(GraphQLBoolean),
             args: {
               email: { type: new GraphQLNonNull(GraphQLString) },
@@ -366,7 +357,7 @@ function initCollectionsGraphQL(payload: Payload): void {
           };
         }
 
-        payload.Mutation.fields[`login${singularName}`] = {
+        payload.Mutation.fields[`login${singularLabel}`] = {
           type: new GraphQLObjectType({
             name: formatName(`${slug}LoginResult`),
             fields: {
@@ -388,7 +379,7 @@ function initCollectionsGraphQL(payload: Payload): void {
           resolve: login(collection),
         };
 
-        payload.Mutation.fields[`forgotPassword${singularName}`] = {
+        payload.Mutation.fields[`forgotPassword${singularLabel}`] = {
           type: new GraphQLNonNull(GraphQLBoolean),
           args: {
             email: { type: new GraphQLNonNull(GraphQLString) },
@@ -398,7 +389,7 @@ function initCollectionsGraphQL(payload: Payload): void {
           resolve: forgotPassword(collection),
         };
 
-        payload.Mutation.fields[`resetPassword${singularName}`] = {
+        payload.Mutation.fields[`resetPassword${singularLabel}`] = {
           type: new GraphQLObjectType({
             name: formatName(`${slug}ResetPassword`),
             fields: {
@@ -413,7 +404,7 @@ function initCollectionsGraphQL(payload: Payload): void {
           resolve: resetPassword(collection),
         };
 
-        payload.Mutation.fields[`verifyEmail${singularName}`] = {
+        payload.Mutation.fields[`verifyEmail${singularLabel}`] = {
           type: GraphQLBoolean,
           args: {
             token: { type: GraphQLString },

@@ -20,7 +20,7 @@ async function update(args: PreferenceUpdateRequest) {
   } = args;
 
   if (!user) {
-    throw new UnauthorizedError(req.t);
+    throw new UnauthorizedError();
   }
 
   if (!overrideAccess) {

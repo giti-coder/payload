@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { Modal, useModal } from '@faceless-ui/modal';
+import { Transforms } from 'slate';
 import { ReactEditor, useSlate } from 'slate-react';
-import { useTranslation } from 'react-i18next';
 import { useConfig } from '../../../../../../utilities/Config';
 import ElementButton from '../../Button';
 import UploadIcon from '../../../../../../icons/Upload';
@@ -17,7 +17,6 @@ import Button from '../../../../../../elements/Button';
 import { SanitizedCollectionConfig } from '../../../../../../../../collections/config/types';
 import PerPage from '../../../../../../elements/PerPage';
 import { injectVoidElement } from '../../injectVoid';
-import { getTranslation } from '../../../../../../../../utilities/getTranslation';
 
 import './index.scss';
 import '../addSwapModals.scss';
@@ -43,7 +42,6 @@ const insertUpload = (editor, { value, relationTo }) => {
 };
 
 const UploadButton: React.FC<{ path: string }> = ({ path }) => {
-  const { t, i18n } = useTranslation('upload');
   const { toggleModal, isModalOpen } = useModal();
   const editor = useSlate();
   const { serverURL, routes: { api }, collections } = useConfig();
@@ -52,13 +50,14 @@ const UploadButton: React.FC<{ path: string }> = ({ path }) => {
   const [modalCollectionOption, setModalCollectionOption] = useState<{ label: string, value: string }>(() => {
     const firstAvailableCollection = collections.find(({ admin: { enableRichTextRelationship }, upload }) => (Boolean(upload) && enableRichTextRelationship));
     if (firstAvailableCollection) {
-      return { label: getTranslation(firstAvailableCollection.labels.singular, i18n), value: firstAvailableCollection.slug };
+      return { label: firstAvailableCollection.labels.singular, value: firstAvailableCollection.slug };
     }
 
     return undefined;
   });
   const [modalCollection, setModalCollection] = useState<SanitizedCollectionConfig>(() => collections.find(({ admin: { enableRichTextRelationship }, upload }) => (Boolean(upload) && enableRichTextRelationship)));
-  const [fields, setFields] = useState(() => (modalCollection ? formatFields(modalCollection, t) : undefined));
+
+  const [fields, setFields] = useState(() => (modalCollection ? formatFields(modalCollection) : undefined));
   const [limit, setLimit] = useState<number>();
   const [sort, setSort] = useState(null);
   const [where, setWhere] = useState(null);
@@ -74,9 +73,9 @@ const UploadButton: React.FC<{ path: string }> = ({ path }) => {
 
   useEffect(() => {
     if (modalCollection) {
-      setFields(formatFields(modalCollection, t));
+      setFields(formatFields(modalCollection));
     }
-  }, [modalCollection, t]);
+  }, [modalCollection]);
 
   useEffect(() => {
     if (renderModal) {
@@ -128,7 +127,9 @@ const UploadButton: React.FC<{ path: string }> = ({ path }) => {
             <MinimalTemplate width="wide">
               <header className={`${baseModalClass}__header`}>
                 <h1>
-                  {t('addLabel', { label: getTranslation(modalCollection.labels.singular, i18n) })}
+                  Add
+                  {' '}
+                  {modalCollection.labels.singular}
                 </h1>
                 <Button
                   icon="x"
@@ -143,12 +144,12 @@ const UploadButton: React.FC<{ path: string }> = ({ path }) => {
               </header>
               {moreThanOneAvailableCollection && (
                 <div className={`${baseModalClass}__select-collection-wrap`}>
-                  <Label label={t('selectCollectionToBrowse')} />
+                  <Label label="Select a Collection to Browse" />
                   <ReactSelect
                     className={`${baseClass}__select-collection`}
                     value={modalCollectionOption}
                     onChange={setModalCollectionOption}
-                    options={availableCollections.map((coll) => ({ label: getTranslation(coll.labels.singular, i18n), value: coll.slug }))}
+                    options={availableCollections.map((coll) => ({ label: coll.labels.singular, value: coll.slug }))}
                   />
                 </div>
               )}
@@ -197,7 +198,7 @@ const UploadButton: React.FC<{ path: string }> = ({ path }) => {
                       -
                       {data.totalPages > 1 ? data.limit : data.totalDocs}
                       {' '}
-                      {t('general:of')}
+                      of
                       {' '}
                       {data.totalDocs}
                     </div>

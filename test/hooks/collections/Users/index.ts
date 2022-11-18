@@ -3,10 +3,10 @@ import { BeforeLoginHook, CollectionConfig } from '../../../../src/collections/c
 import { AuthenticationError } from '../../../../src/errors';
 import { devUser, regularUser } from '../../../credentials';
 
-const beforeLoginHook: BeforeLoginHook = ({ user, req }) => {
+const beforeLoginHook: BeforeLoginHook = ({ user }) => {
   const isAdmin = user.roles.includes('admin') ? user : undefined;
   if (!isAdmin) {
-    throw new AuthenticationError(req.t);
+    throw new AuthenticationError();
   }
   return user;
 };

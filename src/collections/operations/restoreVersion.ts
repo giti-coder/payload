@@ -32,7 +32,6 @@ async function restoreVersion<T extends TypeWithID = any>(args: Arguments): Prom
     showHiddenFields,
     depth,
     req: {
-      t,
       locale,
       payload,
     },
@@ -54,7 +53,7 @@ async function restoreVersion<T extends TypeWithID = any>(args: Arguments): Prom
   });
 
   if (!rawVersion) {
-    throw new NotFound(t);
+    throw new NotFound();
   }
 
   rawVersion = rawVersion.toJSON({ virtuals: true });
@@ -92,8 +91,8 @@ async function restoreVersion<T extends TypeWithID = any>(args: Arguments): Prom
 
   const doc = await Model.findOne(query);
 
-  if (!doc && !hasWherePolicy) throw new NotFound(t);
-  if (!doc && hasWherePolicy) throw new Forbidden(t);
+  if (!doc && !hasWherePolicy) throw new NotFound();
+  if (!doc && hasWherePolicy) throw new Forbidden();
 
   // /////////////////////////////////////
   // fetch previousDoc

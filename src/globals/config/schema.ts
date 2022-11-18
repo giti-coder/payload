@@ -4,15 +4,9 @@ import { endpointsSchema } from '../../config/schema';
 
 const globalSchema = joi.object().keys({
   slug: joi.string().required(),
-  label: joi.alternatives().try(
-    joi.string(),
-    joi.object().pattern(joi.string(), [joi.string()]),
-  ),
+  label: joi.string(),
   admin: joi.object({
-    group: joi.alternatives().try(
-      joi.string(),
-      joi.object().pattern(joi.string(), [joi.string()]),
-    ),
+    group: joi.string(),
     hideAPIURL: joi.boolean(),
     description: joi.alternatives().try(
       joi.string(),
@@ -23,12 +17,6 @@ const globalSchema = joi.object().keys({
         Edit: componentSchema,
       }),
     }),
-  }),
-  typescript: joi.object().keys({
-    interface: joi.string(),
-  }),
-  graphQL: joi.object().keys({
-    name: joi.string(),
   }),
   hooks: joi.object({
     beforeValidate: joi.array().items(joi.func()),

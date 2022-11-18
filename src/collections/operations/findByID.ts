@@ -48,7 +48,6 @@ async function findByID<T extends TypeWithID = any>(incomingArgs: Arguments): Pr
     id,
     req,
     req: {
-      t,
       locale,
       payload,
     },
@@ -90,7 +89,7 @@ async function findByID<T extends TypeWithID = any>(incomingArgs: Arguments): Pr
   // Find by ID
   // /////////////////////////////////////
 
-  if (!query.$and[0]._id) throw new NotFound(t);
+  if (!query.$and[0]._id) throw new NotFound();
 
   if (!req.findByID) req.findByID = {};
 
@@ -109,7 +108,7 @@ async function findByID<T extends TypeWithID = any>(incomingArgs: Arguments): Pr
 
   if (!result) {
     if (!disableErrors) {
-      throw new NotFound(t);
+      throw new NotFound();
     }
 
     return null;

@@ -13,7 +13,7 @@ export default async function deleteHandler(req: PayloadRequest, res: Response, 
     });
 
     return res.status(httpStatus.OK).json({
-      ...formatSuccessResponse(req.t('deletedSuccessfully'), 'message'),
+      ...formatSuccessResponse('Deleted successfully.', 'message'),
     });
   } catch (error) {
     return next(error);

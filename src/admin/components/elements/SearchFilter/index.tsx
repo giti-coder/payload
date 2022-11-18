@@ -1,13 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import queryString from 'qs';
-import { useTranslation } from 'react-i18next';
 import { Props } from './types';
 import Search from '../../icons/Search';
 import useDebounce from '../../../hooks/useDebounce';
 import { useSearchParams } from '../../utilities/SearchParams';
 import { Where, WhereField } from '../../../../types';
-import { getTranslation } from '../../../../utilities/getTranslation';
 
 import './index.scss';
 
@@ -24,12 +22,11 @@ const SearchFilter: React.FC<Props> = (props) => {
 
   const params = useSearchParams();
   const history = useHistory();
-  const { t, i18n } = useTranslation('general');
 
   const [search, setSearch] = useState('');
   const [previousSearch, setPreviousSearch] = useState('');
 
-  const placeholder = useRef(t('searchBy', { label: getTranslation(fieldLabel, i18n) }));
+  const placeholder = useRef(`Search by ${fieldLabel}`);
 
   const debouncedSearch = useDebounce(search, 300);
 
@@ -81,12 +78,12 @@ const SearchFilter: React.FC<Props> = (props) => {
     if (listSearchableFields?.length > 0) {
       placeholder.current = listSearchableFields.reduce<string>((prev, curr, i) => {
         if (i === listSearchableFields.length - 1) {
-          return `${prev} ${t('or')} ${getTranslation(curr.label || curr.name, i18n)}`;
+          return `${prev} or ${curr.label || curr.name}`;
         }
-        return `${prev}, ${getTranslation(curr.label || curr.name, i18n)}`;
+        return `${prev}, ${curr.label || curr.name}`;
       }, placeholder.current);
     }
-  }, [t, listSearchableFields, i18n]);
+  }, [listSearchableFields]);
 
   return (
     <div className={baseClass}>

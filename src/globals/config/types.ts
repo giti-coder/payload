@@ -1,7 +1,6 @@
 import React from 'react';
 import { Model, Document } from 'mongoose';
 import { DeepRequired } from 'ts-essentials';
-import { GraphQLNonNull, GraphQLObjectType } from 'graphql';
 import { PayloadRequest } from '../../express/types';
 import { Access, Endpoint, GeneratePreviewURL } from '../../config/types';
 import { Field } from '../../fields/config/types';
@@ -47,19 +46,7 @@ export interface GlobalModel extends Model<Document> {
 
 export type GlobalConfig = {
   slug: string
-  label?: Record<string, string> | string
-  graphQL?: {
-    name?: string
-  }
-  /**
-   * Options used in typescript generation
-   */
-  typescript?: {
-    /**
-     * Typescript generation name given to the interface type
-     */
-    interface?: string
-  }
+  label?: string
   preview?: GeneratePreviewURL
   versions?: IncomingGlobalVersions | boolean
   hooks?: {
@@ -89,15 +76,9 @@ export type GlobalConfig = {
   }
 }
 
-export interface SanitizedGlobalConfig extends Omit<DeepRequired<GlobalConfig>, 'fields' | 'versions' | 'graphQL'> {
+export interface SanitizedGlobalConfig extends Omit<DeepRequired<GlobalConfig>, 'fields' | 'versions'> {
   fields: Field[]
   versions: SanitizedGlobalVersions
-  graphQL?: {
-    name?: string
-    type: GraphQLObjectType
-    mutationInputType: GraphQLNonNull<any>
-    versionType?: GraphQLObjectType
-  }
 }
 
 export type Globals = {
