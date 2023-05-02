@@ -357,6 +357,9 @@ export interface NumberField {
   decimalMin?: number;
   decimalMax?: number;
   defaultNumber?: number;
+  hasMany?: number;
+  validatesHasMany?: number;
+  localizedHasMany?: number;
   createdAt: string;
   updatedAt: string;
 }
