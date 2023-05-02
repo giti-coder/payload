@@ -49,7 +49,9 @@ export type BeforeValidateHook<T extends TypeWithID = any> = (args: {
 }) => any;
 type AfterChangeOrAny<T extends TypeWithID = any> = {
     afterChange?: AfterChangeHook<T>;
-} | number | string | boolean | symbol | null | undefined;
+} | number | string | boolean | symbol | null | undefined | {
+    [key: string]: any;
+};
 export type BeforeChangeHook<T extends TypeWithID = any> = (args: {
     data: Partial<T>;
     req: PayloadRequest;
