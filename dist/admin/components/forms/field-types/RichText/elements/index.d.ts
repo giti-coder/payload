@@ -1,46 +1,46 @@
 /// <reference types="react" />
 declare const elements: {
     h1: {
-        Button: () => JSX.Element;
+        Button: () => import("react").JSX.Element;
         Element: ({ attributes, children }: {
             attributes: any;
             children: any;
-        }) => JSX.Element;
+        }) => import("react").JSX.Element;
     };
     h2: {
-        Button: () => JSX.Element;
+        Button: () => import("react").JSX.Element;
         Element: ({ attributes, children }: {
             attributes: any;
             children: any;
-        }) => JSX.Element;
+        }) => import("react").JSX.Element;
     };
     h3: {
-        Button: () => JSX.Element;
+        Button: () => import("react").JSX.Element;
         Element: ({ attributes, children }: {
             attributes: any;
             children: any;
-        }) => JSX.Element;
+        }) => import("react").JSX.Element;
     };
     h4: {
-        Button: () => JSX.Element;
+        Button: () => import("react").JSX.Element;
         Element: ({ attributes, children }: {
             attributes: any;
             children: any;
-        }) => JSX.Element;
+        }) => import("react").JSX.Element;
     };
     h5: {
-        Button: () => JSX.Element;
+        Button: () => import("react").JSX.Element;
         Element: ({ attributes, children }: {
             attributes: any;
             children: any;
-        }) => JSX.Element;
+        }) => import("react").JSX.Element;
     };
     h6: {
-        Button: () => JSX.Element;
+        Button: () => import("react").JSX.Element;
         Element: ({ attributes, children }: {
             attributes: any;
             children: any;
-        }) => JSX.Element;
+        }) => import("react").JSX.Element;
     };
     link: {
         Button: import("react").FC<{
@@ -57,35 +57,35 @@ declare const elements: {
         plugins: ((incomingEditor: import("slate").BaseEditor & import("slate-react").ReactEditor & import("slate-history").HistoryEditor) => import("slate").BaseEditor & import("slate-react").ReactEditor & import("slate-history").HistoryEditor)[];
     };
     blockquote: {
-        Button: () => JSX.Element;
+        Button: () => import("react").JSX.Element;
         Element: ({ attributes, children }: {
             attributes: any;
             children: any;
-        }) => JSX.Element;
+        }) => import("react").JSX.Element;
     };
     ol: {
-        Button: () => JSX.Element;
+        Button: () => import("react").JSX.Element;
         Element: ({ attributes, children }: {
             attributes: any;
             children: any;
-        }) => JSX.Element;
+        }) => import("react").JSX.Element;
     };
     ul: {
-        Button: () => JSX.Element;
+        Button: () => import("react").JSX.Element;
         Element: ({ attributes, children }: {
             attributes: any;
             children: any;
-        }) => JSX.Element;
+        }) => import("react").JSX.Element;
     };
     li: {
-        Element: (props: any) => JSX.Element;
+        Element: (props: any) => import("react").JSX.Element;
     };
     indent: {
-        Button: () => JSX.Element;
+        Button: () => import("react").JSX.Element;
         Element: ({ attributes, children }: {
             attributes: any;
             children: any;
-        }) => JSX.Element;
+        }) => import("react").JSX.Element;
     };
     relationship: {
         Button: (props: {

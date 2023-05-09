@@ -20,6 +20,7 @@ export declare const defaults: {
     admin: {
         useAsTitle: string;
         components: {};
+        enableRichTextLink: boolean;
         enableRichTextRelationship: boolean;
         pagination: {
             defaultLimit: number;

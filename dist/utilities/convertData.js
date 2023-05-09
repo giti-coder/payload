@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.convertArrayToObject = exports.convertObjectToArray = exports.convertArrayToHash = void 0;
+/* eslint-disable no-param-reassign */
 const convertArrayToObject = (arr, key) => arr.reduce((obj, item) => {
     if (key) {
         obj[item[key]] = item;

@@ -69,7 +69,10 @@ const getBaseUploadFields = ({ config, collection }) => {
                 afterRead: [
                     ({ data }) => {
                         if (data === null || data === void 0 ? void 0 : data.filename) {
-                            return `${config.serverURL}${uploadOptions.staticURL}/${data.filename}`;
+                            if (uploadOptions.staticURL.startsWith('/')) {
+                                return `${config.serverURL}${uploadOptions.staticURL}/${data.filename}`;
+                            }
+                            return `${uploadOptions.staticURL}/${data.filename}`;
                         }
                         return undefined;
                     },
@@ -110,7 +113,10 @@ const getBaseUploadFields = ({ config, collection }) => {
                                         var _a, _b;
                                         const sizeFilename = (_b = (_a = data === null || data === void 0 ? void 0 : data.sizes) === null || _a === void 0 ? void 0 : _a[size.name]) === null || _b === void 0 ? void 0 : _b.filename;
                                         if (sizeFilename) {
-                                            return `${config.serverURL}${uploadOptions.staticURL}/${sizeFilename}`;
+                                            if (uploadOptions.staticURL.startsWith('/')) {
+                                                return `${config.serverURL}${uploadOptions.staticURL}/${sizeFilename}`;
+                                            }
+                                            return `${uploadOptions.staticURL}/${sizeFilename}`;
                                         }
                                         return undefined;
                                     },

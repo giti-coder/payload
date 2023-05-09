@@ -199,6 +199,7 @@ exports.upload = exports.baseField.keys({
     name: joi_1.default.string().required(),
     maxDepth: joi_1.default.number(),
     filterOptions: joi_1.default.alternatives().try(joi_1.default.object(), joi_1.default.func()),
+    defaultValue: joi_1.default.alternatives().try(joi_1.default.object(), joi_1.default.func()),
 });
 exports.checkbox = exports.baseField.keys({
     type: joi_1.default.string().valid('checkbox').required(),

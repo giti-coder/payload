@@ -1,6 +1,6 @@
-/// <reference types="react" />
+import React from 'react';
 import './index.scss';
 declare const Checkbox: ({ data }: {
     data: any;
-}) => JSX.Element;
+}) => React.JSX.Element;
 export default Checkbox;

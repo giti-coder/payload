@@ -1,9 +1,9 @@
-/// <reference types="react" />
+import React from 'react';
 declare const h2: {
-    Button: () => JSX.Element;
+    Button: () => React.JSX.Element;
     Element: ({ attributes, children }: {
         attributes: any;
         children: any;
-    }) => JSX.Element;
+    }) => React.JSX.Element;
 };
 export default h2;

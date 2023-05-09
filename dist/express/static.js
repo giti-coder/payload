@@ -13,7 +13,7 @@ function initStatic(ctx) {
     Object.entries(ctx.collections).forEach(([_, collection]) => {
         var _a;
         const { config } = collection;
-        if (config.upload) {
+        if (config.upload && config.upload.staticURL.startsWith('/')) {
             const router = express_1.default.Router();
             router.use((0, corsHeaders_1.default)(ctx.config));
             router.use(passport_1.default.initialize());

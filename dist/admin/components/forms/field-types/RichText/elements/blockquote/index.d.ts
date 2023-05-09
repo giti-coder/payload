@@ -1,10 +1,10 @@
-/// <reference types="react" />
+import React from 'react';
 import './index.scss';
 declare const blockquote: {
-    Button: () => JSX.Element;
+    Button: () => React.JSX.Element;
     Element: ({ attributes, children }: {
         attributes: any;
         children: any;
-    }) => JSX.Element;
+    }) => React.JSX.Element;
 };
 export default blockquote;

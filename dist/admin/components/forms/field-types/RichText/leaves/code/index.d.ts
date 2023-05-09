@@ -1,9 +1,9 @@
-/// <reference types="react" />
+import React from 'react';
 declare const code: {
-    Button: () => JSX.Element;
+    Button: () => React.JSX.Element;
     Leaf: ({ attributes, children }: {
         attributes: any;
         children: any;
-    }) => JSX.Element;
+    }) => React.JSX.Element;
 };
 export default code;

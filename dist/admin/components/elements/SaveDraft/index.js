@@ -26,6 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.SaveDraft = void 0;
 const react_1 = __importStar(require("react"));
 const react_i18next_1 = require("react-i18next");
 const Config_1 = require("../../utilities/Config");
@@ -33,9 +34,12 @@ const Submit_1 = __importDefault(require("../../forms/Submit"));
 const context_1 = require("../../forms/Form/context");
 const DocumentInfo_1 = require("../../utilities/DocumentInfo");
 const Locale_1 = require("../../utilities/Locale");
-require("./index.scss");
+const RenderCustomComponent_1 = __importDefault(require("../../utilities/RenderCustomComponent"));
 const baseClass = 'save-draft';
-const SaveDraft = () => {
+const DefaultSaveDraftButton = ({ disabled, saveDraft, label }) => {
+    return (react_1.default.createElement(Submit_1.default, { className: baseClass, type: "button", buttonStyle: "secondary", onClick: saveDraft, disabled: disabled }, label));
+};
+const SaveDraft = ({ CustomComponent }) => {
     const { serverURL, routes: { api } } = (0, Config_1.useConfig)();
     const { submit } = (0, context_1.useForm)();
     const { collection, global, id } = (0, DocumentInfo_1.useDocumentInfo)();
@@ -64,7 +68,12 @@ const SaveDraft = () => {
             },
         });
     }, [submit, collection, global, serverURL, api, locale, id]);
-    return (react_1.default.createElement(Submit_1.default, { className: baseClass, type: "button", buttonStyle: "secondary", onClick: saveDraft, disabled: !canSaveDraft }, t('saveDraft')));
+    return (react_1.default.createElement(RenderCustomComponent_1.default, { CustomComponent: CustomComponent, DefaultComponent: DefaultSaveDraftButton, componentProps: {
+            saveDraft,
+            disabled: !canSaveDraft,
+            label: t('saveDraft'),
+            DefaultButton: DefaultSaveDraftButton,
+        } }));
 };
-exports.default = SaveDraft;
+exports.SaveDraft = SaveDraft;
 //# sourceMappingURL=index.js.map

@@ -34,10 +34,12 @@ const Button_1 = __importDefault(require("../Button"));
 const Locale_1 = require("../../utilities/Locale");
 const DocumentInfo_1 = require("../../utilities/DocumentInfo");
 const Config_1 = require("../../utilities/Config");
-require("./index.scss");
+const RenderCustomComponent_1 = __importDefault(require("../../utilities/RenderCustomComponent"));
 const baseClass = 'preview-btn';
-const PreviewButton = (props) => {
-    const { generatePreviewURL, } = props;
+const DefaultPreviewButton = ({ preview, disabled, label }) => {
+    return (react_1.default.createElement(Button_1.default, { className: baseClass, buttonStyle: "secondary", onClick: preview, disabled: disabled }, label));
+};
+const PreviewButton = ({ CustomComponent, generatePreviewURL, }) => {
     const { id, collection, global } = (0, DocumentInfo_1.useDocumentInfo)();
     const [isLoading, setIsLoading] = (0, react_1.useState)(false);
     const locale = (0, Locale_1.useLocale)();
@@ -48,7 +50,7 @@ const PreviewButton = (props) => {
     // we need to regenerate the preview URL every time the button is clicked
     // to do this we need to fetch the document data fresh from the API
     // this will ensure the latest data is used when generating the preview URL
-    const handleClick = (0, react_1.useCallback)(async () => {
+    const preview = (0, react_1.useCallback)(async () => {
         if (!generatePreviewURL || isGeneratingPreviewURL.current)
             return;
         isGeneratingPreviewURL.current = true;
@@ -73,7 +75,12 @@ const PreviewButton = (props) => {
             react_toastify_1.toast.error(t('error:previewing'));
         }
     }, [serverURL, api, collection, global, id, generatePreviewURL, locale, token, t]);
-    return (react_1.default.createElement(Button_1.default, { className: baseClass, buttonStyle: "secondary", onClick: handleClick, disabled: isLoading || !generatePreviewURL }, isLoading ? t('general:loading') : t('preview')));
+    return (react_1.default.createElement(RenderCustomComponent_1.default, { CustomComponent: CustomComponent, DefaultComponent: DefaultPreviewButton, componentProps: {
+            preview,
+            disabled: isLoading || !generatePreviewURL,
+            label: isLoading ? t('general:loading') : t('preview'),
+            DefaultButton: DefaultPreviewButton,
+        } }));
 };
 exports.default = PreviewButton;
 //# sourceMappingURL=index.js.map

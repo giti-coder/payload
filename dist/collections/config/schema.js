@@ -44,11 +44,18 @@ const collectionSchema = joi_1.default.object().keys({
         hooks: joi_1.default.object({
             beforeDuplicate: joi_1.default.func(),
         }),
+        enableRichTextLink: joi_1.default.boolean(),
         enableRichTextRelationship: joi_1.default.boolean(),
         components: joi_1.default.object({
             views: joi_1.default.object({
                 List: componentSchema_1.componentSchema,
                 Edit: componentSchema_1.componentSchema,
+            }),
+            edit: joi_1.default.object({
+                SaveButton: componentSchema_1.componentSchema,
+                PublishButton: componentSchema_1.componentSchema,
+                SaveDraftButton: componentSchema_1.componentSchema,
+                PreviewButton: componentSchema_1.componentSchema,
             }),
         }),
         pagination: joi_1.default.object({

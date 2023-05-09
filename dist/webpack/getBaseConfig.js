@@ -59,11 +59,12 @@ exports.default = (config) => ({
             payload$: mockModulePath,
             'payload-user-css': config.admin.css,
             dotenv: mockDotENVPath,
+            react: path_1.default.resolve(__dirname, '../../node_modules/react'),
         },
         extensions: ['.ts', '.tsx', '.js', '.json'],
     },
     plugins: [
-        new webpack_1.default.ProvidePlugin({ process: 'process/browser' }),
+        new webpack_1.default.ProvidePlugin({ process: require.resolve('process/browser') }),
         new webpack_1.default.DefinePlugin(Object.entries(process.env).reduce((values, [key, val]) => {
             if (key.indexOf('PAYLOAD_PUBLIC_') === 0) {
                 return ({

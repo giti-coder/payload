@@ -1,9 +1,9 @@
-/// <reference types="react" />
+import React from 'react';
 declare const h1: {
-    Button: () => JSX.Element;
+    Button: () => React.JSX.Element;
     Element: ({ attributes, children }: {
         attributes: any;
         children: any;
-    }) => JSX.Element;
+    }) => React.JSX.Element;
 };
 export default h1;

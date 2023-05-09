@@ -10,7 +10,7 @@ const Config_1 = require("../../utilities/Config");
 const Eyebrow_1 = __importDefault(require("../../elements/Eyebrow"));
 const Form_1 = __importDefault(require("../../forms/Form"));
 const PreviewButton_1 = __importDefault(require("../../elements/PreviewButton"));
-const Submit_1 = __importDefault(require("../../forms/Submit"));
+const Save_1 = require("../../elements/Save");
 const RenderFields_1 = __importDefault(require("../../forms/RenderFields"));
 const CopyToClipboard_1 = __importDefault(require("../../elements/CopyToClipboard"));
 const field_types_1 = __importDefault(require("../../forms/field-types"));
@@ -28,7 +28,7 @@ const formatDate_1 = require("../../../utilities/formatDate");
 require("./index.scss");
 const baseClass = 'account';
 const DefaultAccount = (props) => {
-    var _a, _b, _c, _d, _e, _f, _g;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
     const { collection, data, permissions, hasSavePermission, apiURL, initialState, isLoading, action, onSave, } = props;
     const { slug, fields, admin: { useAsTitle, preview, }, timestamps, auth, } = collection;
     const { admin: { dateFormat }, routes: { admin } } = (0, Config_1.useConfig)();
@@ -64,8 +64,8 @@ const DefaultAccount = (props) => {
                                 react_1.default.createElement("li", null,
                                     react_1.default.createElement(react_router_dom_1.Link, { to: `${admin}/collections/${slug}/create` }, t('general:createNew')))))),
                             react_1.default.createElement("div", { className: `${baseClass}__document-actions${preview ? ` ${baseClass}__document-actions--with-preview` : ''}` },
-                                (preview && (!((_e = collection.versions) === null || _e === void 0 ? void 0 : _e.drafts) || ((_g = (_f = collection.versions) === null || _f === void 0 ? void 0 : _f.drafts) === null || _g === void 0 ? void 0 : _g.autosave))) && (react_1.default.createElement(PreviewButton_1.default, { generatePreviewURL: preview })),
-                                hasSavePermission && (react_1.default.createElement(Submit_1.default, { buttonId: "action-save" }, t('general:save')))),
+                                (preview && (!((_e = collection.versions) === null || _e === void 0 ? void 0 : _e.drafts) || ((_g = (_f = collection.versions) === null || _f === void 0 ? void 0 : _f.drafts) === null || _g === void 0 ? void 0 : _g.autosave))) && (react_1.default.createElement(PreviewButton_1.default, { generatePreviewURL: preview, CustomComponent: (_k = (_j = (_h = collection === null || collection === void 0 ? void 0 : collection.admin) === null || _h === void 0 ? void 0 : _h.components) === null || _j === void 0 ? void 0 : _j.edit) === null || _k === void 0 ? void 0 : _k.PreviewButton })),
+                                hasSavePermission && (react_1.default.createElement(Save_1.Save, { CustomComponent: (_o = (_m = (_l = collection === null || collection === void 0 ? void 0 : collection.admin) === null || _l === void 0 ? void 0 : _l.components) === null || _m === void 0 ? void 0 : _m.edit) === null || _o === void 0 ? void 0 : _o.SaveButton }))),
                             react_1.default.createElement("div", { className: `${baseClass}__sidebar-fields` },
                                 react_1.default.createElement(RenderFields_1.default, { permissions: permissions.fields, readOnly: !hasSavePermission, filter: (field) => { var _a; return ((_a = field === null || field === void 0 ? void 0 : field.admin) === null || _a === void 0 ? void 0 : _a.position) === 'sidebar'; }, fieldTypes: field_types_1.default, fieldSchema: fields })),
                             react_1.default.createElement("ul", { className: `${baseClass}__meta` },

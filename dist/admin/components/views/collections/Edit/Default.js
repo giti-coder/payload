@@ -10,7 +10,6 @@ const Config_1 = require("../../../utilities/Config");
 const Eyebrow_1 = __importDefault(require("../../../elements/Eyebrow"));
 const Form_1 = __importDefault(require("../../../forms/Form"));
 const PreviewButton_1 = __importDefault(require("../../../elements/PreviewButton"));
-const Submit_1 = __importDefault(require("../../../forms/Submit"));
 const RenderFields_1 = __importDefault(require("../../../forms/RenderFields"));
 const CopyToClipboard_1 = __importDefault(require("../../../elements/CopyToClipboard"));
 const DuplicateDocument_1 = __importDefault(require("../../../elements/DuplicateDocument"));
@@ -24,8 +23,9 @@ const VersionsCount_1 = __importDefault(require("../../../elements/VersionsCount
 const Upload_1 = __importDefault(require("./Upload"));
 const Autosave_1 = __importDefault(require("../../../elements/Autosave"));
 const Status_1 = __importDefault(require("../../../elements/Status"));
-const Publish_1 = __importDefault(require("../../../elements/Publish"));
-const SaveDraft_1 = __importDefault(require("../../../elements/SaveDraft"));
+const Publish_1 = require("../../../elements/Publish");
+const SaveDraft_1 = require("../../../elements/SaveDraft");
+const Save_1 = require("../../../elements/Save");
 const DocumentInfo_1 = require("../../../utilities/DocumentInfo");
 const OperationProvider_1 = require("../../../utilities/OperationProvider");
 const Gutter_1 = require("../../../elements/Gutter");
@@ -36,7 +36,7 @@ const formatDate_1 = require("../../../../utilities/formatDate");
 require("./index.scss");
 const baseClass = 'collection-edit';
 const DefaultEditView = (props) => {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7;
     const { admin: { dateFormat }, routes: { admin } } = (0, Config_1.useConfig)();
     const { publishedDoc } = (0, DocumentInfo_1.useDocumentInfo)();
     const { t, i18n } = (0, react_i18next_1.useTranslation)('general');
@@ -81,17 +81,15 @@ const DefaultEditView = (props) => {
                                             `${baseClass}__document-actions`,
                                             ((((_f = collection.versions) === null || _f === void 0 ? void 0 : _f.drafts) && !((_h = (_g = collection.versions) === null || _g === void 0 ? void 0 : _g.drafts) === null || _h === void 0 ? void 0 : _h.autosave)) || (isEditing && preview)) && `${baseClass}__document-actions--has-2`,
                                         ].filter(Boolean).join(' ') },
-                                        (isEditing && preview && (!((_j = collection.versions) === null || _j === void 0 ? void 0 : _j.drafts) || ((_l = (_k = collection.versions) === null || _k === void 0 ? void 0 : _k.drafts) === null || _l === void 0 ? void 0 : _l.autosave))) && (react_1.default.createElement(PreviewButton_1.default, { generatePreviewURL: preview })),
-                                        hasSavePermission && (react_1.default.createElement(react_1.default.Fragment, null,
-                                            ((_m = collection.versions) === null || _m === void 0 ? void 0 : _m.drafts) && (react_1.default.createElement(react_1.default.Fragment, null,
-                                                !collection.versions.drafts.autosave && (react_1.default.createElement(SaveDraft_1.default, null)),
-                                                react_1.default.createElement(Publish_1.default, null))),
-                                            !((_o = collection.versions) === null || _o === void 0 ? void 0 : _o.drafts) && (react_1.default.createElement(Submit_1.default, { buttonId: "action-save" }, t('save')))))),
+                                        (isEditing && preview && (!((_j = collection.versions) === null || _j === void 0 ? void 0 : _j.drafts) || ((_l = (_k = collection.versions) === null || _k === void 0 ? void 0 : _k.drafts) === null || _l === void 0 ? void 0 : _l.autosave))) && (react_1.default.createElement(PreviewButton_1.default, { generatePreviewURL: preview, CustomComponent: (_p = (_o = (_m = collection === null || collection === void 0 ? void 0 : collection.admin) === null || _m === void 0 ? void 0 : _m.components) === null || _o === void 0 ? void 0 : _o.edit) === null || _p === void 0 ? void 0 : _p.PreviewButton })),
+                                        hasSavePermission && (react_1.default.createElement(react_1.default.Fragment, null, ((_q = collection.versions) === null || _q === void 0 ? void 0 : _q.drafts) ? (react_1.default.createElement(react_1.default.Fragment, null,
+                                            !collection.versions.drafts.autosave && (react_1.default.createElement(SaveDraft_1.SaveDraft, { CustomComponent: (_t = (_s = (_r = collection === null || collection === void 0 ? void 0 : collection.admin) === null || _r === void 0 ? void 0 : _r.components) === null || _s === void 0 ? void 0 : _s.edit) === null || _t === void 0 ? void 0 : _t.SaveDraftButton })),
+                                            react_1.default.createElement(Publish_1.Publish, { CustomComponent: (_w = (_v = (_u = collection === null || collection === void 0 ? void 0 : collection.admin) === null || _u === void 0 ? void 0 : _u.components) === null || _v === void 0 ? void 0 : _v.edit) === null || _w === void 0 ? void 0 : _w.PublishButton }))) : (react_1.default.createElement(Save_1.Save, { CustomComponent: (_z = (_y = (_x = collection === null || collection === void 0 ? void 0 : collection.admin) === null || _x === void 0 ? void 0 : _x.components) === null || _y === void 0 ? void 0 : _y.edit) === null || _z === void 0 ? void 0 : _z.SaveButton }))))),
                                     react_1.default.createElement("div", { className: `${baseClass}__sidebar-fields` },
-                                        (isEditing && preview && (((_p = collection.versions) === null || _p === void 0 ? void 0 : _p.drafts) && !((_r = (_q = collection.versions) === null || _q === void 0 ? void 0 : _q.drafts) === null || _r === void 0 ? void 0 : _r.autosave))) && (react_1.default.createElement(PreviewButton_1.default, { generatePreviewURL: preview })),
-                                        ((_s = collection.versions) === null || _s === void 0 ? void 0 : _s.drafts) && (react_1.default.createElement(react_1.default.Fragment, null,
+                                        (isEditing && preview && (((_0 = collection.versions) === null || _0 === void 0 ? void 0 : _0.drafts) && !((_2 = (_1 = collection.versions) === null || _1 === void 0 ? void 0 : _1.drafts) === null || _2 === void 0 ? void 0 : _2.autosave))) && (react_1.default.createElement(PreviewButton_1.default, { generatePreviewURL: preview, CustomComponent: (_5 = (_4 = (_3 = collection === null || collection === void 0 ? void 0 : collection.admin) === null || _3 === void 0 ? void 0 : _3.components) === null || _4 === void 0 ? void 0 : _4.edit) === null || _5 === void 0 ? void 0 : _5.PreviewButton })),
+                                        ((_6 = collection.versions) === null || _6 === void 0 ? void 0 : _6.drafts) && (react_1.default.createElement(react_1.default.Fragment, null,
                                             react_1.default.createElement(Status_1.default, null),
-                                            (((_t = collection.versions) === null || _t === void 0 ? void 0 : _t.drafts.autosave) && hasSavePermission) && (react_1.default.createElement(Autosave_1.default, { publishedDocUpdatedAt: (publishedDoc === null || publishedDoc === void 0 ? void 0 : publishedDoc.updatedAt) || (data === null || data === void 0 ? void 0 : data.createdAt), collection: collection, id: id })))),
+                                            (((_7 = collection.versions) === null || _7 === void 0 ? void 0 : _7.drafts.autosave) && hasSavePermission) && (react_1.default.createElement(Autosave_1.default, { publishedDocUpdatedAt: (publishedDoc === null || publishedDoc === void 0 ? void 0 : publishedDoc.updatedAt) || (data === null || data === void 0 ? void 0 : data.createdAt), collection: collection, id: id })))),
                                         react_1.default.createElement(RenderFields_1.default, { readOnly: !hasSavePermission, permissions: permissions.fields, filter: (field) => { var _a; return ((_a = field === null || field === void 0 ? void 0 : field.admin) === null || _a === void 0 ? void 0 : _a.position) === 'sidebar'; }, fieldTypes: field_types_1.default, fieldSchema: fields })),
                                     isEditing && (react_1.default.createElement("ul", { className: `${baseClass}__meta` },
                                         !hideAPIURL && (react_1.default.createElement("li", { className: `${baseClass}__api-url` },

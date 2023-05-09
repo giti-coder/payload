@@ -26,12 +26,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Publish = void 0;
 const react_1 = __importStar(require("react"));
 const react_i18next_1 = require("react-i18next");
 const Submit_1 = __importDefault(require("../../forms/Submit"));
 const DocumentInfo_1 = require("../../utilities/DocumentInfo");
 const context_1 = require("../../forms/Form/context");
-const Publish = () => {
+const RenderCustomComponent_1 = __importDefault(require("../../utilities/RenderCustomComponent"));
+const DefaultPublishButton = ({ disabled, publish, label }) => {
+    return (react_1.default.createElement(Submit_1.default, { type: "button", onClick: publish, disabled: disabled }, label));
+};
+const Publish = ({ CustomComponent }) => {
     const { unpublishedVersions, publishedDoc } = (0, DocumentInfo_1.useDocumentInfo)();
     const { submit } = (0, context_1.useForm)();
     const modified = (0, context_1.useFormModified)();
@@ -45,7 +50,12 @@ const Publish = () => {
             },
         });
     }, [submit]);
-    return (react_1.default.createElement(Submit_1.default, { type: "button", onClick: publish, disabled: !canPublish }, t('publishChanges')));
+    return (react_1.default.createElement(RenderCustomComponent_1.default, { CustomComponent: CustomComponent, DefaultComponent: DefaultPublishButton, componentProps: {
+            publish,
+            disabled: !canPublish,
+            label: t('publishChanges'),
+            DefaultButton: DefaultPublishButton,
+        } }));
 };
-exports.default = Publish;
+exports.Publish = Publish;
 //# sourceMappingURL=index.js.map

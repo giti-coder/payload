@@ -1,5 +1,5 @@
-/// <reference types="react" />
+import React from 'react';
 declare const TextareaCell: ({ data }: {
     data: any;
-}) => JSX.Element;
+}) => React.JSX.Element;
 export default TextareaCell;

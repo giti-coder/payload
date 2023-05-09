@@ -1,3 +1,3 @@
-/// <reference types="react" />
-declare const Account: () => JSX.Element;
+import React from 'react';
+declare const Account: () => React.JSX.Element;
 export default Account;

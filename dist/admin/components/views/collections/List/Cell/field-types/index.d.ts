@@ -10,24 +10,24 @@ declare const _default: {
     }>;
     code: ({ data }: {
         data: any;
-    }) => JSX.Element;
+    }) => import("react").JSX.Element;
     checkbox: ({ data }: {
         data: any;
-    }) => JSX.Element;
+    }) => import("react").JSX.Element;
     date: ({ data, field }: {
         data: any;
         field: any;
-    }) => JSX.Element;
+    }) => import("react").JSX.Element;
     json: ({ data }: {
         data: any;
-    }) => JSX.Element;
+    }) => import("react").JSX.Element;
     relationship: import("react").FC<{
         field: import("../../../../../../../fields/config/types").UIField | import("../../../../../../../fields/config/types").FieldAffectingData;
         data: unknown;
     }>;
     richText: ({ data }: {
         data: any;
-    }) => JSX.Element;
+    }) => import("react").JSX.Element;
     select: import("react").FC<{
         data: any;
         field: import("../../../../../../../fields/config/types").SelectField;
@@ -38,7 +38,7 @@ declare const _default: {
     }>;
     textarea: ({ data }: {
         data: any;
-    }) => JSX.Element;
+    }) => import("react").JSX.Element;
     upload: import("react").FC<{
         field: import("../../../../../../../fields/config/types").UIField | import("../../../../../../../fields/config/types").FieldAffectingData;
         data: unknown;
@@ -47,6 +47,6 @@ declare const _default: {
         rowData: any;
         data: any;
         collection: any;
-    }) => JSX.Element;
+    }) => import("react").JSX.Element;
 };
 export default _default;

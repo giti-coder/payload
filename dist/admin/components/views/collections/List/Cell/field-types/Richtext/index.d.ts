@@ -1,5 +1,5 @@
-/// <reference types="react" />
+import React from 'react';
 declare const RichTextCell: ({ data }: {
     data: any;
-}) => JSX.Element;
+}) => React.JSX.Element;
 export default RichTextCell;

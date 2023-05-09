@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const ar_json_1 = __importDefault(require("./ar.json"));
 const cs_json_1 = __importDefault(require("./cs.json"));
 const de_json_1 = __importDefault(require("./de.json"));
 const en_json_1 = __importDefault(require("./en.json"));
@@ -27,6 +28,7 @@ const vi_json_1 = __importDefault(require("./vi.json"));
 const zh_json_1 = __importDefault(require("./zh.json"));
 const hu_json_1 = __importDefault(require("./hu.json"));
 exports.default = {
+    ar: ar_json_1.default,
     cs: cs_json_1.default,
     de: de_json_1.default,
     en: en_json_1.default,
