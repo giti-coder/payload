@@ -59,7 +59,6 @@ exports.default = (config) => ({
             payload$: mockModulePath,
             'payload-user-css': config.admin.css,
             dotenv: mockDotENVPath,
-            react: path_1.default.resolve(__dirname, '../../node_modules/react'),
         },
         extensions: ['.ts', '.tsx', '.js', '.json'],
     },

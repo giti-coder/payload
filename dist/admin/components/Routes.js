@@ -111,109 +111,55 @@ const Routes = () => {
                             }
                             return null;
                         }),
-                        react_1.default.createElement(react_router_dom_1.Route, { render: () => {
-                                if (user) {
-                                    if (canAccessAdmin) {
-                                        return (react_1.default.createElement(Default_1.default, null,
-                                            react_1.default.createElement(react_router_dom_1.Switch, null,
-                                                react_1.default.createElement(react_router_dom_1.Route, { path: `${match.url}/`, exact: true },
-                                                    react_1.default.createElement(Dashboard, null)),
-                                                react_1.default.createElement(react_router_dom_1.Route, { path: `${match.url}/account` },
-                                                    react_1.default.createElement(DocumentInfo_1.DocumentInfoProvider, { collection: collections.find(({ slug }) => slug === userSlug), id: user.id },
-                                                        react_1.default.createElement(Account, null))),
-                                                collections
-                                                    .filter(({ admin: { hidden } }) => !(typeof hidden === 'function' ? hidden({ user }) : hidden))
-                                                    .reduce((collectionRoutes, collection) => {
-                                                    const routesToReturn = [
-                                                        ...collectionRoutes,
-                                                        react_1.default.createElement(react_router_dom_1.Route, { key: `${collection.slug}-list`, path: `${match.url}/collections/${collection.slug}`, exact: true, render: (routeProps) => {
-                                                                var _a, _b, _c;
-                                                                if ((_c = (_b = (_a = permissions === null || permissions === void 0 ? void 0 : permissions.collections) === null || _a === void 0 ? void 0 : _a[collection.slug]) === null || _b === void 0 ? void 0 : _b.read) === null || _c === void 0 ? void 0 : _c.permission) {
-                                                                    return (react_1.default.createElement(List_1.default, { ...routeProps, collection: collection }));
-                                                                }
-                                                                return react_1.default.createElement(Unauthorized, null);
-                                                            } }),
-                                                        react_1.default.createElement(react_router_dom_1.Route, { key: `${collection.slug}-create`, path: `${match.url}/collections/${collection.slug}/create`, exact: true, render: (routeProps) => {
-                                                                var _a, _b, _c;
-                                                                if ((_c = (_b = (_a = permissions === null || permissions === void 0 ? void 0 : permissions.collections) === null || _a === void 0 ? void 0 : _a[collection.slug]) === null || _b === void 0 ? void 0 : _b.create) === null || _c === void 0 ? void 0 : _c.permission) {
-                                                                    return (react_1.default.createElement(DocumentInfo_1.DocumentInfoProvider, { collection: collection },
-                                                                        react_1.default.createElement(Edit, { ...routeProps, collection: collection })));
-                                                                }
-                                                                return react_1.default.createElement(Unauthorized, null);
-                                                            } }),
-                                                        react_1.default.createElement(react_router_dom_1.Route, { key: `${collection.slug}-edit`, path: `${match.url}/collections/${collection.slug}/:id`, exact: true, render: (routeProps) => {
-                                                                var _a, _b, _c;
-                                                                const { match: { params: { id } } } = routeProps;
-                                                                if ((_c = (_b = (_a = permissions === null || permissions === void 0 ? void 0 : permissions.collections) === null || _a === void 0 ? void 0 : _a[collection.slug]) === null || _b === void 0 ? void 0 : _b.read) === null || _c === void 0 ? void 0 : _c.permission) {
-                                                                    return (react_1.default.createElement(DocumentInfo_1.DocumentInfoProvider, { key: `${collection.slug}-edit-${id}-${locale}`, collection: collection, id: id },
-                                                                        react_1.default.createElement(Edit, { isEditing: true, ...routeProps, collection: collection })));
-                                                                }
-                                                                return react_1.default.createElement(Unauthorized, null);
-                                                            } }),
-                                                    ];
-                                                    if (collection.versions) {
-                                                        routesToReturn.push(react_1.default.createElement(react_router_dom_1.Route, { key: `${collection.slug}-versions`, path: `${match.url}/collections/${collection.slug}/:id/versions`, exact: true, render: (routeProps) => {
-                                                                var _a, _b, _c;
-                                                                if ((_c = (_b = (_a = permissions === null || permissions === void 0 ? void 0 : permissions.collections) === null || _a === void 0 ? void 0 : _a[collection.slug]) === null || _b === void 0 ? void 0 : _b.readVersions) === null || _c === void 0 ? void 0 : _c.permission) {
-                                                                    return (react_1.default.createElement(Versions_1.default, { ...routeProps, collection: collection }));
-                                                                }
-                                                                return react_1.default.createElement(Unauthorized, null);
-                                                            } }));
-                                                        routesToReturn.push(react_1.default.createElement(react_router_dom_1.Route, { key: `${collection.slug}-view-version`, path: `${match.url}/collections/${collection.slug}/:id/versions/:versionID`, exact: true, render: (routeProps) => {
-                                                                var _a, _b, _c;
-                                                                if ((_c = (_b = (_a = permissions === null || permissions === void 0 ? void 0 : permissions.collections) === null || _a === void 0 ? void 0 : _a[collection.slug]) === null || _b === void 0 ? void 0 : _b.readVersions) === null || _c === void 0 ? void 0 : _c.permission) {
-                                                                    return (react_1.default.createElement(DocumentInfo_1.DocumentInfoProvider, { collection: collection, id: routeProps.match.params.id },
-                                                                        react_1.default.createElement(Version_1.default, { ...routeProps, collection: collection })));
-                                                                }
-                                                                return react_1.default.createElement(Unauthorized, null);
-                                                            } }));
-                                                    }
-                                                    return routesToReturn;
-                                                }, []),
-                                                globals && globals
-                                                    .filter(({ admin: { hidden } }) => !(typeof hidden === 'function' ? hidden({ user }) : hidden))
-                                                    .reduce((globalRoutes, global) => {
-                                                    const routesToReturn = [
-                                                        ...globalRoutes,
-                                                        react_1.default.createElement(react_router_dom_1.Route, { key: `${global.slug}`, path: `${match.url}/globals/${global.slug}`, exact: true, render: (routeProps) => {
-                                                                var _a, _b, _c;
-                                                                if ((_c = (_b = (_a = permissions === null || permissions === void 0 ? void 0 : permissions.globals) === null || _a === void 0 ? void 0 : _a[global.slug]) === null || _b === void 0 ? void 0 : _b.read) === null || _c === void 0 ? void 0 : _c.permission) {
-                                                                    return (react_1.default.createElement(DocumentInfo_1.DocumentInfoProvider, { global: global, key: `${global.slug}-${locale}` },
-                                                                        react_1.default.createElement(EditGlobal, { ...routeProps, global: global })));
-                                                                }
-                                                                return react_1.default.createElement(Unauthorized, null);
-                                                            } }),
-                                                    ];
-                                                    if (global.versions) {
-                                                        routesToReturn.push(react_1.default.createElement(react_router_dom_1.Route, { key: `${global.slug}-versions`, path: `${match.url}/globals/${global.slug}/versions`, exact: true, render: (routeProps) => {
-                                                                var _a, _b, _c;
-                                                                if ((_c = (_b = (_a = permissions === null || permissions === void 0 ? void 0 : permissions.globals) === null || _a === void 0 ? void 0 : _a[global.slug]) === null || _b === void 0 ? void 0 : _b.readVersions) === null || _c === void 0 ? void 0 : _c.permission) {
-                                                                    return (react_1.default.createElement(Versions_1.default, { ...routeProps, global: global }));
-                                                                }
-                                                                return react_1.default.createElement(Unauthorized, null);
-                                                            } }));
-                                                        routesToReturn.push(react_1.default.createElement(react_router_dom_1.Route, { key: `${global.slug}-view-version`, path: `${match.url}/globals/${global.slug}/versions/:versionID`, exact: true, render: (routeProps) => {
-                                                                var _a, _b, _c;
-                                                                if ((_c = (_b = (_a = permissions === null || permissions === void 0 ? void 0 : permissions.globals) === null || _a === void 0 ? void 0 : _a[global.slug]) === null || _b === void 0 ? void 0 : _b.readVersions) === null || _c === void 0 ? void 0 : _c.permission) {
-                                                                    return (react_1.default.createElement(Version_1.default, { ...routeProps, global: global }));
-                                                                }
-                                                                return react_1.default.createElement(Unauthorized, null);
-                                                            } }));
-                                                    }
-                                                    return routesToReturn;
-                                                }, []),
-                                                react_1.default.createElement(react_router_dom_1.Route, { path: `${match.url}*` },
-                                                    react_1.default.createElement(NotFound, null)))));
-                                    }
-                                    if (canAccessAdmin === false) {
-                                        return react_1.default.createElement(Unauthorized, null);
-                                    }
-                                    return (
-                                    // user without admin panel access
-                                    react_1.default.createElement("div", null));
-                                }
-                                return react_1.default.createElement(react_router_dom_1.Redirect, { to: `${match.url}/login` });
-                            } }),
+                        react_1.default.createElement(react_router_dom_1.Route, null, user ? (react_1.default.createElement(react_1.Fragment, null,
+                            canAccessAdmin && (react_1.default.createElement(Default_1.default, null,
+                                react_1.default.createElement(react_router_dom_1.Switch, null,
+                                    react_1.default.createElement(react_router_dom_1.Route, { path: `${match.url}/`, exact: true },
+                                        react_1.default.createElement(Dashboard, null)),
+                                    react_1.default.createElement(react_router_dom_1.Route, { path: `${match.url}/account` },
+                                        react_1.default.createElement(DocumentInfo_1.DocumentInfoProvider, { collection: collections.find(({ slug }) => slug === userSlug), id: user.id },
+                                            react_1.default.createElement(Account, null))),
+                                    collections
+                                        .filter(({ admin: { hidden } }) => !(typeof hidden === 'function' ? hidden({ user }) : hidden))
+                                        .reduce((collectionRoutes, collection) => {
+                                        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q;
+                                        const routesToReturn = [
+                                            ...collectionRoutes,
+                                            react_1.default.createElement(react_router_dom_1.Route, { key: `${collection.slug}-list`, path: `${match.url}/collections/${collection.slug}`, exact: true }, ((_c = (_b = (_a = permissions === null || permissions === void 0 ? void 0 : permissions.collections) === null || _a === void 0 ? void 0 : _a[collection.slug]) === null || _b === void 0 ? void 0 : _b.read) === null || _c === void 0 ? void 0 : _c.permission)
+                                                ? react_1.default.createElement(List_1.default, { collection: collection })
+                                                : react_1.default.createElement(Unauthorized, null)),
+                                            react_1.default.createElement(react_router_dom_1.Route, { key: `${collection.slug}-create`, path: `${match.url}/collections/${collection.slug}/create`, exact: true }, ((_f = (_e = (_d = permissions === null || permissions === void 0 ? void 0 : permissions.collections) === null || _d === void 0 ? void 0 : _d[collection.slug]) === null || _e === void 0 ? void 0 : _e.create) === null || _f === void 0 ? void 0 : _f.permission) ? (react_1.default.createElement(DocumentInfo_1.DocumentInfoProvider, { collection: collection, idFromParams: true },
+                                                react_1.default.createElement(Edit, { collection: collection }))) : (react_1.default.createElement(Unauthorized, null))),
+                                            react_1.default.createElement(react_router_dom_1.Route, { key: `${collection.slug}-edit`, path: `${match.url}/collections/${collection.slug}/:id`, exact: true }, ((_j = (_h = (_g = permissions === null || permissions === void 0 ? void 0 : permissions.collections) === null || _g === void 0 ? void 0 : _g[collection.slug]) === null || _h === void 0 ? void 0 : _h.read) === null || _j === void 0 ? void 0 : _j.permission) ? (react_1.default.createElement(DocumentInfo_1.DocumentInfoProvider, { collection: collection, idFromParams: true },
+                                                react_1.default.createElement(Edit, { isEditing: true, collection: collection }))) : react_1.default.createElement(Unauthorized, null)),
+                                        ];
+                                        if (collection.versions) {
+                                            routesToReturn.push(react_1.default.createElement(react_router_dom_1.Route, { key: `${collection.slug}-versions`, path: `${match.url}/collections/${collection.slug}/:id/versions`, exact: true }, ((_m = (_l = (_k = permissions === null || permissions === void 0 ? void 0 : permissions.collections) === null || _k === void 0 ? void 0 : _k[collection.slug]) === null || _l === void 0 ? void 0 : _l.readVersions) === null || _m === void 0 ? void 0 : _m.permission) ? (react_1.default.createElement(Versions_1.default, { collection: collection })) : react_1.default.createElement(Unauthorized, null)));
+                                            routesToReturn.push(react_1.default.createElement(react_router_dom_1.Route, { key: `${collection.slug}-view-version`, path: `${match.url}/collections/${collection.slug}/:id/versions/:versionID`, exact: true }, ((_q = (_p = (_o = permissions === null || permissions === void 0 ? void 0 : permissions.collections) === null || _o === void 0 ? void 0 : _o[collection.slug]) === null || _p === void 0 ? void 0 : _p.readVersions) === null || _q === void 0 ? void 0 : _q.permission) ? (react_1.default.createElement(DocumentInfo_1.DocumentInfoProvider, { collection: collection, idFromParams: true },
+                                                react_1.default.createElement(Version_1.default, { collection: collection }))) : react_1.default.createElement(Unauthorized, null)));
+                                        }
+                                        return routesToReturn;
+                                    }, []),
+                                    globals && globals
+                                        .filter(({ admin: { hidden } }) => !(typeof hidden === 'function' ? hidden({ user }) : hidden))
+                                        .reduce((globalRoutes, global) => {
+                                        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+                                        const routesToReturn = [
+                                            ...globalRoutes,
+                                            react_1.default.createElement(react_router_dom_1.Route, { key: `${global.slug}`, path: `${match.url}/globals/${global.slug}`, exact: true }, ((_c = (_b = (_a = permissions === null || permissions === void 0 ? void 0 : permissions.globals) === null || _a === void 0 ? void 0 : _a[global.slug]) === null || _b === void 0 ? void 0 : _b.read) === null || _c === void 0 ? void 0 : _c.permission) ? (react_1.default.createElement(DocumentInfo_1.DocumentInfoProvider, { global: global, key: `${global.slug}-${locale}`, idFromParams: true },
+                                                react_1.default.createElement(EditGlobal, { global: global }))) : react_1.default.createElement(Unauthorized, null)),
+                                        ];
+                                        if (global.versions) {
+                                            routesToReturn.push(react_1.default.createElement(react_router_dom_1.Route, { key: `${global.slug}-versions`, path: `${match.url}/globals/${global.slug}/versions`, exact: true }, ((_f = (_e = (_d = permissions === null || permissions === void 0 ? void 0 : permissions.globals) === null || _d === void 0 ? void 0 : _d[global.slug]) === null || _e === void 0 ? void 0 : _e.readVersions) === null || _f === void 0 ? void 0 : _f.permission)
+                                                ? react_1.default.createElement(Versions_1.default, { global: global })
+                                                : react_1.default.createElement(Unauthorized, null)));
+                                            routesToReturn.push(react_1.default.createElement(react_router_dom_1.Route, { key: `${global.slug}-view-version`, path: `${match.url}/globals/${global.slug}/versions/:versionID`, exact: true }, ((_j = (_h = (_g = permissions === null || permissions === void 0 ? void 0 : permissions.globals) === null || _g === void 0 ? void 0 : _g[global.slug]) === null || _h === void 0 ? void 0 : _h.readVersions) === null || _j === void 0 ? void 0 : _j.permission) ? (react_1.default.createElement(Version_1.default, { global: global })) : react_1.default.createElement(Unauthorized, null)));
+                                        }
+                                        return routesToReturn;
+                                    }, []),
+                                    react_1.default.createElement(react_router_dom_1.Route, { path: `${match.url}*` },
+                                        react_1.default.createElement(NotFound, null))))),
+                            canAccessAdmin === false && (react_1.default.createElement(Unauthorized, null)))) : react_1.default.createElement(react_router_dom_1.Redirect, { to: `${match.url}/login` })),
                         react_1.default.createElement(react_router_dom_1.Route, { path: `${match.url}*` },
                             react_1.default.createElement(NotFound, null))));
                 }
@@ -221,5 +167,5 @@ const Routes = () => {
             } }),
         react_1.default.createElement(StayLoggedIn_1.default, { refreshCookie: refreshCookie })));
 };
-exports.default = (0, react_router_dom_1.withRouter)(Routes);
+exports.default = Routes;
 //# sourceMappingURL=Routes.js.map

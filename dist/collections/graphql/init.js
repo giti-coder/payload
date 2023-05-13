@@ -105,6 +105,7 @@ function initCollectionsGraphQL(payload) {
             baseFields,
             forceNullable: forceNullableObjectType,
         });
+        collection.graphQL.paginatedType = (0, buildPaginatedListType_1.default)(pluralName, collection.graphQL.type);
         collection.graphQL.whereInputType = (0, buildWhereInputType_1.default)(singularName, whereInputFields, singularName);
         if (config.auth && !config.auth.disableLocalStrategy) {
             fields.push({

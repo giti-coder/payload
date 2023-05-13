@@ -30,13 +30,16 @@ exports.DocumentInfoProvider = exports.useDocumentInfo = void 0;
 const react_1 = __importStar(require("react"));
 const qs_1 = __importDefault(require("qs"));
 const react_i18next_1 = require("react-i18next");
+const react_router_dom_1 = require("react-router-dom");
 const Config_1 = require("../Config");
 const Preferences_1 = require("../Preferences");
 const Auth_1 = require("../Auth");
 const Context = (0, react_1.createContext)({});
 const useDocumentInfo = () => (0, react_1.useContext)(Context);
 exports.useDocumentInfo = useDocumentInfo;
-const DocumentInfoProvider = ({ children, global, collection, id, }) => {
+const DocumentInfoProvider = ({ children, global, collection, id: idFromProps, idFromParams: getIDFromParams, }) => {
+    const { id: idFromParams } = (0, react_router_dom_1.useParams)();
+    const id = idFromProps || (getIDFromParams ? idFromParams : null);
     const { serverURL, routes: { api } } = (0, Config_1.useConfig)();
     const { getPreference } = (0, Preferences_1.usePreferences)();
     const { i18n } = (0, react_i18next_1.useTranslation)();

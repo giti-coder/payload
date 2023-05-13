@@ -79,6 +79,7 @@ function createImageName(outputImage, bufferObject, extension) {
 }
 function needsResize(desiredSize, dimensions) {
     return (typeof desiredSize.width === 'number' && desiredSize.width <= dimensions.width)
-        || (typeof desiredSize.height === 'number' && desiredSize.height <= dimensions.height);
+        || (typeof desiredSize.height === 'number' && desiredSize.height <= dimensions.height)
+        || (!desiredSize.height && !desiredSize.width);
 }
 //# sourceMappingURL=imageResizer.js.map
