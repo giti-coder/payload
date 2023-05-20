@@ -5,9 +5,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const pino_1 = __importDefault(require("pino"));
 const defaultLoggerOptions = {
-    prettyPrint: {
-        ignore: 'pid,hostname',
-        translateTime: 'HH:MM:ss',
+    transport: {
+        target: 'pino-pretty',
+        options: {
+            colorize: true,
+            ignore: 'pid,hostname',
+            translateTime: 'HH:MM:ss',
+        },
     },
 };
 const getLogger = (name = 'payload', options) => (0, pino_1.default)({
