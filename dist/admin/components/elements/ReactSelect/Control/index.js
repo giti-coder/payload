@@ -7,7 +7,7 @@ exports.Control = void 0;
 const react_1 = __importDefault(require("react"));
 const react_select_1 = require("react-select");
 const Control = (props) => {
-    const { children, innerProps, selectProps: { selectProps: { disableMouseDown, disableKeyDown, }, }, } = props;
+    const { children, innerProps, customProps: { disableMouseDown, disableKeyDown, } = {}, } = props;
     return (react_1.default.createElement(react_select_1.components.Control, { ...props, innerProps: {
             ...innerProps,
             onMouseDown: (e) => {

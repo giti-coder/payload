@@ -1,4 +1,24 @@
 /// <reference types="react" />
+import { CommonProps, GroupBase, Props as ReactSelectStateManagerProps } from 'react-select';
+import { DocumentDrawerProps } from '../DocumentDrawer/types';
+type CustomSelectProps = {
+    disableMouseDown?: boolean;
+    disableKeyDown?: boolean;
+    droppableRef?: React.RefObject<HTMLDivElement>;
+    setDrawerIsOpen?: (isOpen: boolean) => void;
+    onSave?: DocumentDrawerProps['onSave'];
+    draggableProps?: any;
+};
+declare module 'react-select/dist/declarations/src/Select' {
+    interface Props<Option, IsMulti extends boolean, Group extends GroupBase<Option>> {
+        customProps?: CustomSelectProps;
+    }
+}
+declare module 'react-select/dist/declarations/src' {
+    interface CommonPropsAndClassName<Option, IsMulti extends boolean, Group extends GroupBase<Option>> extends CommonProps<Option, IsMulti, Group> {
+        customProps?: ReactSelectStateManagerProps<Option, IsMulti, Group> & CustomSelectProps;
+    }
+}
 export type Option = {
     [key: string]: unknown;
     value: unknown;
@@ -20,7 +40,6 @@ export type Props = {
     isLoading?: boolean;
     isOptionSelected?: any;
     isSortable?: boolean;
-    isDisabled?: boolean;
     onInputChange?: (val: string) => void;
     onMenuScrollToBottom?: () => void;
     placeholder?: string;
@@ -35,9 +54,6 @@ export type Props = {
     components?: {
         [key: string]: React.FC<any>;
     };
-    selectProps?: {
-        disableMouseDown?: boolean;
-        disableKeyDown?: boolean;
-        [key: string]: unknown;
-    };
+    selectProps?: CustomSelectProps;
 };
+export {};

@@ -193,7 +193,7 @@ const RichText = (props) => {
         react_1.default.createElement("div", { className: `${baseClass}__wrap` },
             react_1.default.createElement(Error_1.default, { showError: showError, message: errorMessage }),
             react_1.default.createElement(Label_1.default, { htmlFor: `field-${path.replace(/\./gi, '__')}`, label: label, required: required }),
-            react_1.default.createElement(slate_react_1.Slate, { key: JSON.stringify(initialValue), editor: editor, value: valueToRender, onChange: handleChange },
+            react_1.default.createElement(slate_react_1.Slate, { key: JSON.stringify({ initialValue, path }), editor: editor, value: valueToRender, onChange: handleChange },
                 react_1.default.createElement("div", { className: `${baseClass}__wrapper` },
                     react_1.default.createElement("div", { className: [
                             `${baseClass}__toolbar`,

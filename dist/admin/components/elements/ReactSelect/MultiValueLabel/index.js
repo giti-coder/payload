@@ -9,7 +9,7 @@ const react_select_1 = require("react-select");
 require("./index.scss");
 const baseClass = 'multi-value-label';
 const MultiValueLabel = (props) => {
-    const { selectProps: { draggableProps, }, } = props;
+    const { customProps: { draggableProps, } = {}, } = props;
     return (react_1.default.createElement("div", { className: baseClass },
         react_1.default.createElement(react_select_1.components.MultiValueLabel, { ...props, innerProps: {
                 className: `${baseClass}__text`,

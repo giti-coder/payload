@@ -27,7 +27,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importDefault(require("react"));
-const react_diff_viewer_1 = __importStar(require("react-diff-viewer"));
+const react_diff_viewer_continued_1 = __importStar(require("react-diff-viewer-continued"));
 const react_i18next_1 = require("react-i18next");
 const Label_1 = __importDefault(require("../../Label"));
 const styles_1 = require("../styles");
@@ -51,7 +51,7 @@ const Text = ({ field, locale, version, comparison, isRichText = false, diffMeth
         react_1.default.createElement(Label_1.default, null,
             locale && (react_1.default.createElement("span", { className: `${baseClass}__locale-label` }, locale)),
             (0, getTranslation_1.getTranslation)(field.label, i18n)),
-        react_1.default.createElement(react_diff_viewer_1.default, { styles: styles_1.diffStyles, compareMethod: react_diff_viewer_1.DiffMethod[diffMethod], oldValue: typeof comparisonToRender !== 'undefined' ? String(comparisonToRender) : placeholder, newValue: typeof versionToRender !== 'undefined' ? String(versionToRender) : placeholder, splitView: true, hideLineNumbers: true, showDiffOnly: false })));
+        react_1.default.createElement(react_diff_viewer_continued_1.default, { styles: styles_1.diffStyles, compareMethod: react_diff_viewer_continued_1.DiffMethod[diffMethod], oldValue: typeof comparisonToRender !== 'undefined' ? String(comparisonToRender) : placeholder, newValue: typeof versionToRender !== 'undefined' ? String(versionToRender) : placeholder, splitView: true, hideLineNumbers: true, showDiffOnly: false })));
 };
 exports.default = Text;
 //# sourceMappingURL=index.js.map

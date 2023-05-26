@@ -40,7 +40,7 @@ const DocumentDrawer_1 = require("../../../../elements/DocumentDrawer");
 const Config_1 = require("../../../../utilities/Config");
 require("./index.scss");
 const baseClass = 'relationship-add-new';
-const AddNewRelation = ({ path, hasMany, relationTo, value, setValue, dispatchOptions }) => {
+const AddNewRelation = ({ path, hasMany, relationTo, value, setValue, dispatchOptions, }) => {
     const relatedCollections = (0, useRelatedCollections_1.useRelatedCollections)(relationTo);
     const { permissions } = (0, Auth_1.useAuth)();
     const [show, setShow] = (0, react_1.useState)(false);
@@ -54,28 +54,36 @@ const AddNewRelation = ({ path, hasMany, relationTo, value, setValue, dispatchOp
     const [DocumentDrawer, DocumentDrawerToggler, { toggleDrawer, isDrawerOpen },] = (0, DocumentDrawer_1.useDocumentDrawer)({
         collectionSlug: collectionConfig === null || collectionConfig === void 0 ? void 0 : collectionConfig.slug,
     });
-    const onSave = (0, react_1.useCallback)((json) => {
-        const newValue = Array.isArray(relationTo) ? {
-            relationTo: collectionConfig.slug,
-            value: json.doc.id,
-        } : json.doc.id;
-        dispatchOptions({
-            type: 'ADD',
-            collection: collectionConfig,
-            docs: [
-                json.doc,
-            ],
-            sort: true,
-            i18n,
-            config,
-        });
-        if (hasMany) {
-            setValue([...(Array.isArray(value) ? value : []), newValue]);
+    const onSave = (0, react_1.useCallback)(({ operation, doc, }) => {
+        if (operation === 'create') {
+            const newValue = Array.isArray(relationTo) ? {
+                relationTo: collectionConfig.slug,
+                value: doc.id,
+            } : doc.id;
+            // ensure the value is not already in the array
+            const isNewValue = Array.isArray(relationTo) && Array.isArray(value)
+                ? !value.some((v) => v && typeof v === 'object' && v.value === doc.id)
+                : value !== doc.id;
+            if (isNewValue) {
+                dispatchOptions({
+                    type: 'ADD',
+                    collection: collectionConfig,
+                    docs: [
+                        doc,
+                    ],
+                    sort: true,
+                    i18n,
+                    config,
+                });
+                if (hasMany) {
+                    setValue([...(Array.isArray(value) ? value : []), newValue]);
+                }
+                else {
+                    setValue(newValue);
+                }
+            }
+            setSelectedCollection(undefined);
         }
-        else {
-            setValue(newValue);
-        }
-        setSelectedCollection(undefined);
     }, [relationTo, collectionConfig, dispatchOptions, i18n, hasMany, setValue, value, config]);
     const onPopopToggle = (0, react_1.useCallback)((state) => {
         setPopupOpen(state);

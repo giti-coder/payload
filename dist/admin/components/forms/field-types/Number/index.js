@@ -110,7 +110,7 @@ const NumberField = (props) => {
         } },
         react_1.default.createElement(Error_1.default, { showError: showError, message: errorMessage }),
         react_1.default.createElement(Label_1.default, { htmlFor: `field-${path.replace(/\./gi, '__')}`, label: label, required: required }),
-        hasMany ? (react_1.default.createElement(ReactSelect_1.default, { className: `field-${path.replace(/\./gi, '__')}`, placeholder: t('general:enterAValue'), onChange: onMultiTextChange, value: valueToRender, showError: showError, isDisabled: readOnly, options: [], isMultiText: true, isMulti: true, isSortable: true, isClearable: true })) : (react_1.default.createElement("input", { id: `field-${path.replace(/\./gi, '__')}`, value: typeof value === 'number' ? value : '', onChange: handleChange, disabled: readOnly, placeholder: (0, getTranslation_1.getTranslation)(placeholder, i18n), type: "number", name: path, step: step, onWheel: (e) => {
+        hasMany ? (react_1.default.createElement(ReactSelect_1.default, { className: `field-${path.replace(/\./gi, '__')}`, placeholder: t('general:enterAValue'), onChange: onMultiTextChange, value: valueToRender, showError: showError, disabled: readOnly, options: [], isMultiText: true, isMulti: true, isSortable: true, isClearable: true })) : (react_1.default.createElement("input", { id: `field-${path.replace(/\./gi, '__')}`, value: typeof value === 'number' ? value : '', onChange: handleChange, disabled: readOnly, placeholder: (0, getTranslation_1.getTranslation)(placeholder, i18n), type: "number", name: path, step: step, onWheel: (e) => {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 e.target.blur();

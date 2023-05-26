@@ -229,6 +229,7 @@ const relationship = async (value, options) => {
     if (!canUseDOM_1.default && typeof value !== 'undefined' && value !== null) {
         const values = Array.isArray(value) ? value : [value];
         const invalidRelationships = values.filter((val) => {
+            var _a, _b, _c;
             let collection;
             let requestedID;
             if (typeof relationTo === 'string') {
@@ -242,7 +243,9 @@ const relationship = async (value, options) => {
                 collection = val.relationTo;
                 requestedID = val.value;
             }
-            const idField = payload.collections[collection].config.fields.find((field) => (0, types_1.fieldAffectsData)(field) && field.name === 'id');
+            if (requestedID === null)
+                return false;
+            const idField = (_c = (_b = (_a = payload.collections[collection]) === null || _a === void 0 ? void 0 : _a.config) === null || _b === void 0 ? void 0 : _b.fields) === null || _c === void 0 ? void 0 : _c.find((field) => (0, types_1.fieldAffectsData)(field) && field.name === 'id');
             let type;
             if (idField) {
                 type = idField.type === 'number' ? 'number' : 'text';

@@ -49,9 +49,9 @@ export type GraphQLExtension = (graphQL: typeof GraphQL, payload: Payload) => Re
 export type InitOptions = {
     /** Express app for Payload to use */
     express?: Express;
-    /** Mongo connection URL, starts with `mongo` */
+    /** MongoDB connection URL, starts with `mongo` */
     mongoURL: string | false;
-    /** Extra configuration options that will be passed to Mongo */
+    /** Extra configuration options that will be passed to MongoDB */
     mongoOptions?: ConnectOptions & {
         /** Set false to disable $facet aggregation in non-supporting databases, Defaults to true */
         useFacet?: boolean;
@@ -88,7 +88,7 @@ export type InitOptions = {
  * and then sent to the client allowing the dashboard to show accessible data and actions.
  *
  * If the result is `true`, the user has access.
- * If the result is an object, it is interpreted as a Mongo query.
+ * If the result is an object, it is interpreted as a MongoDB query.
  *
  * @example `{ createdBy: { equals: id } }`
  *

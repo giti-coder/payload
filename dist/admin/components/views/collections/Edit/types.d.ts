@@ -9,7 +9,12 @@ export type IndexProps = {
 };
 export type Props = IndexProps & {
     data: Document;
-    onSave?: () => void;
+    onSave?: (json: Record<string, unknown> & {
+        doc: Record<string, any>;
+        message: string;
+        collectionConfig: SanitizedCollectionConfig;
+        operation: 'create' | 'update';
+    }) => void;
     id?: string;
     permissions: CollectionPermission;
     isLoading: boolean;

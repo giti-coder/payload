@@ -10,7 +10,7 @@ const useDraggableSortable_1 = require("../../DraggableSortable/useDraggableSort
 require("./index.scss");
 const baseClass = 'multi-value';
 const MultiValue = (props) => {
-    const { className, isDisabled, innerProps, data: { value, }, selectProps: { selectProps, selectProps: { disableMouseDown, }, }, } = props;
+    const { className, isDisabled, innerProps, data: { value, }, customProps: { disableMouseDown, } = {}, } = props;
     const { attributes, listeners, setNodeRef, transform, isDragging, } = (0, useDraggableSortable_1.useDraggableSortable)({
         id: value.toString(),
     });
@@ -22,6 +22,8 @@ const MultiValue = (props) => {
     ].filter(Boolean).join(' ');
     return (react_1.default.createElement(react_select_1.components.MultiValue, { ...props, className: classes, innerProps: {
             ...innerProps,
+            ...attributes,
+            ...listeners,
             ref: setNodeRef,
             onMouseDown: (e) => {
                 if (!disableMouseDown) {
@@ -32,13 +34,6 @@ const MultiValue = (props) => {
             },
             style: {
                 transform,
-            },
-        }, selectProps: {
-            ...selectProps,
-            // pass the draggable props through to the label so it alone acts as the draggable handle
-            draggableProps: {
-                ...attributes,
-                ...listeners,
             },
         } }));
 };

@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importDefault(require("react"));
-const react_diff_viewer_1 = __importDefault(require("react-diff-viewer"));
+const react_diff_viewer_continued_1 = __importDefault(require("react-diff-viewer-continued"));
 const react_i18next_1 = require("react-i18next");
 const Config_1 = require("../../../../../utilities/Config");
 const Locale_1 = require("../../../../../utilities/Locale");
@@ -71,7 +71,7 @@ const Relationship = ({ field, version, comparison }) => {
         react_1.default.createElement(Label_1.default, null,
             locale && (react_1.default.createElement("span", { className: `${baseClass}__locale-label` }, locale)),
             (0, getTranslation_1.getTranslation)(field.label, i18n)),
-        react_1.default.createElement(react_diff_viewer_1.default, { styles: styles_1.diffStyles, oldValue: typeof comparisonToRender !== 'undefined' ? String(comparisonToRender) : placeholder, newValue: typeof versionToRender !== 'undefined' ? String(versionToRender) : placeholder, splitView: true, hideLineNumbers: true, showDiffOnly: false })));
+        react_1.default.createElement(react_diff_viewer_continued_1.default, { styles: styles_1.diffStyles, oldValue: typeof comparisonToRender !== 'undefined' ? String(comparisonToRender) : placeholder, newValue: typeof versionToRender !== 'undefined' ? String(versionToRender) : placeholder, splitView: true, hideLineNumbers: true, showDiffOnly: false })));
     return null;
 };
 exports.default = Relationship;

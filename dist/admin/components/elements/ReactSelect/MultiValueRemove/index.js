@@ -11,12 +11,15 @@ const Tooltip_1 = __importDefault(require("../../Tooltip"));
 require("./index.scss");
 const baseClass = 'multi-value-remove';
 const MultiValueRemove = (props) => {
-    const { innerProps, } = props;
+    const { innerProps: { className, onClick, onTouchEnd, }, } = props;
     const [showTooltip, setShowTooltip] = react_1.default.useState(false);
     const { t } = (0, react_i18next_1.useTranslation)('general');
-    return (react_1.default.createElement("button", { ...innerProps, type: "button", className: baseClass, onMouseEnter: () => setShowTooltip(true), onMouseLeave: () => setShowTooltip(false), onClick: (e) => {
+    return (react_1.default.createElement("button", { type: "button", className: [
+            baseClass,
+            className,
+        ].filter(Boolean).join(' '), onMouseEnter: () => setShowTooltip(true), onMouseLeave: () => setShowTooltip(false), onTouchEnd: onTouchEnd, onClick: (e) => {
             setShowTooltip(false);
-            innerProps.onClick(e);
+            onClick(e);
         }, "aria-label": t('remove') },
         react_1.default.createElement(Tooltip_1.default, { className: `${baseClass}__tooltip`, show: showTooltip }, t('remove')),
         react_1.default.createElement(X_1.default, { className: `${baseClass}__icon` })));

@@ -48,7 +48,7 @@ const baseClass = 'btn';
 const ButtonContents = ({ children, icon, tooltip, showTooltip }) => {
     const BuiltInIcon = icons[icon];
     return (react_1.default.createElement(react_1.Fragment, null,
-        react_1.default.createElement(Tooltip_1.default, { className: `${baseClass}__tooltip`, show: showTooltip }, tooltip),
+        tooltip && (react_1.default.createElement(Tooltip_1.default, { className: `${baseClass}__tooltip`, show: showTooltip }, tooltip)),
         react_1.default.createElement("span", { className: `${baseClass}__content` },
             children && (react_1.default.createElement("span", { className: `${baseClass}__label` }, children)),
             icon && (react_1.default.createElement("span", { className: `${baseClass}__icon` },

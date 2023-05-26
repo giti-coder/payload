@@ -269,7 +269,6 @@ function buildObjectType({ payload, name, fields, parentName, baseFields = {}, f
                         relatedCollectionSlug = value.relationTo;
                     }
                     if (id) {
-                        id = id.toString();
                         const relatedDocument = await context.req.payloadDataLoader.load(JSON.stringify([
                             relatedCollectionSlug,
                             id,

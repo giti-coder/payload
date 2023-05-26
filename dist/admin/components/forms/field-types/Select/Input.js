@@ -46,7 +46,7 @@ const SelectInput = (props) => {
         } },
         react_1.default.createElement(Error_1.default, { showError: showError, message: errorMessage }),
         react_1.default.createElement(Label_1.default, { htmlFor: `field-${path.replace(/\./gi, '__')}`, label: label, required: required }),
-        react_1.default.createElement(ReactSelect_1.default, { onChange: onChange, value: valueToRender, showError: showError, isDisabled: readOnly, options: options.map((option) => ({ ...option, label: (0, getTranslation_1.getTranslation)(option.label, i18n) })), isMulti: hasMany, isSortable: isSortable, isClearable: isClearable }),
+        react_1.default.createElement(ReactSelect_1.default, { onChange: onChange, value: valueToRender, showError: showError, disabled: readOnly, options: options.map((option) => ({ ...option, label: (0, getTranslation_1.getTranslation)(option.label, i18n) })), isMulti: hasMany, isSortable: isSortable, isClearable: isClearable }),
         react_1.default.createElement(FieldDescription_1.default, { value: value, description: description })));
 };
 exports.default = SelectInput;

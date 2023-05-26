@@ -20,6 +20,9 @@ function initCollectionsLocal(ctx) {
         if (collection.auth && !collection.auth.disableLocalStrategy) {
             schema.plugin(passport_local_mongoose_1.default, {
                 usernameField: 'email',
+                errorMessages: {
+                    UserExistsError: 'A user with the given email is already registered',
+                },
             });
             const { maxLoginAttempts, lockTime } = collection.auth;
             if (maxLoginAttempts > 0) {

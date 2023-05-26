@@ -189,7 +189,12 @@ const DocumentInfoProvider = ({ children, global, collection, id: idFromProps, i
             docAccessURL = `/${slug}/access/${id}`;
         }
         if (docAccessURL) {
-            const res = await fetch(`${serverURL}${api}${docAccessURL}`);
+            const res = await fetch(`${serverURL}${api}${docAccessURL}`, {
+                credentials: 'include',
+                headers: {
+                    'Accept-Language': i18n.language,
+                },
+            });
             const json = await res.json();
             setDocPermissions(json);
         }
@@ -198,7 +203,7 @@ const DocumentInfoProvider = ({ children, global, collection, id: idFromProps, i
             // (i.e. create has no id)
             setDocPermissions(permissions[pluralType][slug]);
         }
-    }, [serverURL, api, pluralType, slug, id, permissions]);
+    }, [serverURL, api, pluralType, slug, id, permissions, i18n.language]);
     (0, react_1.useEffect)(() => {
         getVersions();
     }, [getVersions]);

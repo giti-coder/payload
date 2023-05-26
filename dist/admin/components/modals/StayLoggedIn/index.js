@@ -17,7 +17,7 @@ const StayLoggedInModal = (props) => {
     const { refreshCookie } = props;
     const history = (0, react_router_dom_1.useHistory)();
     const config = (0, Config_1.useConfig)();
-    const { routes: { admin }, admin: { logoutRoute } } = config;
+    const { routes: { admin }, admin: { logoutRoute, }, } = config;
     const { toggleModal } = (0, modal_1.useModal)();
     const { t } = (0, react_i18next_1.useTranslation)('authentication');
     return (react_1.default.createElement(modal_1.Modal, { className: baseClass, slug: "stay-logged-in" },

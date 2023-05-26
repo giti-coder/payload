@@ -15,7 +15,10 @@ const appendVersionToQueryKey = (query) => {
                 [`version.${key}`]: val,
             };
         }
-        return res;
+        return {
+            ...res,
+            _id: val,
+        };
     }, {});
 };
 exports.appendVersionToQueryKey = appendVersionToQueryKey;

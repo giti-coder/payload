@@ -1,5 +1,5 @@
 import React from 'react';
-import { Props } from './types';
+import { Props as ReactSelectAdapterProps } from './types';
 import './index.scss';
-declare const ReactSelect: React.FC<Props>;
+declare const ReactSelect: React.FC<ReactSelectAdapterProps>;
 export default ReactSelect;

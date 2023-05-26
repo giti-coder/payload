@@ -46,12 +46,15 @@ const batchAndLoadDocs = (req) => async (keys) => {
         ];
         const batchKey = JSON.stringify(batchKeyArray);
         const idField = (_a = payload.collections) === null || _a === void 0 ? void 0 : _a[collection].config.fields.find((field) => (0, types_1.fieldAffectsData)(field) && field.name === 'id');
-        if ((0, isValidID_1.isValidID)(id, (0, getIDType_1.getIDType)(idField))) {
+        let sanitizedID = id;
+        if ((idField === null || idField === void 0 ? void 0 : idField.type) === 'number')
+            sanitizedID = parseFloat(id);
+        if ((0, isValidID_1.isValidID)(sanitizedID, (0, getIDType_1.getIDType)(idField))) {
             return {
                 ...batches,
                 [batchKey]: [
                     ...batches[batchKey] || [],
-                    id,
+                    sanitizedID,
                 ],
             };
         }

@@ -1,4 +1,3 @@
-import { GraphQLInputObjectType, GraphQLType } from 'graphql';
+import { GraphQLInputObjectType } from 'graphql';
 import { FieldAffectingData } from '../../fields/config/types';
-declare const withOperators: (field: FieldAffectingData, type: GraphQLType, parentName: string, operators: string[]) => GraphQLInputObjectType;
-export default withOperators;
+export declare const withOperators: (field: FieldAffectingData, parentName: string) => GraphQLInputObjectType;

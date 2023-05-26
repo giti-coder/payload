@@ -310,7 +310,7 @@ const Relationship = (props) => {
         react_1.default.createElement(Label_1.default, { htmlFor: pathOrName, label: label, required: required }),
         react_1.default.createElement(GetFilterOptions_1.GetFilterOptions, { ...{ filterOptionsResult, setFilterOptionsResult, filterOptions, path: pathOrName, relationTo } }),
         !errorLoading && (react_1.default.createElement("div", { className: `${baseClass}__wrap` },
-            react_1.default.createElement(ReactSelect_1.default, { isDisabled: readOnly, onInputChange: (newSearch) => handleInputChange(newSearch, value), onChange: !readOnly ? (selected) => {
+            react_1.default.createElement(ReactSelect_1.default, { disabled: readOnly || formProcessing, onInputChange: (newSearch) => handleInputChange(newSearch, value), onChange: !readOnly ? (selected) => {
                     if (selected === null) {
                         setValue(hasMany ? [] : null);
                     }
@@ -342,7 +342,7 @@ const Relationship = (props) => {
                         value: initialValue,
                         sort: false,
                     });
-                }, value: valueToRender !== null && valueToRender !== void 0 ? valueToRender : null, showError: showError, disabled: formProcessing, options: options, isMulti: hasMany, isSortable: isSortable, isLoading: isLoading, components: {
+                }, value: valueToRender !== null && valueToRender !== void 0 ? valueToRender : null, showError: showError, options: options, isMulti: hasMany, isSortable: isSortable, isLoading: isLoading, components: {
                     SingleValue: SingleValue_1.SingleValue,
                     MultiValueLabel: MultiValueLabel_1.MultiValueLabel,
                 }, selectProps: {
@@ -365,7 +365,7 @@ const Relationship = (props) => {
                     const r = (0, wordBoundariesRegex_1.default)(searchFilter || '');
                     return r.test(item.label);
                 } : undefined }),
-            !readOnly && allowCreate && (react_1.default.createElement(AddNew_1.AddNewRelation, { ...{ path: pathOrName, hasMany, relationTo, value, setValue, dispatchOptions } })))),
+            !readOnly && allowCreate && (react_1.default.createElement(AddNew_1.AddNewRelation, { ...{ path: pathOrName, hasMany, relationTo, value, setValue, dispatchOptions, options } })))),
         errorLoading && (react_1.default.createElement("div", { className: `${baseClass}__error-loading` }, errorLoading)),
         react_1.default.createElement(FieldDescription_1.default, { value: value, description: description })));
 };

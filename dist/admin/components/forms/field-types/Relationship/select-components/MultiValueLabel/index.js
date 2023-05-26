@@ -38,7 +38,7 @@ require("./index.scss");
 const baseClass = 'relationship--multi-value-label';
 const MultiValueLabel = (props) => {
     var _a, _b, _c;
-    const { data: { value, relationTo, label, }, selectProps: { setDrawerIsOpen, draggableProps, onSave, }, } = props;
+    const { data: { value, relationTo, label, }, customProps: { setDrawerIsOpen, draggableProps, onSave, } = {}, } = props;
     const { permissions } = (0, Auth_1.useAuth)();
     const [showTooltip, setShowTooltip] = (0, react_1.useState)(false);
     const { t } = (0, react_i18next_1.useTranslation)('general');
@@ -58,7 +58,7 @@ const MultiValueLabel = (props) => {
                     ...draggableProps || {},
                 } })),
         relationTo && hasReadPermission && (react_1.default.createElement(react_1.Fragment, null,
-            react_1.default.createElement(DocumentDrawerToggler, { className: `${baseClass}__drawer-toggler`, "aria-label": `Edit ${label}`, onMouseEnter: () => setShowTooltip(true), onMouseLeave: () => setShowTooltip(false), onClick: () => setShowTooltip(false) },
+            react_1.default.createElement(DocumentDrawerToggler, { className: `${baseClass}__drawer-toggler`, "aria-label": `Edit ${label}`, onTouchEnd: (e) => e.stopPropagation(), onMouseDown: (e) => e.stopPropagation(), onMouseEnter: () => setShowTooltip(true), onMouseLeave: () => setShowTooltip(false), onClick: () => setShowTooltip(false) },
                 react_1.default.createElement(Tooltip_1.default, { className: `${baseClass}__tooltip`, show: showTooltip }, t('editLabel', { label: '' })),
                 react_1.default.createElement(Edit_1.default, null)),
             react_1.default.createElement(DocumentDrawer, { onSave: onSave })))));

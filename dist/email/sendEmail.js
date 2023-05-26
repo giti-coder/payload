@@ -7,7 +7,7 @@ async function sendEmail(message) {
         result = await email.transport.sendMail(message);
     }
     catch (err) {
-        this.logger.error(`Failed to send mail to ${message.to}, subject: ${message.subject}`, err);
+        this.logger.error(err, `Failed to send mail to ${message.to}, subject: ${message.subject}`);
         return err;
     }
     return result;

@@ -6,11 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable no-use-before-define */
 const graphql_1 = require("graphql");
-const graphql_type_json_1 = require("graphql-type-json");
 const types_1 = require("../../fields/config/types");
 const formatName_1 = __importDefault(require("../utilities/formatName"));
-const withOperators_1 = __importDefault(require("./withOperators"));
-const operators_1 = __importDefault(require("./operators"));
+const withOperators_1 = require("./withOperators");
 const fieldToWhereInputSchemaMap_1 = __importDefault(require("./fieldToWhereInputSchemaMap"));
 // buildWhereInputType is similar to buildObjectType and operates
 // on a field basis with a few distinct differences.
@@ -18,11 +16,14 @@ const fieldToWhereInputSchemaMap_1 = __importDefault(require("./fieldToWhereInpu
 // 1. Everything needs to be a GraphQLInputObjectType or scalar / enum
 // 2. Relationships, groups, repeaters and flex content are not
 //    directly searchable. Instead, we need to build a chained pathname
-//    using dot notation so Mongo can properly search nested paths.
+//    using dot notation so MongoDB can properly search nested paths.
 const buildWhereInputType = (name, fields, parentName) => {
     // This is the function that builds nested paths for all
     // field types with nested paths.
+    let idField;
     const fieldTypes = fields.reduce((schema, field) => {
+        if ((0, types_1.fieldAffectsData)(field) && field.name === 'id')
+            idField = field;
         if (!(0, types_1.fieldIsPresentationalOnly)(field) && !field.hidden) {
             const getFieldSchema = (0, fieldToWhereInputSchemaMap_1.default)(parentName)[field.type];
             if (getFieldSchema) {
@@ -44,9 +45,11 @@ const buildWhereInputType = (name, fields, parentName) => {
         }
         return schema;
     }, {});
-    fieldTypes.id = {
-        type: (0, withOperators_1.default)({ name: 'id' }, graphql_type_json_1.GraphQLJSON, parentName, [...operators_1.default.equality, ...operators_1.default.contains]),
-    };
+    if (!idField) {
+        fieldTypes.id = {
+            type: (0, withOperators_1.withOperators)({ name: 'id', type: 'text' }, parentName),
+        };
+    }
     const fieldName = (0, formatName_1.default)(name);
     return new graphql_1.GraphQLInputObjectType({
         name: `${fieldName}_where`,

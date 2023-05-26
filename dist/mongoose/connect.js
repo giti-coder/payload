@@ -9,7 +9,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const testCredentials_1 = require("./testCredentials");
 const connectMongoose = async (url, options, logger) => {
     let urlToConnect = url;
-    let successfulConnectionMessage = 'Connected to Mongo server successfully!';
+    let successfulConnectionMessage = 'Connected to MongoDB server successfully!';
     const connectionOptions = {
         autoIndex: true,
         ...options,
@@ -28,7 +28,7 @@ const connectMongoose = async (url, options, logger) => {
             },
         });
         urlToConnect = mongoMemoryServer.getUri();
-        successfulConnectionMessage = 'Connected to in-memory Mongo server successfully!';
+        successfulConnectionMessage = 'Connected to in-memory MongoDB server successfully!';
     }
     try {
         await mongoose_1.default.connect(urlToConnect, connectionOptions);

@@ -38,7 +38,7 @@ require("./index.scss");
 const baseClass = 'relationship--single-value';
 const SingleValue = (props) => {
     var _a, _b, _c;
-    const { data: { value, relationTo, label, }, children, selectProps: { selectProps: { setDrawerIsOpen, onSave, }, }, } = props;
+    const { data: { value, relationTo, label, }, children, customProps: { setDrawerIsOpen, onSave, } = {}, } = props;
     const [showTooltip, setShowTooltip] = (0, react_1.useState)(false);
     const { t } = (0, react_i18next_1.useTranslation)('general');
     const { permissions } = (0, Auth_1.useAuth)();
@@ -51,12 +51,12 @@ const SingleValue = (props) => {
         if (typeof setDrawerIsOpen === 'function')
             setDrawerIsOpen(isDrawerOpen);
     }, [isDrawerOpen, setDrawerIsOpen]);
-    return (react_1.default.createElement("div", { className: baseClass },
+    return (react_1.default.createElement(react_select_1.components.SingleValue, { ...props, className: baseClass },
         react_1.default.createElement("div", { className: `${baseClass}__label` },
-            react_1.default.createElement(react_select_1.components.SingleValue, { ...props },
+            react_1.default.createElement("div", { className: `${baseClass}__label-text` },
                 react_1.default.createElement("div", { className: `${baseClass}__text` }, children),
                 relationTo && hasReadPermission && (react_1.default.createElement(react_1.Fragment, null,
-                    react_1.default.createElement(DocumentDrawerToggler, { className: `${baseClass}__drawer-toggler`, "aria-label": t('editLabel', { label }), onMouseDown: (e) => e.stopPropagation(), onMouseEnter: () => setShowTooltip(true), onMouseLeave: () => setShowTooltip(false), onClick: () => setShowTooltip(false) },
+                    react_1.default.createElement(DocumentDrawerToggler, { className: `${baseClass}__drawer-toggler`, "aria-label": t('editLabel', { label }), onTouchEnd: (e) => e.stopPropagation(), onMouseDown: (e) => e.stopPropagation(), onMouseEnter: () => setShowTooltip(true), onMouseLeave: () => setShowTooltip(false), onClick: () => setShowTooltip(false) },
                         react_1.default.createElement(Tooltip_1.default, { className: `${baseClass}__tooltip`, show: showTooltip }, t('edit')),
                         react_1.default.createElement(Edit_1.default, null)))))),
         relationTo && hasReadPermission && (react_1.default.createElement(DocumentDrawer, { onSave: onSave }))));

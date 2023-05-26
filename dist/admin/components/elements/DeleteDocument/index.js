@@ -98,8 +98,9 @@ const DeleteDocument = (props) => {
                         react_1.default.createElement(react_i18next_1.Trans, { i18nKey: "aboutToDelete", values: { label: (0, getTranslation_1.getTranslation)(singular, i18n), title: titleToRender }, t: t },
                             "aboutToDelete",
                             react_1.default.createElement("strong", null, titleToRender))),
-                    react_1.default.createElement(Button_1.default, { id: "confirm-cancel", buttonStyle: "secondary", type: "button", onClick: deleting ? undefined : () => toggleModal(modalSlug) }, t('cancel')),
-                    react_1.default.createElement(Button_1.default, { onClick: deleting ? undefined : handleDelete, id: "confirm-delete" }, deleting ? t('deleting') : t('confirm'))))));
+                    react_1.default.createElement("div", { className: `${baseClass}__actions` },
+                        react_1.default.createElement(Button_1.default, { id: "confirm-cancel", buttonStyle: "secondary", type: "button", onClick: deleting ? undefined : () => toggleModal(modalSlug) }, t('cancel')),
+                        react_1.default.createElement(Button_1.default, { onClick: deleting ? undefined : handleDelete, id: "confirm-delete" }, deleting ? t('deleting') : t('confirm')))))));
     }
     return null;
 };

@@ -202,7 +202,7 @@ class BasePayload {
         }
         this.preferences = { Model: model_1.default };
         (0, serverInit_1.serverInit)(this);
-        if (options.local !== false) {
+        if (options.local !== false && this.mongoURL) {
             if (typeof options.onInit === 'function')
                 await options.onInit(this);
             if (typeof this.config.onInit === 'function')

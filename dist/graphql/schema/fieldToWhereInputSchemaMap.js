@@ -4,142 +4,76 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const graphql_1 = require("graphql");
-const graphql_scalars_1 = require("graphql-scalars");
-const graphql_type_json_1 = require("graphql-type-json");
 const types_1 = require("../../fields/config/types");
-const withOperators_1 = __importDefault(require("./withOperators"));
-const operators_1 = __importDefault(require("./operators"));
+const withOperators_1 = require("./withOperators");
 const combineParentName_1 = __importDefault(require("../utilities/combineParentName"));
 const formatName_1 = __importDefault(require("../utilities/formatName"));
 const recursivelyBuildNestedPaths_1 = __importDefault(require("./recursivelyBuildNestedPaths"));
 const fieldToSchemaMap = (parentName) => ({
-    number: (field) => {
-        const type = graphql_1.GraphQLFloat;
-        return {
-            type: (0, withOperators_1.default)(field, type, parentName, [...operators_1.default.equality, ...operators_1.default.comparison]),
-        };
-    },
-    text: (field) => {
-        const type = graphql_1.GraphQLString;
-        return {
-            type: (0, withOperators_1.default)(field, type, parentName, [...operators_1.default.equality, ...operators_1.default.partial, ...operators_1.default.contains]),
-        };
-    },
-    email: (field) => {
-        const type = graphql_scalars_1.EmailAddressResolver;
-        return {
-            type: (0, withOperators_1.default)(field, type, parentName, [...operators_1.default.equality, ...operators_1.default.partial, ...operators_1.default.contains]),
-        };
-    },
-    textarea: (field) => {
-        const type = graphql_1.GraphQLString;
-        return {
-            type: (0, withOperators_1.default)(field, type, parentName, [...operators_1.default.equality, ...operators_1.default.partial]),
-        };
-    },
-    richText: (field) => {
-        const type = graphql_type_json_1.GraphQLJSON;
-        return {
-            type: (0, withOperators_1.default)(field, type, parentName, [...operators_1.default.equality, ...operators_1.default.partial]),
-        };
-    },
-    json: (field) => {
-        const type = graphql_type_json_1.GraphQLJSON;
-        return {
-            type: (0, withOperators_1.default)(field, type, parentName, [...operators_1.default.equality, ...operators_1.default.partial]),
-        };
-    },
-    code: (field) => {
-        const type = graphql_1.GraphQLString;
-        return {
-            type: (0, withOperators_1.default)(field, type, parentName, [...operators_1.default.equality, ...operators_1.default.partial]),
-        };
-    },
-    radio: (field) => ({
-        type: (0, withOperators_1.default)(field, new graphql_1.GraphQLEnumType({
-            name: `${(0, combineParentName_1.default)(parentName, field.name)}_Input`,
-            values: field.options.reduce((values, option) => {
-                if ((0, types_1.optionIsObject)(option)) {
-                    return {
-                        ...values,
-                        [(0, formatName_1.default)(option.value)]: {
-                            value: option.value,
-                        },
-                    };
-                }
-                return {
-                    ...values,
-                    [(0, formatName_1.default)(option)]: {
-                        value: option,
-                    },
-                };
-            }, {}),
-        }), parentName, [...operators_1.default.equality, ...operators_1.default.contains]),
+    number: (field) => ({
+        type: (0, withOperators_1.withOperators)(field, parentName),
     }),
-    date: (field) => {
-        const type = graphql_scalars_1.DateTimeResolver;
-        return {
-            type: (0, withOperators_1.default)(field, type, parentName, [...operators_1.default.equality, ...operators_1.default.comparison, 'like']),
-        };
-    },
-    point: (field) => {
-        const type = new graphql_1.GraphQLList(graphql_1.GraphQLFloat);
-        return {
-            type: (0, withOperators_1.default)(field, type, parentName, [...operators_1.default.equality, ...operators_1.default.comparison, ...operators_1.default.geo]),
-        };
-    },
+    text: (field) => ({
+        type: (0, withOperators_1.withOperators)(field, parentName),
+    }),
+    email: (field) => ({
+        type: (0, withOperators_1.withOperators)(field, parentName),
+    }),
+    textarea: (field) => ({
+        type: (0, withOperators_1.withOperators)(field, parentName),
+    }),
+    richText: (field) => ({
+        type: (0, withOperators_1.withOperators)(field, parentName),
+    }),
+    json: (field) => ({
+        type: (0, withOperators_1.withOperators)(field, parentName),
+    }),
+    code: (field) => ({
+        type: (0, withOperators_1.withOperators)(field, parentName),
+    }),
+    radio: (field) => ({
+        type: (0, withOperators_1.withOperators)(field, parentName),
+    }),
+    date: (field) => ({
+        type: (0, withOperators_1.withOperators)(field, parentName),
+    }),
+    point: (field) => ({
+        type: (0, withOperators_1.withOperators)(field, parentName),
+    }),
     relationship: (field) => {
-        let type = (0, withOperators_1.default)(field, graphql_1.GraphQLString, parentName, [...operators_1.default.equality, ...operators_1.default.contains]);
         if (Array.isArray(field.relationTo)) {
-            type = new graphql_1.GraphQLInputObjectType({
-                name: `${(0, combineParentName_1.default)(parentName, field.name)}_Relation`,
-                fields: {
-                    relationTo: {
-                        type: new graphql_1.GraphQLEnumType({
-                            name: `${(0, combineParentName_1.default)(parentName, field.name)}_Relation_RelationTo`,
-                            values: field.relationTo.reduce((values, relation) => ({
-                                ...values,
-                                [(0, formatName_1.default)(relation)]: {
-                                    value: relation,
-                                },
-                            }), {}),
-                        }),
+            return {
+                type: new graphql_1.GraphQLInputObjectType({
+                    name: `${(0, combineParentName_1.default)(parentName, field.name)}_Relation`,
+                    fields: {
+                        relationTo: {
+                            type: new graphql_1.GraphQLEnumType({
+                                name: `${(0, combineParentName_1.default)(parentName, field.name)}_Relation_RelationTo`,
+                                values: field.relationTo.reduce((values, relation) => ({
+                                    ...values,
+                                    [(0, formatName_1.default)(relation)]: {
+                                        value: relation,
+                                    },
+                                }), {}),
+                            }),
+                        },
+                        value: { type: graphql_1.GraphQLString },
                     },
-                    value: { type: graphql_1.GraphQLString },
-                },
-            });
+                }),
+            };
         }
-        return { type };
+        return {
+            type: (0, withOperators_1.withOperators)(field, parentName),
+        };
     },
     upload: (field) => ({
-        type: (0, withOperators_1.default)(field, graphql_1.GraphQLString, parentName, [...operators_1.default.equality]),
+        type: (0, withOperators_1.withOperators)(field, parentName),
     }),
     checkbox: (field) => ({
-        type: (0, withOperators_1.default)(field, graphql_1.GraphQLBoolean, parentName, [...operators_1.default.equality]),
+        type: (0, withOperators_1.withOperators)(field, parentName),
     }),
     select: (field) => ({
-        type: (0, withOperators_1.default)(field, new graphql_1.GraphQLEnumType({
-            name: `${(0, combineParentName_1.default)(parentName, field.name)}_Input`,
-            values: field.options.reduce((values, option) => {
-                if (typeof option === 'object' && option.value) {
-                    return {
-                        ...values,
-                        [(0, formatName_1.default)(option.value)]: {
-                            value: option.value,
-                        },
-                    };
-                }
-                if (typeof option === 'string') {
-                    return {
-                        ...values,
-                        [option]: {
-                            value: option,
-                        },
-                    };
-                }
-                return values;
-            }, {}),
-        }), parentName, [...operators_1.default.equality, ...operators_1.default.contains]),
+        type: (0, withOperators_1.withOperators)(field, parentName),
     }),
     array: (field) => (0, recursivelyBuildNestedPaths_1.default)(parentName, field),
     group: (field) => (0, recursivelyBuildNestedPaths_1.default)(parentName, field),
