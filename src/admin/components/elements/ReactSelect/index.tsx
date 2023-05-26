@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { KeyboardEventHandler } from 'react';
 import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 import { useTranslation } from 'react-i18next';
 import { arrayMove } from '@dnd-kit/sortable';
 import { Props as ReactSelectAdapterProps } from './types';
@@ -13,10 +14,20 @@ import { ClearIndicator } from './ClearIndicator';
 import { MultiValueRemove } from './MultiValueRemove';
 import { Control } from './Control';
 import DraggableSortable from '../DraggableSortable';
+import type { Option } from './types';
 
 import './index.scss';
 
+
+const createOption = (label: string) => ({
+  label,
+  value: label,
+});
+
+
+
 const SelectAdapter: React.FC<ReactSelectAdapterProps> = (props) => {
+
   const { t, i18n } = useTranslation();
 
   const {
@@ -41,8 +52,59 @@ const SelectAdapter: React.FC<ReactSelectAdapterProps> = (props) => {
     showError && 'react-select--error',
   ].filter(Boolean).join(' ');
 
+  const [inputValue, setInputValue] = React.useState('');
+  const handleKeyDown: KeyboardEventHandler = (event) => {
+    if (!value) return;
+    switch (event.key) {
+      case 'Enter':
+      case 'Tab':
+        onChange([...value as Option[], createOption(inputValue)]);
+        setInputValue('');
+        event.preventDefault();
+        break;
+      default:
+        break;
+    }
+  };
+
+
+  if (!isMultiText) {
+    return (
+      <Select
+        isLoading={isLoading}
+        placeholder={getTranslation(placeholder, i18n)}
+        captureMenuScroll
+        {...props}
+        value={value}
+        onChange={onChange}
+        disabled={disabled ? 'disabled' : undefined}
+        className={classes}
+        classNamePrefix="rs"
+        options={options}
+        isSearchable={isSearchable}
+        isClearable={isClearable}
+        filterOption={filterOption}
+        onMenuOpen={onMenuOpen}
+        menuPlacement="auto"
+        selectProps={{
+          ...selectProps,
+        }}
+        components={{
+          ValueContainer,
+          SingleValue,
+          MultiValue,
+          MultiValueLabel,
+          MultiValueRemove,
+          DropdownIndicator: Chevron,
+          ClearIndicator,
+          Control,
+          ...components,
+        }}
+      />
+    );
+  }
   return (
-    <Select
+    <CreatableSelect
       isLoading={isLoading}
       placeholder={getTranslation(placeholder, i18n)}
       captureMenuScroll
@@ -58,6 +120,9 @@ const SelectAdapter: React.FC<ReactSelectAdapterProps> = (props) => {
       filterOption={filterOption}
       onMenuOpen={onMenuOpen}
       menuPlacement="auto"
+      inputValue={inputValue}
+      onInputChange={(newValue) => setInputValue(newValue)}
+      onKeyDown={handleKeyDown}
       components={{
         ValueContainer,
         SingleValue,
