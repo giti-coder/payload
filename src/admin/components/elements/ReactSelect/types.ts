@@ -49,6 +49,7 @@ export type Props = {
   showError?: boolean,
   options: Option[] | OptionGroup[]
   isMulti?: boolean,
+  isMultiText?: boolean,
   isLoading?: boolean
   isOptionSelected?: any
   isSortable?: boolean,
