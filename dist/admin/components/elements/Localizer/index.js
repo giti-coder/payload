@@ -21,21 +21,21 @@ const Localizer = () => {
     if (localization) {
         const { locales } = localization;
         return (react_1.default.createElement("div", { className: baseClass },
-            react_1.default.createElement(Popup_1.default, { horizontalAlign: "left", button: locale, render: ({ close }) => (react_1.default.createElement("div", null,
+            react_1.default.createElement(Popup_1.default, { showScrollbar: true, horizontalAlign: "left", button: locale, render: ({ close }) => (react_1.default.createElement("div", null,
                     react_1.default.createElement("span", null, t('locales')),
                     react_1.default.createElement("ul", null, locales.map((localeOption) => {
                         const baseLocaleClass = `${baseClass}__locale`;
                         const localeClasses = [
                             baseLocaleClass,
                             locale === localeOption && `${baseLocaleClass}--active`,
-                        ];
+                        ].filter(Boolean).join('');
                         const newParams = {
                             ...searchParams,
                             locale: localeOption,
                         };
                         const search = qs_1.default.stringify(newParams);
                         if (localeOption !== locale) {
-                            return (react_1.default.createElement("li", { key: localeOption, className: localeClasses.join(' ') },
+                            return (react_1.default.createElement("li", { key: localeOption, className: localeClasses },
                                 react_1.default.createElement(react_router_dom_1.Link, { to: { search }, onClick: close }, localeOption)));
                         }
                         return null;

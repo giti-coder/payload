@@ -107,6 +107,7 @@ exports.code = exports.baseField.keys({
     defaultValue: joi_1.default.alternatives().try(joi_1.default.string(), joi_1.default.func()),
     admin: exports.baseAdminFields.keys({
         language: joi_1.default.string(),
+        editorOptions: joi_1.default.object().unknown(), // Editor['options'] @monaco-editor/react
     }),
 });
 exports.json = exports.baseField.keys({

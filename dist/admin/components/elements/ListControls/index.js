@@ -49,15 +49,20 @@ const PublishMany_1 = __importDefault(require("../PublishMany"));
 const UnpublishMany_1 = __importDefault(require("../UnpublishMany"));
 require("./index.scss");
 const baseClass = 'list-controls';
+const getUseAsTitle = (collection) => {
+    const { admin: { useAsTitle, }, fields, } = collection;
+    const topLevelFields = (0, flattenTopLevelFields_1.default)(fields);
+    return topLevelFields.find((field) => (0, types_1.fieldAffectsData)(field) && field.name === useAsTitle);
+};
 const ListControls = (props) => {
     var _a;
-    const { collection, enableColumns = true, enableSort = false, handleSortChange, handleWhereChange, modifySearchQuery = true, resetParams, collection: { fields, admin: { useAsTitle, listSearchableFields, }, }, } = props;
+    const { collection, enableColumns = true, enableSort = false, handleSortChange, handleWhereChange, modifySearchQuery = true, resetParams, collection: { fields, admin: { listSearchableFields, }, }, } = props;
     const params = (0, SearchParams_1.useSearchParams)();
     const shouldInitializeWhereOpened = (0, validateWhereQuery_1.default)(params === null || params === void 0 ? void 0 : params.where);
-    const [titleField] = (0, react_1.useState)(() => {
-        const topLevelFields = (0, flattenTopLevelFields_1.default)(fields);
-        return topLevelFields.find((field) => (0, types_1.fieldAffectsData)(field) && field.name === useAsTitle);
-    });
+    const [titleField, setTitleField] = (0, react_1.useState)(getUseAsTitle(collection));
+    (0, react_1.useEffect)(() => {
+        setTitleField(getUseAsTitle(collection));
+    }, [collection]);
     const [textFieldsToBeSearched] = (0, react_1.useState)((0, getTextFieldsToBeSearched_1.getTextFieldsToBeSearched)(listSearchableFields, fields));
     const [visibleDrawer, setVisibleDrawer] = (0, react_1.useState)(shouldInitializeWhereOpened ? 'where' : undefined);
     const { t, i18n } = (0, react_i18next_1.useTranslation)('general');

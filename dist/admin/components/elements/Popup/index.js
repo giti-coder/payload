@@ -33,7 +33,7 @@ const useIntersect_1 = __importDefault(require("../../../hooks/useIntersect"));
 require("./index.scss");
 const baseClass = 'popup';
 const Popup = (props) => {
-    const { className, buttonClassName, render, size = 'small', color = 'light', button, buttonType = 'default', children, showOnHover = false, horizontalAlign: horizontalAlignFromProps = 'left', verticalAlign: verticalAlignFromProps = 'top', initActive = false, onToggleOpen, padding, forceOpen, boundingRef, } = props;
+    const { className, buttonClassName, render, size = 'small', color = 'light', button, buttonType = 'default', children, showOnHover = false, horizontalAlign: horizontalAlignFromProps = 'left', verticalAlign: verticalAlignFromProps = 'top', initActive = false, onToggleOpen, padding, forceOpen, boundingRef, showScrollbar = false, } = props;
     const { width: windowWidth, height: windowHeight } = (0, window_info_1.useWindowInfo)();
     const [intersectionRef, intersectionEntry] = (0, useIntersect_1.default)({
         threshold: 1,
@@ -114,7 +114,8 @@ const Popup = (props) => {
         `${baseClass}--color-${color}`,
         `${baseClass}--v-align-${verticalAlign}`,
         `${baseClass}--h-align-${horizontalAlign}`,
-        (active) && `${baseClass}--active`,
+        active && `${baseClass}--active`,
+        showScrollbar && `${baseClass}--show-scrollbar`,
     ].filter(Boolean).join(' ');
     return (react_1.default.createElement("div", { className: classes },
         react_1.default.createElement("div", { ref: buttonRef, className: `${baseClass}__wrapper` }, showOnHover

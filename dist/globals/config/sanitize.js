@@ -8,6 +8,8 @@ const sanitize_1 = __importDefault(require("../../fields/config/sanitize"));
 const defaultAccess_1 = __importDefault(require("../../auth/defaultAccess"));
 const baseFields_1 = __importDefault(require("../../versions/baseFields"));
 const mergeBaseFields_1 = __importDefault(require("../../fields/mergeBaseFields"));
+const translations_1 = __importDefault(require("../../translations"));
+const types_1 = require("../../fields/config/types");
 const sanitizeGlobals = (collections, globals) => {
     const sanitizedGlobals = globals.map((global) => {
         const sanitizedGlobal = { ...global };
@@ -59,6 +61,39 @@ const sanitizeGlobals = (collections, globals) => {
         // /////////////////////////////////
         // Sanitize fields
         // /////////////////////////////////
+        let hasUpdatedAt = null;
+        let hasCreatedAt = null;
+        sanitizedGlobal.fields.some((field) => {
+            if ((0, types_1.fieldAffectsData)(field)) {
+                if (field.name === 'updatedAt')
+                    hasUpdatedAt = true;
+                if (field.name === 'createdAt')
+                    hasCreatedAt = true;
+            }
+            return hasCreatedAt && hasUpdatedAt;
+        });
+        if (!hasUpdatedAt) {
+            sanitizedGlobal.fields.push({
+                name: 'updatedAt',
+                label: translations_1.default['general:updatedAt'],
+                type: 'date',
+                admin: {
+                    hidden: true,
+                    disableBulkEdit: true,
+                },
+            });
+        }
+        if (!hasCreatedAt) {
+            sanitizedGlobal.fields.push({
+                name: 'createdAt',
+                label: translations_1.default['general:createdAt'],
+                type: 'date',
+                admin: {
+                    hidden: true,
+                    disableBulkEdit: true,
+                },
+            });
+        }
         const validRelationships = collections.map((c) => c.slug);
         sanitizedGlobal.fields = (0, sanitize_1.default)(sanitizedGlobal.fields, validRelationships);
         return sanitizedGlobal;

@@ -48,6 +48,7 @@ const EditMany_1 = __importDefault(require("../../../elements/EditMany"));
 const DeleteMany_1 = __importDefault(require("../../../elements/DeleteMany"));
 const PublishMany_1 = __importDefault(require("../../../elements/PublishMany"));
 const UnpublishMany_1 = __importDefault(require("../../../elements/UnpublishMany"));
+const formatFilesize_1 = __importDefault(require("../../../../../uploads/formatFilesize"));
 require("./index.scss");
 const baseClass = 'collection-list';
 const DefaultList = (props) => {
@@ -55,6 +56,15 @@ const DefaultList = (props) => {
     const { collection, collection: { labels: { singular: singularLabel, plural: pluralLabel, }, admin: { description, } = {}, }, data, newDocumentURL, limit, hasCreatePermission, disableEyebrow, modifySearchParams, handleSortChange, handleWhereChange, handlePageChange, handlePerPageChange, customHeader, resetParams, } = props;
     const { breakpoints: { s: smallBreak } } = (0, window_info_1.useWindowInfo)();
     const { t, i18n } = (0, react_i18next_1.useTranslation)('general');
+    let formattedDocs = data.docs || [];
+    if (collection.upload) {
+        formattedDocs = formattedDocs === null || formattedDocs === void 0 ? void 0 : formattedDocs.map((doc) => {
+            return {
+                ...doc,
+                filesize: (0, formatFilesize_1.default)(doc.filesize),
+            };
+        });
+    }
     return (react_1.default.createElement("div", { className: baseClass },
         react_1.default.createElement(Meta_1.default, { title: (0, getTranslation_1.getTranslation)(collection.labels.plural, i18n) }),
         react_1.default.createElement(SelectionProvider_1.SelectionProvider, { docs: data.docs, totalDocs: data.totalDocs },
@@ -71,7 +81,7 @@ const DefaultList = (props) => {
                 react_1.default.createElement(ListControls_1.default, { collection: collection, modifySearchQuery: modifySearchParams, handleSortChange: handleSortChange, handleWhereChange: handleWhereChange, resetParams: resetParams }),
                 !data.docs && (react_1.default.createElement(ShimmerEffect_1.StaggeredShimmers, { className: [`${baseClass}__shimmer`, `${baseClass}__shimmer--rows`].join(' '), count: 6 })),
                 (data.docs && data.docs.length > 0) && (react_1.default.createElement(RelationshipProvider_1.RelationshipProvider, null,
-                    react_1.default.createElement(Table_1.Table, { data: data.docs }))),
+                    react_1.default.createElement(Table_1.Table, { data: formattedDocs }))),
                 data.docs && data.docs.length === 0 && (react_1.default.createElement("div", { className: `${baseClass}__no-results` },
                     react_1.default.createElement("p", null, t('noResults', { label: (0, getTranslation_1.getTranslation)(pluralLabel, i18n) })),
                     hasCreatePermission && newDocumentURL && (react_1.default.createElement(Button_1.default, { el: "link", to: newDocumentURL }, t('createNewLabel', { label: (0, getTranslation_1.getTranslation)(singularLabel, i18n) }))))),

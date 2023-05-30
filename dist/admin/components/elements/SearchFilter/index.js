@@ -96,7 +96,10 @@ const SearchFilter = (props) => {
                 return `${prev}, ${(0, getTranslation_1.getTranslation)(curr.label || curr.name, i18n)}`;
             }, placeholder.current);
         }
-    }, [t, listSearchableFields, i18n]);
+        else {
+            placeholder.current = t('searchBy', { label: (0, getTranslation_1.getTranslation)(fieldLabel, i18n) });
+        }
+    }, [t, listSearchableFields, i18n, fieldLabel]);
     return (react_1.default.createElement("div", { className: baseClass },
         react_1.default.createElement("input", { className: `${baseClass}__input`, placeholder: placeholder.current, type: "text", value: search || '', onChange: (e) => setSearch(e.target.value) }),
         react_1.default.createElement(Search_1.default, null)));

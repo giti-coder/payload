@@ -17,4 +17,5 @@ export type Props = {
     backgroundColor?: CSSProperties['backgroundColor'];
     padding?: CSSProperties['padding'];
     boundingRef?: React.MutableRefObject<HTMLElement>;
+    showScrollbar?: boolean;
 };
