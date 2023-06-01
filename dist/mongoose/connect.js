@@ -17,18 +17,23 @@ const connectMongoose = async (url, options, logger) => {
     };
     let mongoMemoryServer;
     if (process.env.NODE_ENV === 'test') {
-        connectionOptions.dbName = 'payloadmemory';
-        const { MongoMemoryServer } = require('mongodb-memory-server');
-        const getPort = require('get-port');
-        const port = await getPort();
-        mongoMemoryServer = await MongoMemoryServer.create({
-            instance: {
-                dbName: testCredentials_1.connection.name,
-                port,
-            },
-        });
-        urlToConnect = mongoMemoryServer.getUri();
-        successfulConnectionMessage = 'Connected to in-memory MongoDB server successfully!';
+        if (process.env.PAYLOAD_TEST_MONGO_URL) {
+            urlToConnect = process.env.PAYLOAD_TEST_MONGO_URL;
+        }
+        else {
+            connectionOptions.dbName = 'payloadmemory';
+            const { MongoMemoryServer } = require('mongodb-memory-server');
+            const getPort = require('get-port');
+            const port = await getPort();
+            mongoMemoryServer = await MongoMemoryServer.create({
+                instance: {
+                    dbName: testCredentials_1.connection.name,
+                    port,
+                },
+            });
+            urlToConnect = mongoMemoryServer.getUri();
+            successfulConnectionMessage = 'Connected to in-memory MongoDB server successfully!';
+        }
     }
     try {
         await mongoose_1.default.connect(urlToConnect, connectionOptions);
