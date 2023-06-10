@@ -9,6 +9,12 @@ export const PostsCollection: CollectionConfig = {
     {
       name: 'text',
       type: 'text',
+      hooks: {
+        afterRead: [(props) => {
+          console.log('req.collection', props.req.collection);
+          return props.value;
+        }],
+      },
     },
     {
       name: 'associatedMedia',
